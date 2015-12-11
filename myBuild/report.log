@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.11.24)  11 DEC 2015 14:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.11.24)  11 DEC 2015 15:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1537,7 +1537,7 @@ Package: fr-longtable 2007/11/28 v0.1b (beta) floatrow: additions for longtable
 \openout5 = `report.glsdefs'.
 
  (./0-predocument/titlepage.tex
-<images/rug.png, id=123, 387.4475pt x 589.20125pt>
+<images/rug.png, id=163, 387.4475pt x 589.20125pt>
 File: images/rug.png Graphic file (type png)
  <use images/rug.png>
 Package pdftex.def Info: images/rug.png used on input line 12.
@@ -1586,7 +1586,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 4.
 
-Underfull \vbox (badness 10000) detected at line 24
+Underfull \vbox (badness 10000) detected at line 29
  []
 
 ) [1] (myBuild/report.toc)
@@ -1612,98 +1612,90 @@ No file report.acr.
 [4
 
 
-] (./1-context/context.tex
+] (./1-introduction/introduction.tex
 Chapter 1.
-) (./2-business/business.texpdfTeX warning (ext4): destination with the same id
-entifier (name{page.1}) has been already used, duplicate ignored
+) (./2-context/context.texpdfTeX warning (ext4): destination with the same iden
+tifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3 \clearpage
-               [1
+l.2 \chapter
+            {System Context} [1
+
 
 ]
 Chapter 2.
-) (./3-requirements/requirements.tex [2
-
+) (./3-stakeholders/stakeholders.tex [2
 
 ]
 Chapter 3.
-(./3-requirements/architecturalvision.tex) (./3-requirements/stakeholders.tex)
-(./3-requirements/keydrivers.tex) (./3-requirements/highlevelrequirements.tex
-[3
+(./3-stakeholders/mystakeholders.tex)
+(./3-stakeholders/negativestakeholders.tex) (./3-stakeholders/keydrivers.tex))
+(./4-softwarearch/softwarearch.tex [3
 
-]) (./3-requirements/storiesandusecases.tex [4
 
-])
-(./3-requirements/functionalrequirements.tex [5
-
-])
-(./3-requirements/commercialnonfunctionalreq.tex)
-(./3-requirements/technicalnonfunctionalreq.tex)
-(./3-requirements/evolutionrequirements.tex)
-(./3-requirements/riskassessment.tex [6])) (./4-analysis/analysis.tex [7]
+]
 Chapter 4.
-) (./5-system/system.tex [8
+) (./5-patterns/patterns.tex [4
+
 
 ]
 Chapter 5.
-(./5-system/initialmodel.tex) (./5-system/verification.tex)
-(./5-system/elaboratedmodel.tex)) (./6-hardware/hardware.tex [9
+) (./6-evaluation/evaluation.tex [5
+
 
 ]
 Chapter 6.
-) (./7-software/software.tex [10
+) (./7-recommendations/recommendations.tex [6
+
 
 ]
 Chapter 7.
-) (./8-evaluation/evaluation.tex [11
+) (./8-conclusion/conclusion.tex [7
+
 
 ]
 Chapter 8.
-) (./9-evolution/evolution.tex [12
+) (./appendices/appendices.tex [8
 
-]
-Chapter 9.
-) (./appendices/appendices.tex [13
 
 ] (./appendices/timetracking.tex
 Appendix A.
-)) (myBuild/report.bbl [14
+)) (myBuild/report.bbl [9
 
 
 ]
 
 LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
-) [15
+) [10
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 138.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 138.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 136.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 136.
  (myBuild/report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 138.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 138.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 136.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 136.
 Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
  ) 
 Here is how much of TeX's memory you used:
- 36288 strings out of 493054
- 782663 string characters out of 6140585
- 1035789 words of memory out of 5000000
- 38923 multiletter control sequences out of 15000+600000
+ 36265 strings out of 493054
+ 782018 string characters out of 6140585
+ 1037654 words of memory out of 5000000
+ 38930 multiletter control sequences out of 15000+600000
  72876 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 71i,6n,92p,1909b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 71i,9n,92p,1909b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/share/texmf-dist/fo
 nts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmb
 x12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/share/te
 xmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/pub
 lic/lm/lmr12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/sh
 are/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on myBuild/report.pdf (20 pages, 319657 bytes).
+Output written on myBuild/report.pdf (15 pages, 321531 bytes).
 PDF statistics:
- 286 PDF objects out of 1000 (max. 8388607)
- 252 compressed objects within 3 object streams
- 50 named destinations out of 1000 (max. 500000)
- 250 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 316 PDF objects out of 1000 (max. 8388607)
+ 287 compressed objects within 3 object streams
+ 55 named destinations out of 1000 (max. 500000)
+ 330 words of extra memory for PDF output out of 10000 (max. 10000000)
 

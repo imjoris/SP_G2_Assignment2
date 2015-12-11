@@ -3,27 +3,37 @@
 \BOOKMARK [1][-]{chapter*.1}{List of Figures}{}% 3
 \BOOKMARK [1][-]{chapter*.2}{List of Tables}{}% 4
 \BOOKMARK [1][-]{chapter*.3}{Glossary}{}% 5
-\BOOKMARK [0][-]{chapter.1}{System Context}{}% 6
-\BOOKMARK [0][-]{chapter.2}{Architectural business information}{}% 7
-\BOOKMARK [0][-]{chapter.3}{Requirements}{}% 8
-\BOOKMARK [1][-]{section.3.1}{Architectural vision}{chapter.3}% 9
-\BOOKMARK [1][-]{section.3.2}{Stakeholders and their concerns}{chapter.3}% 10
-\BOOKMARK [1][-]{section.3.3}{Key-drivers}{chapter.3}% 11
-\BOOKMARK [1][-]{section.3.4}{High-level requirements}{chapter.3}% 12
-\BOOKMARK [1][-]{section.3.5}{Stories and use-cases}{chapter.3}% 13
-\BOOKMARK [1][-]{section.3.6}{Functional requirements}{chapter.3}% 14
-\BOOKMARK [1][-]{section.3.7}{Commercial non functional requirements}{chapter.3}% 15
-\BOOKMARK [1][-]{section.3.8}{Technical non-functional requirements}{chapter.3}% 16
-\BOOKMARK [1][-]{section.3.9}{Evolution requirements}{chapter.3}% 17
-\BOOKMARK [1][-]{section.3.10}{Risk assessment}{chapter.3}% 18
-\BOOKMARK [0][-]{chapter.4}{Analysis}{}% 19
-\BOOKMARK [0][-]{chapter.5}{System architecture}{}% 20
-\BOOKMARK [1][-]{section.5.1}{System context}{chapter.5}% 21
-\BOOKMARK [1][-]{section.5.2}{Verification}{chapter.5}% 22
-\BOOKMARK [1][-]{section.5.3}{Elaborated Model}{chapter.5}% 23
-\BOOKMARK [0][-]{chapter.6}{Hardware Architecture}{}% 24
-\BOOKMARK [0][-]{chapter.7}{Software Architecture}{}% 25
-\BOOKMARK [0][-]{chapter.8}{Architecture evaluation}{}% 26
-\BOOKMARK [0][-]{chapter.9}{System evolution}{}% 27
-\BOOKMARK [0][-]{section*.4}{Appendices}{}% 28
-\BOOKMARK [0][-]{Appendix.1.A}{Time Tracking}{}% 29
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 6
+\BOOKMARK [0][-]{chapter.2}{System Context}{}% 7
+\BOOKMARK [0][-]{chapter.3}{Stakeholders and Concerns}{}% 8
+\BOOKMARK [1][-]{section.3.1}{Stakeholders}{chapter.3}% 9
+\BOOKMARK [1][-]{section.3.2}{Negative Stakeholders}{chapter.3}% 10
+\BOOKMARK [1][-]{section.3.3}{Key Drivers}{chapter.3}% 11
+\BOOKMARK [0][-]{chapter.4}{Software architecture}{}% 12
+\BOOKMARK [1][-]{section.4.1}{Logical View}{chapter.4}% 13
+\BOOKMARK [1][-]{section.4.2}{Process View}{chapter.4}% 14
+\BOOKMARK [0][-]{chapter.5}{Pattern Documentation}{}% 15
+\BOOKMARK [1][-]{section.5.1}{Core}{chapter.5}% 16
+\BOOKMARK [2][-]{subsection.5.1.1}{Pipes and Filters}{section.5.1}% 17
+\BOOKMARK [2][-]{subsection.5.1.2}{Shared Repository}{section.5.1}% 18
+\BOOKMARK [2][-]{subsection.5.1.3}{...}{section.5.1}% 19
+\BOOKMARK [1][-]{section.5.2}{Modules}{chapter.5}% 20
+\BOOKMARK [2][-]{subsection.5.2.1}{Interceptor}{section.5.2}% 21
+\BOOKMARK [2][-]{subsection.5.2.2}{Plugin}{section.5.2}% 22
+\BOOKMARK [0][-]{chapter.6}{Evaluation}{}% 23
+\BOOKMARK [1][-]{section.6.1}{Patterns}{chapter.6}% 24
+\BOOKMARK [2][-]{subsection.6.1.1}{Pipes and Filters}{section.6.1}% 25
+\BOOKMARK [2][-]{subsection.6.1.2}{Shared Repository}{section.6.1}% 26
+\BOOKMARK [1][-]{section.6.2}{Subsystems}{chapter.6}% 27
+\BOOKMARK [2][-]{subsection.6.2.1}{Core Subsystem}{section.6.2}% 28
+\BOOKMARK [2][-]{subsection.6.2.2}{Modules Subsystem}{section.6.2}% 29
+\BOOKMARK [0][-]{chapter.7}{Recommendations}{}% 30
+\BOOKMARK [1][-]{section.7.1}{Event-driven}{chapter.7}% 31
+\BOOKMARK [1][-]{section.7.2}{Deprecation of Modules}{chapter.7}% 32
+\BOOKMARK [1][-]{section.7.3}{Virtual Machine}{chapter.7}% 33
+\BOOKMARK [0][-]{chapter.8}{Conclusion}{}% 34
+\BOOKMARK [1][-]{section.8.1}{Pattern-Based Architecture Reviews}{chapter.8}% 35
+\BOOKMARK [1][-]{section.8.2}{IDAPO}{chapter.8}% 36
+\BOOKMARK [1][-]{section.8.3}{Final Words}{chapter.8}% 37
+\BOOKMARK [0][-]{section*.4}{Appendices}{}% 38
+\BOOKMARK [0][-]{Appendix.1.A}{Time Tracking}{}% 39
