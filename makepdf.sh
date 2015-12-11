@@ -1,5 +1,7 @@
 #!/bin/bash
 
+doMakePdf(){
+
 ##############################
 ## PARAMETERS
 ##############################
@@ -18,7 +20,7 @@ fi
 ## Set options
 ##############################
 
-mkdir ${outputDir}
+mkdir -p ${outputDir}
 
 dateNow="date +%m-%d__%H:%M"
 outputName="${name}_$(eval $dateNow)"
@@ -37,3 +39,7 @@ cp library.bib ${outputDir}
 $mycmd
 $mycmd
 (cd ${outputDir}; cp "${name}.pdf" "${outputName}.pdf");
+
+}
+
+doMakePdf $1 $2 | grep error
