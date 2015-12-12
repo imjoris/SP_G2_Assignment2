@@ -1,4 +1,60 @@
-%!TEX root = ../report.tex
+% !TEX root = ../report.tex
 
 \section{Stakeholders}
 \label{sec:stakeholders}
+
+
+%\item [Product owner] is the owner of the system. This stakeholder funds the project.  This affects the quality attributes usability and availability.
+\subsection*{Software Developers}
+The developers are those that use Docker to create their software systems. It is used by developers to deploy software and create architectures consisting of multiple containers. Developers using Docker for their system, expect it to be reliable and want it to have a good usability. 
+%TODO source
+
+\textbf{Concerns}
+\begin{description}[labelindent=25pt,style=multiline,leftmargin=4.5cm,font=\normalfont\itshape]
+
+\item[Usability] Since the software developers are using Docker, they want it to have good usability. This means it is easy to learn how to use Docker and it is not hard to work with. 
+
+\item[Reliability] Software developers care about the reliability, since bugs in the Docker software makes the development of their software more difficult. 
+
+\end{description}
+
+\subsection*{Software Maintainers}
+Software maintainers are responsible for deploying the software and keeping the software product running. Docker is often used for software deployment (especially to the cloud). %TODO source
+The software maintainers expect Docker to be reliable and portable.
+
+\textbf{Concerns}
+\begin{description}[labelindent=25pt,style=multiline,leftmargin=4.5cm,font=\normalfont\itshape]
+
+\item[Reliability] Software maintainers are responsible for keeping the software working while it is deployed. They will only use Docker if it is reliable. 
+
+\item[Portability] The software maintainers want to be able to run Docker and its containers on a variety of different environments.
+
+\end{description}
+
+
+
+\subsection*{Cloud providers}
+There are numerous cloud providers offering services which are based on Docker\footnote{\url{https://www.docker.com/partners\#/service}}. These cloud providers offer Container-based cloud computing, sometimes referred to as CaaS (Containers-as-a-Service).
+
+
+\textbf{Concerns}
+\begin{description}[labelindent=25pt,style=multiline,leftmargin=4.5cm,font=\normalfont\itshape]
+
+\item[Implementability] The cloud providers want to intergrate Docker into their cloud computing architecture.
+% TODO definition of this is not in ISO. http://dare.uva.nl/document/493271
+
+\item[Co-Existence] Docker has to share the environment with the existing architecture of the cloud providers.
+
+\item[Reliability] The customers using the cloud providers's services expect a good reliability. If cloud providers are to implement Docker in their architectures, they need Docker to have good reliability.
+
+% security?
+\end{description}
+
+
+
+\subsection*{Open Container Format}
+
+\subsection*{Docker developers}
+
+\subsection*{Plugin developers}
+
