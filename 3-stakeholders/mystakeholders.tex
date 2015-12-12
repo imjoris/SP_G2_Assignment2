@@ -10,7 +10,7 @@ The developers are those that use Docker to create their software systems. It is
 %TODO source
 
 \textbf{Concerns}
-\begin{description}[labelindent=25pt,style=multiline,leftmargin=4.5cm,font=\normalfont\itshape]
+\begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
 
 \item[Usability] Since the software developers are using Docker, they want it to have good usability. This means it is easy to learn how to use Docker and it is not hard to work with. 
 
@@ -23,7 +23,7 @@ Software maintainers are responsible for deploying the software and keeping the 
 The software maintainers expect Docker to be reliable and portable.
 
 \textbf{Concerns}
-\begin{description}[labelindent=25pt,style=multiline,leftmargin=4.5cm,font=\normalfont\itshape]
+\begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
 
 \item[Reliability] Software maintainers are responsible for keeping the software working while it is deployed. They will only use Docker if it is reliable. 
 
@@ -38,23 +38,52 @@ There are numerous cloud providers offering services which are based on Docker\f
 
 
 \textbf{Concerns}
-\begin{description}[labelindent=25pt,style=multiline,leftmargin=4.5cm,font=\normalfont\itshape]
+\begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
 
-\item[Implementability] The cloud providers want to intergrate Docker into their cloud computing architecture.
+\item[Implementability] The cloud providers want to integrate Docker into their cloud computing architecture.
 % TODO definition of this is not in ISO. http://dare.uva.nl/document/493271
 
 \item[Co-Existence] Docker has to share the environment with the existing architecture of the cloud providers.
 
-\item[Reliability] The customers using the cloud providers's services expect a good reliability. If cloud providers are to implement Docker in their architectures, they need Docker to have good reliability.
+\item[Reliability] The customers using the cloud providers' services expect a good reliability. If cloud providers are to implement Docker in their architectures, they need Docker to have good reliability.
 
 % security?
 \end{description}
 
 
 
-\subsection*{Open Container Format}
+\subsection*{The Open Container Initiative}
+
+The Open Container Initiative\footnote{\url{https://www.opencontainers.org/}} was formed with the purpose of creating an open industry standard for container formats and runtime in June 2015.
+
+They are interested in creating a formal, open, industry specification around container formats and runtime. This specification should be independent of particular clients/orchestration stacks, commercial vendors or projects and should be portable across a wide variety of operating systems, hardware etc.
+% ^ according to about page
+
+Docker has donated its container format and runtime, knows as `runC' to this initiative and is one of the members of the initiative, together with a lot of other members (including competing technologies, such as `rkt' from CoreOS)\footnote{A list is available at \url{https://www.opencontainers.org/about/members}}.
+
+\textbf{Concerns}
+\begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
+
+\item[Portability] The main goal of the initiative is to standardize the container format and runtime used also by the Docker project.
+
+\end{description}
 
 \subsection*{Docker developers}
+The Docker developers are the developers contributing to the Docker code base.
+
+\textbf{Concerns}
+\begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
+
+\item[Maintainability] These developers contribute new features and bugfixes to the existing code base. Therefore, they want the project to have good modifiability, such that additions and improvements can be realized without to much effort.
+
+\end{description}
 
 \subsection*{Plugin developers}
+Docker allows extending its capabilities with plugins\footnote{\url{https://blog.docker.com/2015/06/extending-docker-with-plugins/}}. These plugins are created by the plugin developers.
 
+\textbf{Concerns}
+\begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
+
+\item[Adaptability\\(Portability)] The developers of the plugins want to extent the functionality of Docker in an effective and efficient way. 
+
+\end{description}
