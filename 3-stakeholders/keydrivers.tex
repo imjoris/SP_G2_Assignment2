@@ -2,3 +2,39 @@
 
 \section{Key Drivers}
 \label{sec:keydrivers}
+
+Docker has the following key drivers
+\begin{itemize}
+	\item \req{kd}-- Portability
+	\item \req{kd}-- Performance efficiency
+	\item \req{kd}-- Maintainability
+\end{itemize}
+%
+\subsection*{Portability}
+%
+
+%Degree of effectiveness and efficiency with which a system, product or component can be transferred from one hardware, software or other operational or usage environment to another. This characteristic is composed of the following subcharacteristics:
+%
+%Adaptability. Degree to which a product or system can effectively and efficiently be adapted for different or evolving hardware, software or other operational or usage environments.
+%Installability. Degree of effectiveness and efficiency with which a product or system can be successfully installed and/or uninstalled in a specified environment.
+%Replaceability. Degree to which a product can replace another specified software product for the same purpose in the same environment.
+
+%https://www.docker.com/
+%Achieve agility and control for Development and IT Operations teams to build, ship, and run any app, anywhere
+
+%https://github.com/docker/docker
+% and are designed from the ground up with an application-centric design.”
+
+%https://docs.docker.com/engine/installation/
+The main goal of docker is to enable all applications to be run everywhere. Docker want's the containers to be ``hardware-agnostic'' and ``platform-agnostic'', meaning that docker containers do not know anything about the hardware, nor the platform it is run on, thus making it very adaptable. This allows developers to focus on the actual application, without having to worry about the underlying hardware or platform. The applications the developers create could then be run everywhere where docker is supported.\\
+And because docker containers are so small, have a high performance and are usable by a wide variety of system, docker containers replace the need to use any virtual machines.
+ The docker hub makes it very easy for docker containers to be shared and used on other machines.
+
+\subsection*{Performance efficiency}
+An application that is run on docker should not run slower and respond slower then if the application is not run in docker.\ign(natively) Database systems need to respond fast or anything that uses the database responds slow as well.\\
+The goal of a docker container is to run a certain application. However, a system usually needs to run a set of different applications and should not be the case that running these applications in docker compromises the system's resources.\\
+
+\subsection*{Maintainability}
+Docker files are just a small set of instructions written in a text file. All the instructions needed to run an application are conveniently located in a single place, the docker files. This makes systems and applications very maintainable.\\
+Dependencies of applications are centralized and easily manageable.\\
+Docker files are small text files, making it very share able. Instead of having to share an image of a VM, the docker file can be used to reuse an application or system anywhere.\\

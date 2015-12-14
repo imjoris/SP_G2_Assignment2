@@ -3,6 +3,15 @@
 \section{Stakeholders}
 \label{sec:stakeholders}
 
+Docker has the following stakeholders:
+\begin{itemize}
+\item Software developers
+\item Software maintain
+\item Cloud providers
+\item The open container intiative
+\item Docker developers
+\item Plugin developers
+\end{itemize}
 
 %\item [Product owner] is the owner of the system. This stakeholder funds the project.  This affects the quality attributes usability and availability.
 \subsection*{Software Developers}
@@ -91,3 +100,37 @@ Docker allows extending its capabilities with plugins\footnote{\url{https://blog
 \item[Adaptability\\(Portability)] The developers of the plugins want to extent the functionality of Docker in an effective and efficient way. 
 
 \end{description}
+
+\begin{table}[H] \centering
+	\caption{Matrix of stakeholders concern.}
+	\label{table:stakeholder_concern}
+	\begin{tabular}{@{} cl*{10}c @{}}
+		&  & \multicolumn{8}{c}{
+		\textbf{Concerns}} \\[2ex]
+		& \textbf{Stakeholder} 
+			& 
+			& \rot{Adaptability} 
+			& \rot{Co-existence} 
+			& \rot{Implementability}
+			& \rot{Maintainability} 
+			& \rot{Performance}
+			& \rot{Portability}
+			& \rot{Reliability}
+			& \rot{Usability}
+			\\
+		\midrule
+								%ada	co-ex	impl	maint	perfor	port	relia	usa	
+& Software developer 	& &		&		&		&		&		&		&		X&		X 		\\
+& Software main 		& &		&		&		&		&		X&		X&		X&				\\				
+& Cloud providers 		& &		&		X&		X&		&		&		&		X&				\\			
+& The open container 
+initiative 				& &		&		&		&		&		&		X&		&				\\	
+& Docker developers 
+						& &		&		&		&		X&		&		&		&				\\				
+& Plugin developers 
+						& &		X&		&		&		&		&		&		&				\\				
+\midrule
+& Total					& &		1&	   1&	    1& 		1& 		1&		2&		3&		1		\\
+\midrule
+	\end{tabular}
+\end{table}
