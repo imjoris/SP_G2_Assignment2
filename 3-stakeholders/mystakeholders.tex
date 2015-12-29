@@ -21,9 +21,10 @@ The developers are those that use Docker to create their software systems. It is
 \textbf{Concerns}
 \begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
 
-\item[Usability] Since the software developers are using Docker, they want it to have good usability. This means it is easy to learn how to use Docker and it is not hard to work with. 
+\item[Usability] Since the software developers are using Docker, they want it to have good usability. This means it is easy to learn how to use Docker and it is not hard to work with. In fact, this is one of the main benefits of Docker, since it makes it easier to containerize applications, which could be done before, but was very difficult to do in practice.
 
-\item[Reliability] Software developers care about the reliability, since bugs in the Docker software makes the development of their software more difficult. 
+
+\item[Functional correctness] Software developers care about the functional correctness, since bugs in the Docker software makes the development of their software more difficult. 
 
 \end{description}
 
@@ -34,11 +35,11 @@ The software maintainers expect Docker to be reliable and portable.
 \textbf{Concerns}
 \begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
 
-\item[Reliability] Software maintainers are responsible for keeping the software working while it is deployed. They will only use Docker if it is reliable. 
+\item[Reliability] Software maintainers are responsible for keeping the software working while it is deployed. They will only use Docker if it is reliable. It has to be tolerant against failing containers.
 
 \item[Portability] The software maintainers want to be able to run Docker and its containers on a variety of different environments.
 
-\item[Performance] The software maintainers want Docker to have a good performance. They want the resources of their servers to be used as efficiently as possible, with little to no overhead of Docker.
+\item[Performance efficiency] The software maintainers want Docker to have a good performance. They want the resources of their servers to be used as efficiently as possible and therefore want Docker to have no overhead, like Virtual Machines often do have.
 
 \end{description}
 
@@ -51,9 +52,7 @@ There are numerous cloud providers offering services which are based on Docker\f
 \textbf{Concerns}
 \begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
 
-\item[Implementability] The cloud providers want to integrate Docker into their cloud computing architecture.
-% TODO definition of this is not in ISO. http://dare.uva.nl/document/493271
-%   is this not operability or something?
+\item[Installability] The cloud providers want to integrate Docker into their cloud computing architecture.
 
 \item[Co-Existence] Docker has to share the environment with the existing architecture of the cloud providers.
 
@@ -76,8 +75,9 @@ Docker has donated its container format and runtime, knows as `runC' to this ini
 \textbf{Concerns}
 \begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
 
-\item[Portability] The main goal of the initiative is to standardize the container format and runtime used also by the Docker project.
-%TODO wm: I think this might be interoperability
+\item[Portability] The main goal of the initiative is to standardize the container format and runtime used also by the Docker project. This allows users of Docker to use the Docker containers with other container runtimes.
+
+\item[Interoperability] Docker has to be able to work with the containers from the initiative.
 
 \end{description}
 
@@ -89,6 +89,8 @@ The Docker developers are the developers contributing to the Docker code base.
 
 \item[Maintainability] These developers contribute new features and bugfixes to the existing code base. Therefore, they want the project to have good modifiability, such that additions and improvements can be realized without to much effort.
 
+%\item[Functional correctness]
+
 \end{description}
 
 \subsection*{Plugin developers}
@@ -97,7 +99,7 @@ Docker allows extending its capabilities with plugins\footnote{\url{https://blog
 \textbf{Concerns}
 \begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
 
-\item[Adaptability\\(Portability)] The developers of the plugins want to extent the functionality of Docker in an effective and efficient way. 
+\item[Adaptability\\(Portability)] The developers of the plugins want to extend the functionality of Docker in an effective and efficient way. 
 
 \end{description}
 
