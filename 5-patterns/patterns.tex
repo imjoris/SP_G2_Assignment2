@@ -9,6 +9,42 @@
 \subsection{Layers}
 % see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{5-patterns/images/what-is-vm-diagram.png}
+\caption{A layered overview of the Docker. Source \cite{whatisdocker}}
+\label{fig:layers-pattern}
+\end{figure}
+
+\begin{description}
+\item [Traceability]~\\
+The Layers pattern can be deducted from the online documentation\cite{dockerarchi}.
+
+\item [Source]~\\
+Architectural patterns revisited -- a pattern language, P. 29 \cite{avgeriou2005architectural}
+
+\item [Issue]~\\
+For a good encapsulation, each instance of docker is modeled using layers that interact each other.
+
+\item [Assumptions/Constraints]~\\
+The interaction or communication between layers is carried out through socket, RESTful, or TCP/IP connection.
+
+\item [Solution]~\\
+Docker utilizes layers pattern. The system is modeled using layers and each component resides on a specific layer. An example can be seen in Figure \ref{fig:layers-pattern}.
+
+\item [Rationale] ~\\
+By separating each component in separated layers, the system will be more modular and have better security.
+
+\item [Implications]~\\
+There must be a clear closure of each layer. Communications protocol must also be defined.
+
+\item [Related Patterns]~\\
+\begin{itemize}
+	\item Client-server.
+\end{itemize}
+\end{description}
+
+\clearpage
 \subsection{Client-Server}
 % see https://docs.docker.com/engine/introduction/understanding-docker/
 % also nice image we can borrow: https://docs.docker.com/engine/article-img/architecture.svg
