@@ -33,7 +33,8 @@ mycmd="${latexcommand} $name"
 ## EXECUTE COMMANDS
 ##############################
 $mycmd
-cp library.bib ${outputDir}
+\rm ./${outputDir}/library.bib
+\cp ./library.bib ${outputDir}
 (cd ${outputDir}; bibtex $name;);
 (cd ${outputDir}; makeglossaries $name;);
 $mycmd
