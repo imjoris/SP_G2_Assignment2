@@ -5,8 +5,7 @@
 \label{ch:patterns}
 
 
-\section{Core}
-\subsection{Layers}
+\section{Layers}
 % see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
 
 \begin{figure}[H]
@@ -45,7 +44,7 @@ There must be a clear closure of each layer. Communications protocol must also b
 \end{description}
 
 \clearpage
-\subsection{Client-Server}
+\section{Client-Server}
 % see https://docs.docker.com/engine/introduction/understanding-docker/
 % also nice image we can borrow: https://docs.docker.com/engine/article-img/architecture.svg
 \begin{figure}[H]
@@ -89,7 +88,7 @@ All the services offered by the daemon have to be made available to the client u
 
 \end{description}
 
-\subsection{Shared repository}
+\section{Shared repository}
 \textit{Can we consider the docker registry a shared repository?}
 
 \subsection{Plugin}
@@ -124,8 +123,4 @@ The use of the Plugins pattern means that the adaptability increases.
 \item [Related Patterns]~\\
 
 \end{description}
-
-\section{Modules}
-\subsection{Interceptor}
-\subsection{Plugin}
 
