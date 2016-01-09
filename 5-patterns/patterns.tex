@@ -109,18 +109,28 @@ The users of Docker want to have customization, by extending Docker with third p
 The implementation of such plugins is only available at runtime.
 
 \item [Assumptions/Constraints]~
+\begin{itemize}
+\item Plugins can only extends the functionality of the components of Docker, that have an interface that plugins can implement.
+\end{itemize}
+
 
 \item [Solution]~\\
 Docker uses the Plugin pattern to link the implementation of the interfaces of several extendable components with third-party implementation at runtime.
 
-\item [Rationale] ~\\
-\textit{Still have to figure out how exactly it is implemented.}
-%TODO see https://github.com/docker/docker/blob/master/pkg/plugins/plugins.go
+\item [Rationale] ~\\ % https://docs.docker.com/engine/extend/plugin_api/
+Docker discovers plugins by looking for .sock, .spec or .json files in the plugin directories on the host system. These files describe how Docker can communicate with the plugins using the REST API (usually via a Unix socket).
+
+The plugins themselves run as seperate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (See XXX process view). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.  %TODO the process view
+
+For these subsytems Docker will replace the default implementation by a Proxy, that forwards all calls over the REST interface to the plugin process.
 
 \item [Implications]~\\
 The use of the Plugins pattern means that the adaptability increases. 
 
-\item [Related Patterns]~\\
+\item [Related Patterns]~
+\begin{itemize}
+\item Proxy
+\end{itemize}
 
 \end{description}
 
