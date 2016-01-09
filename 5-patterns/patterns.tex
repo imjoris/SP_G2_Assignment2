@@ -1,4 +1,4 @@
-%!TEX root = ../report.tex
+% !TEX root = ../report.tex
 
 \clearpage
 \chapter{Pattern Documentation}
@@ -9,9 +9,48 @@
 \subsection{Layers}
 % see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
 
-\subsection{Client Server}
+\subsection{Client-Server}
 % see https://docs.docker.com/engine/introduction/understanding-docker/
 % also nice image we can borrow: https://docs.docker.com/engine/article-img/architecture.svg
+\begin{figure}[H]
+\caption{An overview of the Docker architecture, showing the client and daemon. Source: \cite{dockerarchi}.}
+\centering
+\includegraphics[scale=0.4]{4-softwarearch/images/architecture.png}
+\end{figure}
+
+\begin{description}
+\item [Traceability]~\\
+The Client-Server pattern can be deducted from the online documentation\cite{dockerarchi}.
+
+\item [Source]~\\
+Architectural patterns revisited -- a pattern language, P. 29 \cite{avgeriou2005architectural}
+
+\item [Issue]~\\
+For good interoperability, it should be possible for Docker containers to be started remotely. A single interface should be able to control containers on numerous hosts.
+
+\item [Assumptions/Constraints]~
+
+\item [Solution]~\\
+Docker uses a Client-Server architecture. The client, a binary supplying a command-line interface, act as the primary interface for the user. The user enters commands into this client, which are then send to a server: the docker daemon. 
+
+\item [Rationale] ~\\
+The daemon is a background process, which supplies the requested services to the client. The daemon exposes a REST interface.
+
+For Docker, the client can be configured to connect to other daemon processes than the one running on the local machine. It can be configured to connect to remote Docker daemons as well, allowing the user to issue commands to daemons running remotely.
+
+\item [Implications]~\\
+The use of the Client-Server pattern results in two different executable binaries: a daemon and a client. 
+
+The use of a separated client handling the user interaction increases the modularity.
+Furthermore, it increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
+
+All the services offered by the daemon have to be made available to the client using a REST interface.
+
+
+\item [Related Patterns]~\\
+
+
+\end{description}
 
 \subsection{Shared repository}
 Can we consider the docker registry a shared repository?
