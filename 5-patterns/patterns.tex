@@ -254,7 +254,7 @@ For example, the proxy for the Volumes plugin can be found in \verb|docker/daemo
 Pattern-oriented Software Architecture - Volume 4, P.290 \cite{wiley4}
 
 \item [Issue]~\\
-The plugins are separate processes than the daemon and are only available at runtime. Therefore, it is impossible to access the services of the plugins directly.
+The plugins are separate processes than the daemon and are only available at runtime. Therefore, it is impossible for the daemon process to access the services of the plugins directly.
 % issue also for comms between client-server ??
 
 \item [Assumptions/Constraints]~

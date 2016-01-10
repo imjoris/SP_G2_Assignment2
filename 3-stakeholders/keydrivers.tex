@@ -1,4 +1,4 @@
-%!TEX root = ../report.tex
+% !TEX root = ../report.tex
 
 \section{Key Drivers}
 \label{sec:keydrivers}
@@ -8,14 +8,13 @@ Docker has the following key drivers
 \begin{itemize}
 	\item \req{kd}-- Portability
 	\item \req{kd}-- Reliability
-	\item \req{kd}-- Compatibility
-
+	\item \req{kd}-- Security
+%	\item \req{kd}-- Compatibility
 	%\item \req{kd}-- Maintainability
 \end{itemize}
 %
 \subsection{Portability}
 %
-
 %Degree of effectiveness and efficiency with which a system, product or component can be transferred from one hardware, software or other operational or usage environment to another. This characteristic is composed of the following subcharacteristics:
 %
 %Adaptability. Degree to which a product or system can effectively and efficiently be adapted for different or evolving hardware, software or other operational or usage environments.
@@ -27,9 +26,8 @@ Docker has the following key drivers
 
 %https://github.com/docker/docker
 % and are designed from the ground up with an application-centric design.”
-
 %https://docs.docker.com/engine/installation/
-Looking at figure \ref{fig:stakeholders-quality}, which visualizes the quality concerns of the stakholders, it is apparent that portability is the quality that is most desired among the stakeholders. One of the main features, if not the main feature of docker, is to provide ``agility and control for Development and IT Operations teams to build, ship, and run any app, anywhere'' \cite{dockermain}.\\
+Looking at Figure~\ref{fig:stakeholders-quality}, which visualizes the quality concerns of the stakholders, it is apparent that portability is the quality that is most desired among the stakeholders. One of the main features, if not the main feature of docker, is to provide ``agility and control for Development and IT Operations teams to build, ship, and run any app, anywhere'' \cite{dockermain}.\\
 Docker want's the containers running the applications to be ``hardware-agnostic'' and ``platform-agnostic'' \cite{dockerrepo}, meaning that docker containers do not know anything about the hardware, nor the platform it is run on, thus making it very portable. This allows developers to focus on the actual application, without having to worry about the underlying hardware or platform. The applications the developers create could then be run everywhere where docker is supported.\\
 To provide this quality attribute, Docker is also focused on increasing the performance. By making the docker containers small, yet having a high performance, the containers become usable by a wide variety of systems and are able to replace the need to use any virtual machines that would otherwise be used to achieve this level of portability. \cite{dockerrepo}\\
 To increase the portability even more, the docker hub makes it very easy for docker containers to be shared and used on other machines.
