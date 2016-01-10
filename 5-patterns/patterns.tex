@@ -77,10 +77,6 @@ Additionally, certain operating systems lack the underlying technologies necessa
 \item All the services offered by the daemon have to be made available to the client using a REST interface.
 \end{itemize}
 
-\item [Solution]~\\
-Docker uses a Client-Server architecture. The client, a binary supplying a command-line interface, act as the primary interface for the user. The user enters commands into this client, which are then sent to a server: the docker daemon. 
-
-
 \item [Rationale] ~\\
 The daemon is a background process, which supplies the requested services to the client. The daemon exposes a REST interface.
 
@@ -204,6 +200,7 @@ The notification mechanism of the Docker Registry uses this pattern.
 \end{description}
 
 \section{Plugin}
+\label{sec:pattern-plugin}
 %TODO image
 \begin{description}
 
@@ -232,11 +229,6 @@ Docker uses the Plugin pattern to link the implementation of the interfaces of s
 \item [Rationale] ~\\ % https://docs.docker.com/engine/extend/plugin_api/
 Docker discovers plugins by looking for .sock, .spec or .json files in the plugin directories on the host system. These files describe how Docker can communicate with the plugins using the REST API (usually via a Unix socket).
 
-
-
-The plugins themselves run as seperate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (See XXX process view). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.  %TODO the process view
-
-
 The plugins themselves run as separate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (see also Section~\ref{sec:processplugins}). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.
 
 
@@ -248,6 +240,44 @@ The use of the Plugins pattern means that the adaptability increases.
 \item [Related Patterns]~
 \begin{itemize}
 \item Proxy
+\end{itemize}
+\end{description}
+
+\section{Proxy}
+\begin{description}
+
+\item [Traceability]~\\
+The use of the \pattern{proxy} pattern becomes apparent from the source code in the repository on GitHub.
+For example, the proxy for the Volumes plugin can be found in \verb|docker/daemon/graphdriver/proxy.go| \footnote{\url{https://github.com/docker/docker/blob/master/daemon/graphdriver/proxy.go}}.
+
+\item [Source]~\\
+Pattern-oriented Software Architecture - Volume 4, P.290 \cite{wiley4}
+
+\item [Issue]~\\
+The plugins are separate processes than the daemon and are only available at runtime. Therefore, it is impossible to access the services of the plugins directly.
+% issue also for comms between client-server ??
+
+\item [Assumptions/Constraints]~
+\begin{itemize}
+\item The plugins have to implement a server listening for requests from the daemon.
+\end{itemize}
+
+\item [Solution]~\\
+Let the daemon only communicate with the plugins through a proxy. This proxy implements all the `housekeeping' functionality, like sending API requests and authentication. It has the same interface as the plugin. \\
+Whenever a call is done from the daemon to the plugin, it goes via the proxy, which communicates this call using a REST API to the plugin process.
+
+\item [Rationale] ~\\ 
+Using the \pattern{proxy} pattern allows the daemon to communicate with the plugins, without requiring direct access to these plugins. \\
+Also, because the subsystem component has the same interface as its proxy, the implementation of software using this component does not depend on whether the proxy is used or the original subsystem. 
+
+\item [Implications]~\\
+The use of the \pattern{proxy} pattern allows communication with the plugins, which increases the extendability. 
+Because the communication with the process is not direct, there is some performance overhead.
+%TODO: what about portability??
+
+\item [Related Patterns]~
+\begin{itemize}
+\item Plugin
 \end{itemize}
 
 \end{description}
