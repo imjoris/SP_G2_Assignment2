@@ -141,8 +141,8 @@ Docker has a feature wich can be configured : the Notification Sytem which makes
 
 \begin{description}
 \item[Traceability]~\\
-The Shared Repository pattern can be deducted from the online documentation : \textit{https://docs.docker.com/registry/}
-\quote{"The Registry is a stateless, highly scalable server side application that \textbf{stores} and lets you \textbf{distribute} Docker images. A registry is a storage and content delivery system."} 
+The Shared Repository pattern can be deducted from the online documentation : \textit{https://docs.docker.com/registry/} ``The Registry is a stateless, highly scalable server side application that \textbf{stores} and lets you \textbf{distribute} Docker images. A registry is a storage and content delivery system.''
+
 % File store.go , registry.go
 
 \item[Source]~\\
@@ -156,14 +156,14 @@ User need to be alerted of new events happening in the registry through notifica
 \item[Assumptions/ Contrainst]~\\
 
 \item[Solution]~\\ %how does it work ?
-\quote{Users interact with a registry by using docker push and pull commands.}
+Users interact with a registry by using docker push and pull commands.
 
 \item[Rationale]~\\ % in which way this pattern helps Docker? What is the goal ? KD
 By using the Shared Repository Pattern 
 
 \end{description}
 
-\subsection{Event-Driven Messaging}
+\section{Event-Driven Messaging}
 
 \begin{description}
 
@@ -181,7 +181,7 @@ The notification system needs a mechanism in order to send the events to the use
 \item[Solution]~\\
 
 \item[Rationale]~\\ 
-\quote { Notifications are sent to endpoints via HTTP requests. Each configured endpoint has isolated queues, retry configuration and http targets within each instance of a registry. When an action happens within the registry, it is converted into an event which is dropped into an inmemory queue. When the event reaches the end of the queue, an http request is made to the endpoint until the request succeeds. The events are sent serially to each endpoint but order is not guaranteed. }
+Notifications are sent to endpoints via HTTP requests. Each configured endpoint has isolated queues, retry configuration and http targets within each instance of a registry. When an action happens within the registry, it is converted into an event which is dropped into an inmemory queue. When the event reaches the end of the queue, an http request is made to the endpoint until the request succeeds. The events are sent serially to each endpoint but order is not guaranteed.
 
 \end{description}
 
@@ -192,7 +192,7 @@ The notification system needs a mechanism in order to send the events to the use
 \label{fig:event-driven}
 \end{figure}
 
-\subsection{Direct Authentication/ Brokered Authentication}
+\section{Direct Authentication/ Brokered Authentication}
 
 \begin{description}
 
