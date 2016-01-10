@@ -22,8 +22,23 @@ The Docker daemon is a process running on the host machine (as can be seen in Fi
 
 %As shown in the diagram above, the Docker daemon runs on a host machine. The user does not directly interact with the daemon, but instead through the Docker client.
 
-\subsubsection{Containers}
 \subsubsection{Images}
+Docker images can be interpreted as a template from which Docker containers are
+started. A Docker image consists of a stack of layers which are bonded by union
+file systems. These layers support reusability and sharing.
 
+\subsubsection{Containers}
+Docker containers are based on Docker images. This image acts as a read-only
+layers. Then, Docker container adds up a thin writable layer on top of it to
+perform operations. Docker containers basically consists of an operating system,
+user-added files, application, and some information. Multiple containers may run
+based on a same image. In this case, Docker will not create separate copies for
+each containers. Instead, they will share same image with their own writable
+thin layer.
 
 \subsection{Registry}
+The Docker registry is the place where Docker images are stored. Docker daemon
+fetches desired Docker images from this repository. This registry may be a
+public or a private one, such as one behind firewall. Docker
+Hub\footnote{\url{https://hub.docker.com/}} is one example of a docker registry
+hosted by Docker. This registry provides
