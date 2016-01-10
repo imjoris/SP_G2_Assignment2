@@ -146,6 +146,8 @@ User need to be alerted of new events happening in the registry through notifica
 \item[Rationale]~\\ % in which way this pattern helps Docker? What is the goal ? KD
 By using the Shared Repository Pattern 
 
+\item [Related Patterns]~\\
+
 \end{description}
 
 \subsection{Event-Driven Messaging}
@@ -167,6 +169,8 @@ The notification system needs a mechanism in order to send the events to the use
 
 \item[Rationale]~\\ 
 \quote { Notifications are sent to endpoints via HTTP requests. Each configured endpoint has isolated queues, retry configuration and http targets within each instance of a registry. When an action happens within the registry, it is converted into an event which is dropped into an inmemory queue. When the event reaches the end of the queue, an http request is made to the endpoint until the request succeeds. The events are sent serially to each endpoint but order is not guaranteed. }
+
+\item [Related Patterns]~\\
 
 \end{description}
 
@@ -200,6 +204,7 @@ The notification mechanism of the Docker Registry uses this pattern.
 
 \item[Rationale]~\\ 
 
+\item [Related Patterns]~\\
 
 \end{description}
 
