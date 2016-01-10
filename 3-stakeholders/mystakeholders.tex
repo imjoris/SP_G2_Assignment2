@@ -2,8 +2,9 @@
 
 \section{Stakeholders}
 \label{sec:stakeholders}
+This section presents the stakeholders and their concerns. We list the main concern in bold and, where applicable, the specific concern in parenthesis.
 
-Docker has the following stakeholders:
+For Docker, we identified the following stakeholders:
 \begin{itemize}
 \item Software developers
 \item Software Maintainers
@@ -49,7 +50,7 @@ The developers are those that use Docker to create their software systems. It is
 
 \subsection*{Software Maintainers}
 Software maintainers are responsible for deploying the software and keeping the software product running. Docker is often used for software deployment (especially to the cloud). %TODO source
-The software maintainers expect Docker to be reliable and portable.
+The software maintainers expect Docker to be reliable, portable, efficient and secure.
 
 \textbf{Concerns}
 \begin{description}[labelwidth=6cm,labelindent=30pt,style=multiline,leftmargin=5.5cm,font=\normalfont\itshape]
@@ -60,7 +61,11 @@ The software maintainers expect Docker to be reliable and portable.
 
 \item[\textbf{Portability}] The software maintainers want to be able to run Docker and its containers on a variety of different environments.
 
-\item[\textbf{Performance efficiency}] The software maintainers want Docker to have a good performance. They want the resources of their servers to be used as efficiently as possible and therefore want Docker to have no overhead, like Virtual Machines often do have.
+\item[\textbf{Performance efficiency}] The software maintainers want Docker to have a good performance. They want the resources of their servers to be used as efficiently as possible and therefore want Docker to have almost no overhead, like Virtual Machines often do have.
+
+
+\item[\textbf{Security}] Software maintainers want Docker to be secure, so they can run their applications inside the containers without Docker negatively affecting the security of their application.
+
 
 \end{description}
 
@@ -79,7 +84,7 @@ There are numerous cloud providers offering services which are based on Docker\f
 
 \item[\textbf{Reliability}] The customers using the cloud providers' services expect a good reliability. If cloud providers are to implement Docker in their architectures, they need Docker to have good reliability.
 
-% security?
+\item[\textbf{Security}] Cloud providers want to offer a secure cloud computing environment to their customers.
 \end{description}
 
 
@@ -103,7 +108,7 @@ Docker has donated its container format and runtime, knows as `runC' to this ini
 \end{description}
 
 \subsection*{Docker developers}
-The Docker developers are the developers contributing to the Docker code base.
+The Docker developers are the developers contributing to the Docker code base. Some of these developers work on Docker in their free time, others work on it as part of their job at a company with an interest in Docker and some developers work for Docker Inc itself\cite{whoaredockerdevs}.
 
 \textbf{Concerns}
 \begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
@@ -113,6 +118,9 @@ The Docker developers are the developers contributing to the Docker code base.
 %\item[Functional correctness]
 
 \item[\textbf{Security}] The Docker developers care about the security of the product they are working on. Their changes will not be accepted by the community if they can introduce security flaws.  % somebody has to care about it
+
+\item[\textbf{Security}] The Docker developers care about the security of the product they are working on.\footnote{\url{https://github.com/docker/docker\#security-disclosure}}  % somebody has to care about it
+
 
 \end{description}
 
