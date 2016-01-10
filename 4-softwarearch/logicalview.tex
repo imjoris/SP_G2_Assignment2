@@ -9,14 +9,18 @@
 \caption{An high-level overview of the Docker architecture. Source: \cite{dockerarchi}.}
 \centering
 \includegraphics[scale=0.4]{4-softwarearch/images/architecture.png}
+\label{fig:dockerarchipic}
 \end{figure}
 Docker uses a client-server architecture. The client (a command-line tool) acts as the primary user interface and talks to the Docker daemon. The daemon is a background process which does all the heavy lifting, e.g. the building and running of the containers.
 
-%Docker uses a client-server architecture. The Docker client talks to the Docker daemon, which does the heavy lifting of building, running, and distributing your Docker containers. Both the Docker client and the daemon can run on the same system, or you can connect a Docker client to a remote Docker daemon. The Docker client and daemon communicate via sockets or through a RESTful API.
-
 \subsection{Client}
+The client is a small binary and acts as the primary user interface to Docker. The user enters command into the client and the client forwards these commands to the Docker daemon, which executes commands.
+The Docker client is capable of connecting to daemons running on the local machine, as well as connecting to daemons running on remote machines over the internet.
 
 \subsection{Server / Daemon}
+The Docker daemon is a process running on the host machine (as can be seen in Figure~\ref{fig:dockerarchipic}). This process is started when the host machine starts and runs in the background. It exposes a REST interface and listens for requests coming from clients on the same or remote hosts.
+
+%As shown in the diagram above, the Docker daemon runs on a host machine. The user does not directly interact with the daemon, but instead through the Docker client.
 
 \subsubsection{Containers}
 \subsubsection{Images}
