@@ -4,46 +4,6 @@
 \chapter{Pattern Documentation}
 \label{ch:patterns}
 
-
-\section{Layers}
-% see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.4]{5-patterns/images/what-is-vm-diagram.png}
-\caption{A layered overview of the Docker. Source \cite{whatisdocker}}
-\label{fig:layers-pattern}
-\end{figure}
-
-\begin{description}
-\item [Traceability]~\\
-The Layers pattern can be deducted from the online documentation\cite{dockerarchi}.
-
-\item [Source]~\\
-Architectural patterns revisited -- a pattern language, P. 29 \cite{avgeriou2005architectural}
-
-\item [Issue]~\\
-For a good encapsulation, each instance of docker is modeled using layers that interact with each other.
-
-\item [Assumptions/Constraints]~\\
-The interaction or communication between layers is carried out through socket, RESTful, or TCP/IP connection.
-
-\item [Solution]~\\
-Docker utilizes layers pattern. The system is modeled using layers and each component resides on a specific layer. An example can be seen in Figure \ref{fig:layers-pattern}.
-
-\item [Rationale] ~\\
-By separating each component in separated layers, the system will be more modular and have better security.
-
-\item [Implications]~\\
-There must be a clear closure of each layer. Communications protocol must also be defined.
-
-\item [Related Patterns]~\\
-\begin{itemize}
-	\item Client-server
-\end{itemize}
-\end{description}
-
-\clearpage
 \section{Client-Server}
 
 % see https://docs.docker.com/engine/introduction/understanding-docker/
@@ -77,10 +37,6 @@ Additionally, certain operating systems lack the underlying technologies necessa
 \item All the services offered by the daemon have to be made available to the client using a REST interface.
 \end{itemize}
 
-\item [Solution]~\\
-Docker uses a Client-Server architecture. The client, a binary supplying a command-line interface, act as the primary interface for the user. The user enters commands into this client, which are then sent to a server: the docker daemon. 
-
-
 \item [Rationale] ~\\
 The daemon is a background process, which supplies the requested services to the client. The daemon exposes a REST interface.
 
@@ -109,6 +65,65 @@ Additionally, the portability is increased, since the client can run on Operatin
 
 
 \end{description}
+
+\section{Layers}
+% see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
+
+% \begin{figure}[H]
+% \centering
+% \includegraphics[scale=0.4]{5-patterns/images/what-is-vm-diagram.png}
+% \caption{A layered overview of the Docker. Source \cite{whatisdocker}}
+% \label{fig:layers-pattern}
+% \end{figure}
+
+\begin{description}
+\item [Traceability]~\\
+Layers is mentioned in the Docker architecture in the online documentation,
+specifically in the explanation of Docker images\cite{dockerarchi}. Furthermore,
+\cite{dockerimage} also elaborates on layers in the Docker images.
+
+\item [Source]~\\
+Architectural patterns revisited -- a pattern language, P. 29
+\cite{avgeriou2005architectural}
+
+\item [Issue]~\\
+Docker emphasize on developing containerization with almost no overhead. Running
+multiple instance of Docker containers with the same image may end up in high
+overhead. A sharing and reuse mechanism must be implemented to prevent overhead
+and to save more space or resource.
+
+\item [Assumptions/Constraints]~\\
+An application running in Docker container must has CLI\footnote{Command Line
+Interface} (bash), as Docker image is a based on Linux distribution.
+
+\item [Solution]~\\
+Each Docker image consists of a stack of layers, which is read-only. The first
+layer in the stack is a base image from Linux distribution. Docker also
+implements copy-on-write strategy. In this strategy, system processes that need
+the same data share the same instance of data rather than having their own. A
+copy will be made when a specific system process makes a change to the data.
+
+\item [Rationale] ~\\
+Layers are very good in terms of sharing and reusability. In this way, overhead
+can be avoided by sharing resources. A new image that uses same stack of layers
+may reuse the layers rather than making a separate copy. This may result in
+smaller size of Docker image.
+
+\item [Implications]~\\
+A Docker container will use Docker image as the base of it. This will remain as
+read-only layers. Then, a Docker container will create another thin writable
+layer on top of the image. Multiple containers that run based on the same Docker
+image will not make their own copy of the image to prevent duplication. This
+will end up in more efficient memory allocation.
+
+\item [Related Patterns]~\\
+\begin{itemize}
+	\item Client-server
+	\item Shared repository
+\end{itemize}
+\end{description}
+
+% \clearpage
 
 
 \section{Shared repository}
@@ -209,6 +224,7 @@ The notification mechanism of the Docker Registry uses this pattern.
 \end{description}
 
 \section{Plugin}
+\label{sec:pattern-plugin}
 %TODO image
 \begin{description}
 
@@ -237,11 +253,6 @@ Docker uses the Plugin pattern to link the implementation of the interfaces of s
 \item [Rationale] ~\\ % https://docs.docker.com/engine/extend/plugin_api/
 Docker discovers plugins by looking for .sock, .spec or .json files in the plugin directories on the host system. These files describe how Docker can communicate with the plugins using the REST API (usually via a Unix socket).
 
-
-
-The plugins themselves run as seperate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (See XXX process view). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.  %TODO the process view
-
-
 The plugins themselves run as separate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (see also Section~\ref{sec:processplugins}). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.
 
 
@@ -253,6 +264,44 @@ The use of the Plugins pattern means that the adaptability increases.
 \item [Related Patterns]~
 \begin{itemize}
 \item Proxy
+\end{itemize}
+\end{description}
+
+\section{Proxy}
+\begin{description}
+
+\item [Traceability]~\\
+The use of the \pattern{proxy} pattern becomes apparent from the source code in the repository on GitHub.
+For example, the proxy for the Volumes plugin can be found in \verb|docker/daemon/graphdriver/proxy.go| \footnote{\url{https://github.com/docker/docker/blob/master/daemon/graphdriver/proxy.go}}.
+
+\item [Source]~\\
+Pattern-oriented Software Architecture - Volume 4, P.290 \cite{wiley4}
+
+\item [Issue]~\\
+The plugins are separate processes than the daemon and are only available at runtime. Therefore, it is impossible for the daemon process to access the services of the plugins directly.
+% issue also for comms between client-server ??
+
+\item [Assumptions/Constraints]~
+\begin{itemize}
+\item The plugins have to implement a server listening for requests from the daemon.
+\end{itemize}
+
+\item [Solution]~\\
+Let the daemon only communicate with the plugins through a proxy. This proxy implements all the `housekeeping' functionality, like sending API requests and authentication. It has the same interface as the plugin. \\
+Whenever a call is done from the daemon to the plugin, it goes via the proxy, which communicates this call using a REST API to the plugin process.
+
+\item [Rationale] ~\\ 
+Using the \pattern{proxy} pattern allows the daemon to communicate with the plugins, without requiring direct access to these plugins. \\
+Also, because the subsystem component has the same interface as its proxy, the implementation of software using this component does not depend on whether the proxy is used or the original subsystem. 
+
+\item [Implications]~\\
+The use of the \pattern{proxy} pattern allows communication with the plugins, which increases the extendability. 
+Because the communication with the process is not direct, there is some performance overhead.
+%TODO: what about portability??
+
+\item [Related Patterns]~
+\begin{itemize}
+\item Plugin
 \end{itemize}
 
 \end{description}
