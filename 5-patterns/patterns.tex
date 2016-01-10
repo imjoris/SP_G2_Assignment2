@@ -4,46 +4,6 @@
 \chapter{Pattern Documentation}
 \label{ch:patterns}
 
-
-\section{Layers}
-% see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.4]{5-patterns/images/what-is-vm-diagram.png}
-\caption{A layered overview of the Docker. Source \cite{whatisdocker}}
-\label{fig:layers-pattern}
-\end{figure}
-
-\begin{description}
-\item [Traceability]~\\
-The Layers pattern can be deducted from the online documentation\cite{dockerarchi}.
-
-\item [Source]~\\
-Architectural patterns revisited -- a pattern language, P. 29 \cite{avgeriou2005architectural}
-
-\item [Issue]~\\
-For a good encapsulation, each instance of docker is modeled using layers that interact with each other.
-
-\item [Assumptions/Constraints]~\\
-The interaction or communication between layers is carried out through socket, RESTful, or TCP/IP connection.
-
-\item [Solution]~\\
-Docker utilizes layers pattern. The system is modeled using layers and each component resides on a specific layer. An example can be seen in Figure \ref{fig:layers-pattern}.
-
-\item [Rationale] ~\\
-By separating each component in separated layers, the system will be more modular and have better security.
-
-\item [Implications]~\\
-There must be a clear closure of each layer. Communications protocol must also be defined.
-
-\item [Related Patterns]~\\
-\begin{itemize}
-	\item Client-server
-\end{itemize}
-\end{description}
-
-\clearpage
 \section{Client-Server}
 
 % see https://docs.docker.com/engine/introduction/understanding-docker/
@@ -105,6 +65,65 @@ Additionally, the portability is increased, since the client can run on Operatin
 
 
 \end{description}
+
+\section{Layers}
+% see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
+
+% \begin{figure}[H]
+% \centering
+% \includegraphics[scale=0.4]{5-patterns/images/what-is-vm-diagram.png}
+% \caption{A layered overview of the Docker. Source \cite{whatisdocker}}
+% \label{fig:layers-pattern}
+% \end{figure}
+
+\begin{description}
+\item [Traceability]~\\
+Layers is mentioned in the Docker architecture in the online documentation,
+specifically in the explanation of Docker images\cite{dockerarchi}. Furthermore,
+\cite{dockerimage} also elaborates on layers in the Docker images.
+
+\item [Source]~\\
+Architectural patterns revisited -- a pattern language, P. 29
+\cite{avgeriou2005architectural}
+
+\item [Issue]~\\
+Docker emphasize on developing containerization with almost no overhead. Running
+multiple instance of Docker containers with the same image may end up in high
+overhead. A sharing and reuse mechanism must be implemented to prevent overhead
+and to save more space or resource.
+
+\item [Assumptions/Constraints]~\\
+An application running in Docker container must has CLI\footnote{Command Line
+Interface} (bash), as Docker image is a based on Linux distribution.
+
+\item [Solution]~\\
+Each Docker image consists of a stack of layers, which is read-only. The first
+layer in the stack is a base image from Linux distribution. Docker also
+implements copy-on-write strategy. In this strategy, system processes that need
+the same data share the same instance of data rather than having their own. A
+copy will be made when a specific system process makes a change to the data.
+
+\item [Rationale] ~\\
+Layers are very good in terms of sharing and reusability. In this way, overhead
+can be avoided by sharing resources. A new image that uses same stack of layers
+may reuse the layers rather than making a separate copy. This may result in
+smaller size of Docker image.
+
+\item [Implications]~\\
+A Docker container will use Docker image as the base of it. This will remain as
+read-only layers. Then, a Docker container will create another thin writable
+layer on top of the image. Multiple containers that run based on the same Docker
+image will not make their own copy of the image to prevent duplication. This
+will end up in more efficient memory allocation.
+
+\item [Related Patterns]~\\
+\begin{itemize}
+	\item Client-server
+	\item Shared repository
+\end{itemize}
+\end{description}
+
+% \clearpage
 
 
 \section{Shared repository}
