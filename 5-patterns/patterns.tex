@@ -18,25 +18,20 @@ The Client-Server pattern can be deducted from the `What is Docker’s architect
 Architectural patterns revisited -- a pattern language, P. 29 \cite{avgeriou2005architectural}
 
 \item [Issue]~\\
-For good interoperability, it should be possible for Docker containers to be started remotely. A single interface should be able to control containers on numerous hosts.
-
-\item [Assumptions/Constraints]~
-
-\item [Solution]~\\
-Docker uses a Client-Server architecture. The client, a binary supplying a command-line interface, act as the primary interface for the user. The user enters commands into this client, which are then send to a server: the docker daemon. 
-
-
 It should be possible for Docker containers to be controlled remotely and a single interface should be able to control containers on multiple hosts (e.g. in the cloud).
 
 Additionally, certain operating systems lack the underlying technologies necessary for running containers. For those OSes, it should be possible to call remote daemons running on operating systems which are supported. % /WindowsBashing
-% Me wantz to run on da windooowz, butz it aint got no cgroups
+
+\item [Solution]~\\
+Docker uses a \pattern{Client-Server} architecture. The client, a binary supplying a command-line interface, act as the primary interface for the user. The user enters commands into this client, which are then send to a server: the Docker daemon. 
+
 
 \item [Assumptions/Constraints]~
 \begin{itemize}
 \item The versions of the client binary and the server binary should match. Different versions can cause problems.
 \item All the services offered by the daemon have to be made available to the client using a REST interface.
 \end{itemize}
-
+~\\[-1.7cm]
 \item [Rationale] ~\\
 The daemon is a background process, which supplies the requested services to the client. The daemon exposes a REST interface.
 
@@ -48,17 +43,11 @@ By separating the client and server it is possible to use the same client to iss
 It is also possible to use the client on operating systems that do not support running containers.
 
 \item [Implications]~\\
-The use of the Client-Server pattern results in two different executable binaries: a daemon and a client. 
+The use of the \pattern{Client-Server} pattern results in two different executable binaries: a daemon and a client. 
 
+The use of the \pattern{Client-Server} pattern increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
 
-The use of a separated client handling the user interaction increases the modularity.
-Furthermore, it increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
-
-All the services offered by the daemon have to be made available to the client using a REST interface.
-
-It increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
-
-Additionally, the portability is increased, since the client can run on Operating System that cannot run containers themselves.
+Additionally, the portability is increased, since the client can run on Operating Systems that cannot run containers themselves.
 
 
 \item [Related Patterns]~\\
@@ -66,6 +55,7 @@ Additionally, the portability is increased, since the client can run on Operatin
 
 \end{description}
 
+\clearpage
 \section{Layers}
 % see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
 
@@ -79,44 +69,46 @@ Additionally, the portability is increased, since the client can run on Operatin
 \begin{description}
 \item [Traceability]~\\
 Layers is mentioned in the Docker architecture in the online documentation,
-specifically in the explanation of Docker images\cite{dockerarchi}. Furthermore,
-\cite{dockerimage} also elaborates on layers in the Docker images.
+specifically in the explanation of Docker images\cite{dockerarchi}. \\
+Furthermore, the user guide of Docker also elaborates on layers in the Docker images\cite{dockerimage}.
 
 \item [Source]~\\
 Architectural patterns revisited -- a pattern language, P. 29
 \cite{avgeriou2005architectural}
 
 \item [Issue]~\\
-Docker emphasize on developing containerization with almost no overhead. Running
-multiple instance of Docker containers with the same image may end up in high
+Docker emphasizes on developing containerization with almost no overhead. Running
+multiple instances of Docker containers with the same image may end up in high
 overhead. A sharing and reuse mechanism must be implemented to prevent overhead
-and to save more space or resource.
+and to save more space/resources.
 
 \item [Assumptions/Constraints]~\\
-An application running in Docker container must has CLI\footnote{Command Line
-Interface} (bash), as Docker image is a based on Linux distribution.
+An application running in a Docker container must have a CLI\footnote{Command Line
+Interface} (bash), as Docker images are based on a Linux distribution.
+%Wouter: not so sure about that, I saw a presentation once of somebody using volume mounts to have a program with GUI run in a Docker container
 
 \item [Solution]~\\
 Each Docker image consists of a stack of layers, which is read-only. The first
-layer in the stack is a base image from Linux distribution. Docker also
+layer in the stack is a base image from a Linux distribution. Docker also
 implements copy-on-write strategy. In this strategy, system processes that need
 the same data share the same instance of data rather than having their own. A
-copy will be made when a specific system process makes a change to the data.
+copy will be made when a specific system process makes a change to the data (copy-on-write).
 
 \item [Rationale] ~\\
 Layers are very good in terms of sharing and reusability. In this way, overhead
 can be avoided by sharing resources. A new image that uses same stack of layers
 may reuse the layers rather than making a separate copy. This may result in
-smaller size of Docker image.
+smaller sizes of Docker images.
 
 \item [Implications]~\\
 A Docker container will use Docker image as the base of it. This will remain as
 read-only layers. Then, a Docker container will create another thin writable
 layer on top of the image. Multiple containers that run based on the same Docker
-image will not make their own copy of the image to prevent duplication. This
-will end up in more efficient memory allocation.
+image will not make their own copy of the image to prevent duplication.
 
-\item [Related Patterns]~\\
+This will end up in more efficient memory allocation (better performance efficiency).
+
+\item [Related Patterns]~
 \begin{itemize}
 	\item Client-server
 	\item Shared repository

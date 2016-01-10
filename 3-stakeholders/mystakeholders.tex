@@ -16,7 +16,7 @@ For Docker, we identified the following stakeholders:
 
 %\item [Product owner] is the owner of the system. This stakeholder funds the project.  This affects the quality attributes usability and availability.
 \subsection*{Software Developers}
-The developers are those that use Docker to create their software systems. It is used by developers to deploy software and create architectures consisting of multiple containers. Developers using Docker for their system, expect it to be reliable and want it to have a good usability. 
+The developers are those that use Docker to create their software systems. Docker is used by developers to deploy software and create architectures consisting of multiple containers. Developers using Docker for their system, expect it to work according to the documentation and have a good usability.
 %TODO source
 
 \textbf{Concerns}
@@ -44,7 +44,7 @@ The developers are those that use Docker to create their software systems. It is
 \item[\textbf{Usability}] Since the software developers are using Docker, they want it to have good usability. This means it is easy to learn how to use Docker and it is not hard to work with. In fact, this is one of the main benefits of Docker, since it makes it easier to containerize applications, which could be done before, but was very difficult to do in practice.
 
 
-\item[\textbf{Functional Suitability}: (Functional correctness)] Software developers care about the functional correctness, since bugs in the Docker software makes the development of their software more difficult. 
+\item[\textbf{Functional Suitability} (Functional correctness)] Software developers care about the functional correctness, since bugs in the Docker software makes the development of their software more difficult. 
 
 \end{description}
 
@@ -78,9 +78,9 @@ There are numerous cloud providers offering services which are based on Docker\f
 \textbf{Concerns}
 \begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
 
-\item[\textbf{Portability}: (Installability)] The cloud providers want to integrate Docker into their cloud computing architecture.\\ 
+\item[\textbf{Portability} (Installability)] The cloud providers want to integrate Docker into their cloud computing architecture.\\ 
 
-\item[\textbf{Compatibility}: (Co-Existence)] Docker has to share the environment with the existing architecture of the cloud providers.
+\item[\textbf{Compatibility} (Co-Existence)] Docker has to share the environment with the existing architecture of the cloud providers.
 
 \item[\textbf{Reliability}] The customers using the cloud providers' services expect a good reliability. If cloud providers are to implement Docker in their architectures, they need Docker to have good reliability.
 
@@ -96,14 +96,14 @@ The Open Container Initiative\footnote{\url{https://www.opencontainers.org/}} wa
 They are interested in creating a formal, open, industry specification around container formats and runtime. This specification should be independent of particular clients/orchestration stacks, commercial vendors or projects and should be portable across a wide variety of operating systems, hardware etc.
 % ^ according to about page
 
-Docker has donated its container format and runtime, knows as `runC' to this initiative and is one of the members of the initiative, together with a lot of other members (including competing technologies, such as `rkt' from CoreOS)\footnote{A list is available at \url{https://www.opencontainers.org/about/members}}.
+Docker has donated its container format and runtime, known as `runC' to this initiative and is one of the members of the initiative, together with a lot of other members (including competing technologies, such as `rkt' from CoreOS)\footnote{A list is available at \url{https://www.opencontainers.org/about/members}}.
 
 \textbf{Concerns}
 \begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
 
 \item[\textbf{Portability}] The main goal of the initiative is to standardize the container format and runtime used also by the Docker project. This allows users of Docker to use the Docker containers with other container runtimes.
 
-\item[\textbf{Compatibility}: (Interoperability)] Docker has to be able to work with the containers from the initiative.
+\item[\textbf{Compatibility} (Interoperability)] Docker has to be able to work with the containers from the initiative.
 
 \end{description}
 
@@ -113,7 +113,7 @@ The Docker developers are the developers contributing to the Docker code base. S
 \textbf{Concerns}
 \begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
 
-\item[\textbf{Maintainability}] These developers contribute new features and bugfixes to the existing code base. Therefore, they want the project to have good modifiability, such that additions and improvements can be realized without to much effort.
+\item[\textbf{Maintainability} \textit{(Modifiability)}] These developers contribute new features and bugfixes to the existing code base. Therefore, they want the project to have good modifiability, such that additions and improvements can be realized without to much effort.
 
 %\item[Functional correctness]
 \item[\textbf{Security}] The Docker developers care about the security of the product they are working on.\footnote{\url{https://github.com/docker/docker\#security-disclosure}}  % somebody has to care about it
@@ -127,7 +127,7 @@ Docker allows extending its capabilities with plugins\footnote{\url{https://blog
 \textbf{Concerns}
 \begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
 
-\item[\textbf{Portability}: (Adaptability)] The developers of the plugins want to extend the functionality of Docker in an effective and efficient way. 
+\item[\textbf{Portability} (Adaptability)] The developers of the plugins want to extend the functionality of Docker in an effective and efficient way. 
 
 \end{description}
 
