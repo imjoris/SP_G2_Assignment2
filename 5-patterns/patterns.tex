@@ -8,10 +8,6 @@
 \section{Layers}
 % see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
 
-
-\subsection{Client-Server}
-
-
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{5-patterns/images/what-is-vm-diagram.png}
@@ -51,17 +47,9 @@ There must be a clear closure of each layer. Communications protocol must also b
 \section{Client-Server}
 
 % see https://docs.docker.com/engine/introduction/understanding-docker/
-% also nice image we can borrow: https://docs.docker.com/engine/article-img/architecture.svg
-\begin{figure}[H]
-\caption{An overview of the Docker architecture, showing the client and daemon. Source: \cite{dockerarchi}.}
-\centering
-\includegraphics[scale=0.4]{4-softwarearch/images/architecture.png}
-\end{figure}
 
 \begin{description}
 \item [Traceability]~\\
-
-
 The Client-Server pattern can be deducted from the online documentation\cite{dockerarchi}.
 
 The Client-Server pattern can be deducted from the `What is Docker’s architecture?' section of the online documentation\cite{dockerarchi}.
@@ -70,8 +58,6 @@ The Client-Server pattern can be deducted from the `What is Docker’s architect
 Architectural patterns revisited -- a pattern language, P. 29 \cite{avgeriou2005architectural}
 
 \item [Issue]~\\
-
-
 For good interoperability, it should be possible for Docker containers to be started remotely. A single interface should be able to control containers on numerous hosts.
 
 \item [Assumptions/Constraints]~
@@ -196,7 +182,7 @@ Docker discovers plugins by looking for .sock, .spec or .json files in the plugi
 The plugins themselves run as seperate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (See XXX process view). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.  %TODO the process view
 
 
-The plugins themselves run as separate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (See XXX process view). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.
+The plugins themselves run as separate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (see also Section~\ref{sec:processplugins}). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.
 
 
 For these subsytems Docker will replace the default implementation by a Proxy, that forwards all calls over the REST interface to the plugin process.
