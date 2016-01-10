@@ -8,9 +8,12 @@
 \section{Layers}
 % see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
 
+<<<<<<< HEAD
 
 \subsection{Client-Server}
 
+=======
+>>>>>>> f6dbbde4470e4434878819fc4fe21e9a00c1706c
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{5-patterns/images/what-is-vm-diagram.png}
@@ -48,7 +51,10 @@ There must be a clear closure of each layer. Communications protocol must also b
 
 \clearpage
 \section{Client-Server}
+<<<<<<< HEAD
 
+=======
+>>>>>>> f6dbbde4470e4434878819fc4fe21e9a00c1706c
 % see https://docs.docker.com/engine/introduction/understanding-docker/
 % also nice image we can borrow: https://docs.docker.com/engine/article-img/architecture.svg
 \begin{figure}[H]
@@ -59,16 +65,22 @@ There must be a clear closure of each layer. Communications protocol must also b
 
 \begin{description}
 \item [Traceability]~\\
+<<<<<<< HEAD
 
 The Client-Server pattern can be deducted from the online documentation\cite{dockerarchi}.
 
 The Client-Server pattern can be deducted from the `What is Docker’s architecture?' section of the online documentation\cite{dockerarchi}.
 
 
+=======
+The Client-Server pattern can be deducted from the `What is Docker’s architecture?' section of the online documentation\cite{dockerarchi}.
+
+>>>>>>> f6dbbde4470e4434878819fc4fe21e9a00c1706c
 \item [Source]~\\
 Architectural patterns revisited -- a pattern language, P. 29 \cite{avgeriou2005architectural}
 
 \item [Issue]~\\
+<<<<<<< HEAD
 
 For good interoperability, it should be possible for Docker containers to be started remotely. A single interface should be able to control containers on numerous hosts.
 
@@ -77,6 +89,8 @@ For good interoperability, it should be possible for Docker containers to be sta
 \item [Solution]~\\
 Docker uses a Client-Server architecture. The client, a binary supplying a command-line interface, act as the primary interface for the user. The user enters commands into this client, which are then send to a server: the docker daemon. 
 
+=======
+>>>>>>> f6dbbde4470e4434878819fc4fe21e9a00c1706c
 It should be possible for Docker containers to be controlled remotely and a single interface should be able to control containers on multiple hosts (e.g. in the cloud).
 
 Additionally, certain operating systems lack the underlying technologies necessary for running containers. For those OSes, it should be possible to call remote daemons running on operating systems which are supported. % /WindowsBashing
@@ -90,40 +104,58 @@ Additionally, certain operating systems lack the underlying technologies necessa
 
 \item [Solution]~\\
 Docker uses a Client-Server architecture. The client, a binary supplying a command-line interface, act as the primary interface for the user. The user enters commands into this client, which are then sent to a server: the docker daemon. 
+<<<<<<< HEAD
 >>>>>>> 0eb2efc72f20efb391fbbd530505acecaacdc4e4
+=======
+>>>>>>> f6dbbde4470e4434878819fc4fe21e9a00c1706c
 
 \item [Rationale] ~\\
 The daemon is a background process, which supplies the requested services to the client. The daemon exposes a REST interface.
 
 For Docker, the client can be configured to connect to other daemon processes than the one running on the local machine. It can be configured to connect to remote Docker daemons as well, allowing the user to issue commands to daemons running remotely.
+<<<<<<< HEAD
 
+=======
+>>>>>>> f6dbbde4470e4434878819fc4fe21e9a00c1706c
 %todo move above to architecture chapter 
 
 By separating the client and server it is possible to use the same client to issue commands to different daemons, running on different hosts.
 It is also possible to use the client on operating systems that do not support running containers.
+<<<<<<< HEAD
 >>>>>>> 0eb2efc72f20efb391fbbd530505acecaacdc4e4
+=======
+>>>>>>> f6dbbde4470e4434878819fc4fe21e9a00c1706c
 
 \item [Implications]~\\
 The use of the Client-Server pattern results in two different executable binaries: a daemon and a client. 
 
+<<<<<<< HEAD
 
 The use of a separated client handling the user interaction increases the modularity.
 Furthermore, it increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
 
 All the services offered by the daemon have to be made available to the client using a REST interface.
 
+=======
+>>>>>>> f6dbbde4470e4434878819fc4fe21e9a00c1706c
 It increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
 
 Additionally, the portability is increased, since the client can run on Operating System that cannot run containers themselves.
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f6dbbde4470e4434878819fc4fe21e9a00c1706c
 \item [Related Patterns]~\\
 
 
 \end{description}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f6dbbde4470e4434878819fc4fe21e9a00c1706c
 \section{Shared repository}
 \textit{Can we consider the docker registry a shared repository?}
 
@@ -155,9 +187,14 @@ Docker uses the Plugin pattern to link the implementation of the interfaces of s
 
 \item [Rationale] ~\\ % https://docs.docker.com/engine/extend/plugin_api/
 Docker discovers plugins by looking for .sock, .spec or .json files in the plugin directories on the host system. These files describe how Docker can communicate with the plugins using the REST API (usually via a Unix socket).
+<<<<<<< HEAD
 
 
 The plugins themselves run as seperate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (See XXX process view). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.  %TODO the process view
+=======
+
+The plugins themselves run as separate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (See XXX process view). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.
+>>>>>>> f6dbbde4470e4434878819fc4fe21e9a00c1706c
 
 For these subsytems Docker will replace the default implementation by a Proxy, that forwards all calls over the REST interface to the plugin process.
 
