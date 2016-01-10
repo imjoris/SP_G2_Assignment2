@@ -113,10 +113,10 @@ Additionally, the portability is increased, since the client can run on Operatin
 
 \section{Shared repository}
 %\textit{Can we consider the docker registry a shared repository?}
-% Schema
+% Schemas
 %http://fr.slideshare.net/Docker/https-dldropboxusercontentcomu20637798docker-meetup-freiburg
 % http://blog.octo.com/en/docker-registry-first-steps/   http://fr.slideshare.net/egorpushkin/docker-demo   
-% Because of Pull/¨Push can we talk about Pattern publish suscribe ?
+% Because of Pull/¨Push can we talk about Pattern publish suscribe ?   Asynhcronous Queuing ?
 
 The docker registry is considered as a Shared Repository. \\
 Two alternatives exist:DockerHub and Docker Trusted Registry. \\
@@ -128,25 +128,80 @@ Docker has a feature wich can be configured : the Notification Sytem which makes
 \item[Traceability]~\\
 The Shared Repository pattern can be deducted from the online documentation : \textit{https://docs.docker.com/registry/}
 \quote{"The Registry is a stateless, highly scalable server side application that \textbf{stores} and lets you \textbf{distribute} Docker images. A registry is a storage and content delivery system."} 
+% File store.go , registry.go
 
 \item[Source]~\\
 %\EAA, P.322 \cite{eaa}\\
 Architectural Pattern Revisited - A Pattern Language, P.13 \cite{avgeriou2005architectural}
 
 \item[Issue]~\\
-Docker provided a way for the user to store and distribute images.
-User need to be alerted of new *** within the registry through notifications. % Develop ?
+Docker provided a way for the user to conrol the storage and distribution of images.
+User need to be alerted of new events happening in the registry through notifications. % Develop ?
 
 \item[Assumptions/ Contrainst]~\\
 
-\item[Solution]~\\
+\item[Solution]~\\ %how does it work ?
+\quote{Users interact with a registry by using docker push and pull commands.}
 
-\item[Rationale]~\\ % in which way this pattern helps Docker? What is the goal ?
+\item[Rationale]~\\ % in which way this pattern helps Docker? What is the goal ? KD
 By using the Shared Repository Pattern 
-
 
 \end{description}
 
+\subsection{Event-Driven Messaging}
+
+\begin{description}
+
+\item[Traceability]~\\
+The notification mechanism of the Docker Registry uses the Even-Driven Messaging Pattern.
+
+\item[Source]~\\
+%\textit{http://soapatterns.org/design_patterns/event_driven_messaging}
+
+\item[Issue]~\\ The user wants to be alerted about certain events occuring in his registry.
+The notification system needs a mechanism in order to send the events to the user.
+
+\item[Assumptions/Contrainst]~\\ This pattern is used at a lower level in the Docker Registry/Active Repository Pattern.
+
+\item[Solution]~\\
+
+\item[Rationale]~\\ 
+\quote { Notifications are sent to endpoints via HTTP requests. Each configured endpoint has isolated queues, retry configuration and http targets within each instance of a registry. When an action happens within the registry, it is converted into an event which is dropped into an inmemory queue. When the event reaches the end of the queue, an http request is made to the endpoint until the request succeeds. The events are sent serially to each endpoint but order is not guaranteed. }
+
+\end{description}
+
+\begin{figure}[H]
+\centering
+\includegraphics{images/EDM.png}
+\caption{Event-Driven Messaging}
+\label{fig:event-driven}
+\end{figure}
+
+\subsection{Direct Authentication/ Brokered Authentication}
+
+\begin{description}
+
+\item[Traceability]~\\
+The Direct Authentication pattern can be deducted from the source code through the "auth.go" file from the Docker Github Repository. \\
+The notification mechanism of the Docker Registry uses this pattern.
+
+\item[Source]~\\
+\textit{https://msdn.microsoft.com/en-us/library/ff647715.aspx} \\
+%http://soapatterns.org/design_patterns/direct_authentication
+%https://docs.docker.com/registry/spec/auth/token/
+
+
+\item[Issue]~\\ The Docker Registry needs an authentication system in order to ensure security for the user through a login.
+%The access to the Docker Registry is managed by an authentication system ...
+
+\item[Assumptions/Contrainst]~\\ 
+
+\item[Solution]~\\
+
+\item[Rationale]~\\ 
+
+
+\end{description}
 
 \section{Plugin}
 %TODO image
