@@ -127,11 +127,14 @@ This will end up in more efficient memory allocation (better performance efficie
 % Because of Pull/¨Push can we talk about Pattern publish suscribe ?   Asynhcronous Queuing ?
 
 The docker registry is considered as a Shared Repository. \\
-Docker has a feature which can be configured: the Notification System which makes the Shared Repository an active Repository.\footnote{\url{https://docs.docker.com/registry/notifications/}}
+Two alternatives exist:DockerHub and Docker Trusted Registry. \\
+
+Docker has a feature wich can be configured : the Notification Sytem which makes the Shared Repository an active Repository.
+\textit{https://docs.docker.com/registry/notifications/}
 
 \begin{description}
 \item[Traceability]~\\
-The Shared Repository pattern can be deducted from the online documentation\footnote{\url{https://docs.docker.com/registry/}}: ``The Registry is a stateless, highly scalable server side application that \textbf{stores} and lets you \textbf{distribute} Docker images. A registry is a storage and content delivery system.''
+The Shared Repository pattern can be deducted from the online documentation : \textit{https://docs.docker.com/registry/} ``The Registry is a stateless, highly scalable server side application that \textbf{stores} and lets you \textbf{distribute} Docker images. A registry is a storage and content delivery system.''
 
 % File store.go , registry.go
 
@@ -140,7 +143,7 @@ The Shared Repository pattern can be deducted from the online documentation\foot
 Architectural Pattern Revisited - A Pattern Language, P.13 \cite{avgeriou2005architectural}
 
 \item[Issue]~\\
-Docker provides a way for the user to control the storage and distribution of images. \\
+Docker provided a way for the user to conrol the storage and distribution of images. \\
 The user wants to be alerted of new events happening in the registry through notifications. % Develop ?
 
 %\item[Assumptions/ Contrainst]~\\
@@ -159,8 +162,8 @@ Reusability, Changeability, Maintainability, Integrability
 
  \begin{figure}[H]
  \centering
- \includegraphics[scale=0.6]{images/Dockerrep.png}
- \caption{Docker Registry}
+ \includegraphics[scale=0.7]{5-patterns/images/docker-repository.png}
+ \caption{Docker Regitry}
  \label{fig:docker-registry}
  \end{figure}
 
@@ -210,7 +213,7 @@ Active Repository Pattern
 \item[Traceability]~\\
 The Direct Authentication pattern can be deducted from the source code through the "auth.go" file from the Docker Github Repository. \\
 The notification mechanism of the Docker Registry uses this pattern.
-\quote{``Since securing access to your hosted images is paramount, the Registry natively supports TLS and basic authentication.''} % Wouter: from who is this quote?
+\quote{Since securing access to your hosted images is paramount, the Registry natively supports TLS and basic authentication.}
 
 \item[Source]~\\
 \textit{https://msdn.microsoft.com/en-us/library/ff647715.aspx} \\
@@ -226,7 +229,7 @@ The notification mechanism of the Docker Registry uses this pattern.
 
 \item[Rationale]~\\ 
 
-\item[Related Patterns]~\\
+\item [Related Patterns]~\\
 Shared/Active Repository Pattern
 
 \item [Related Quality Attributes/Key drivers]~\\
@@ -234,7 +237,6 @@ Security
 
 \end{description}
 
-\clearpage
 \section{Plugin}
 \label{sec:pattern-plugin}
 %TODO image
@@ -279,7 +281,6 @@ The use of the Plugins pattern means that the adaptability increases.
 \end{itemize}
 \end{description}
 
-\clearpage
 \section{Proxy}
 \begin{description}
 

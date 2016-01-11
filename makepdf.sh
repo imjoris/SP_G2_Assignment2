@@ -1,12 +1,14 @@
 #!/bin/bash
 
-doMakePdf(){
+name='report'
+outputDir='myBuild'
+
+MAKEPDFOPTS='openpdf'
+
 
 ##############################
 ## PARAMETERS
 ##############################
-name='report'
-outputDir='myBuild'
 
 #Set them if supplied
 if [[ ! -z $1 ]]; then
@@ -19,30 +21,36 @@ fi
 ##############################
 ## Set options
 ##############################
-
 mkdir -p ${outputDir}
 
 dateNow="date +%m-%d__%H:%M"
 outputName="${name}_$(eval $dateNow)"
 
 latexInBuildDir="-output-directory=${outputDir}"
-# -aux-directory=${outputDir}"
-latexcommand="pdflatex -output-directory=${outputDir} -interaction=nonstopmode --enable-write18"
-# -aux-directory=${outputDir} -interaction=nonstopmode"
-mycmd="${latexcommand} $name"
+mycmd="texfot 'pdflatex -interaction=nonstopmode -output-directory=${outputDir} $name'"
 
+
+doMakePdf(){
 ##############################
 ## EXECUTE COMMANDS
 ##############################
-$mycmd
+eval $mycmd | 2>&1
 \rm ./${outputDir}/library.bib
 \cp ./library.bib ${outputDir}
-(cd ${outputDir}; bibtex $name;);
+(cd ${outputDir}; bibtex -terse $name;);
 (cd ${outputDir}; makeglossaries $name;);
-$mycmd
-$mycmd
+eval $mycmd | 2>&1
+eval $mycmd
 (cd ${outputDir}; cp "${name}.pdf" "${outputName}.pdf");
 
 }
 
-doMakePdf $1 $2 | grep error
+doMakePdf $1 $2
+
+#| grep ".*:[0-9]*:.*" | grep -v "Unescaped";
+# grep -i ".*:[0-9]*:.*\|warning"
+# grep -i ".*:[0-9]*:.*\|error"
+
+if [[ "$MAKEPDFOPTS" -eq 'openpdf' ]]; then
+    xdg-open ./"$outputDir"/"$outputName".pdf
+fi
