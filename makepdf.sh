@@ -5,7 +5,6 @@ outputDir='myBuild'
 
 MAKEPDFOPTS='openpdf'
 
-doMakePdf(){
 
 ##############################
 ## PARAMETERS
@@ -30,6 +29,8 @@ outputName="${name}_$(eval $dateNow)"
 latexInBuildDir="-output-directory=${outputDir}"
 mycmd="texfot 'pdflatex -interaction=nonstopmode -output-directory=${outputDir} $name'"
 
+
+doMakePdf(){
 ##############################
 ## EXECUTE COMMANDS
 ##############################
@@ -51,5 +52,5 @@ doMakePdf $1 $2
 # grep -i ".*:[0-9]*:.*\|error"
 
 if [[ "$MAKEPDFOPTS" -eq 'openpdf' ]]; then
-    xdg-open ./"$outputDir"/"$name".pdf
+    xdg-open ./"$outputDir"/"$outputName".pdf
 fi
