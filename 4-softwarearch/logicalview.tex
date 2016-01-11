@@ -5,13 +5,35 @@
 
 % Logical view : The logical view is concerned with the functionality that the system provides to end-users. UML Diagrams used to represent the logical view include Class diagram, Communication diagram, Sequence diagram.
 
+Docker is made using the the go language created by Google. Docker is an application categorized as ``Operating-system-level virtualization''. It consists of:
+\begin{itemize}
+\item 2979205 lines of go code (allmost 3 million).
+\item 1782 '.go' files
+\item 267 different packages
+\end{itemize}
+
+If the main ``/docker'' package is build, the dependencies can be visualized using a  visualization tool. When restricting the depth to be 1, it produces the image below, Figure \ref{fig:dockerdep1}. The green node is the "main" node for which the dependencies are shown.
+
+\begin{figure}[H]
+\caption{A high-level overview of the Docker architecture.}
+\centering
+\includegraphics[width=\linewidth, height=15cm]{images/dependencyGraphs/goviz/govizgreendocker1.png}
+\label{fig:dockerdep1}
+\end{figure}
+
+Looking at the official documentation, their image (Figure \ref{fig:dockerarchipic}) shows to be largely similar.\\
+
 \begin{figure}[H]
 \caption{A high-level overview of the Docker architecture. Source: \cite{dockerarchi}.}
 \centering
 \includegraphics[scale=0.4]{4-softwarearch/images/architecture.png}
 \label{fig:dockerarchipic}
 \end{figure}
-Docker uses a client-server architecture. The client (a command-line tool) acts as the primary user interface and talks to the Docker daemon. The daemon is a background process which does all the heavy lifting, e.g. the building and running of the containers.
+Docker uses a client-server architecture. The client (a command-line tool) acts as the primary user interface and talks to the Docker daemon. The daemon is a background process which dfig:dockerdep1oes all the heavy lifting, e.g. the building and running of the containers.
+
+
+%TODO Research about the importance of the packages will be added still...
+The most important part of docker will be discussed in the following sections below.
 
 \subsection{Client}
 The client is a small binary and acts as the primary user interface to Docker. The user enters command into the client and the client forwards these commands to the Docker daemon, which executes commands.
