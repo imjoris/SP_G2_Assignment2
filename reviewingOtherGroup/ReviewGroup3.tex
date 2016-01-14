@@ -1,65 +1,64 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
-% \usepackage[dutch]{babel}
+\usepackage{datetime}
 \usepackage{enumerate}
 \usepackage{graphicx}
 \usepackage{listings}
 
+\newdateformat{monthyeardate}{%
+  \monthname[\THEMONTH], \THEYEAR}
  
 \author{Group 2}
-\date{\today}
-\title{Review report Group 3}
+\date{\monthyeardate\today}
+\title{Review of Second Assignment of Group 3: KeePass - Password Safe}
 
 \begin{document}
 
 \maketitle
 
 \section{General}
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\begin{itemize}
+	\item This document is clearly written and structured, this document only contains small number of typos.
+	\item The conclusion chapter is missing in this document.
+	\item Some citations are missing.
+	\item Please write more elaboration regarding to important parts, for example key drivers.
+	\item This document seems to be incomplete. Please complete this document.
+\end{itemize}
 
 \section{Introduction}
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\begin{itemize}
+	\item It is not explicitly mentioned which version of KeePass is used in this document.
+	\item It is better to show the repository URL and how the community contributes to the project.
+\end{itemize}
 
 \section{Requirements}
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\begin{itemize}
+	\item The QAs used in this document is not exactly the same with the QAs in ISO 25010. Please explain about this.
+	\item It is better to explain how do the concerns come from.
+
+\end{itemize}
 
 \section{Software Architecture}
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\begin{itemize}
+	\item Why did you use only logical view and process view? Why not the other views? Please add rationale of using these views.
+	\item Figure 1 has less explanation, only sub chapters (3.1.1-3.1.8) explain that. For example, please explain what do the arrows mean (the direction, etc.). 
+	\item Figure 1 is also not referenced anywhere. Please add reference to this Figure.
+
+\end{itemize}
 
 \section{Pattern Documentation}
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\begin{itemize}
+	\item It is nice that source code is also referenced in this chapter.
+	\item Please show the relation between SA and pattern docs.
+	\item It would be nicer if each pattern documentation is also written with a graph explaining it.
+	\item Related patterns are missing in pattern description.
+	\item For implication in pattern description, please also relates those patterns with the key drivers. For example, does that pattern support or hinder the key drivers?
+	\item Some pattern descriptions are not completed. Please complete those.
+\end{itemize}
 
 \section{Architecture Evaluation}
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\begin{itemize}
+	\item Please complete this chapter.
+\end{itemize}
 
 \end{document}
