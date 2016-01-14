@@ -28,13 +28,15 @@
 \section{Introduction}
 \begin{itemize}
 	\item It is not explicitly mentioned which version of KeePass is used in this document.
-	\item It is better to show the repository URL and how the community contributes to the project.
+	\item It is better to show the repository URL (or, in this case, link to source?) and how the community contributes to the project.
+	\item Mention in which language Keepass is written.
 \end{itemize}
 
 \section{Requirements}
 \begin{itemize}
 	\item The QAs used in this document is not exactly the same with the QAs in ISO 25010. Please explain about this.
-	\item It is better to explain how do the concerns come from.
+	\item It is better to explain where do the concerns come from (add sources).
+	\item Why are the concerns of Dominik different from Bill's concerns?
 
 \end{itemize}
 
@@ -50,10 +52,12 @@
 \begin{itemize}
 	\item It is nice that source code is also referenced in this chapter.
 	\item Please show the relation between SA and pattern docs.
-	\item It would be nicer if each pattern documentation is also written with a graph explaining it.
+	\item It would be nicer if each pattern documentation is also written with an image explaining it.
 	\item Related patterns are missing in pattern description.
 	\item For implication in pattern description, please also relates those patterns with the key drivers. For example, does that pattern support or hinder the key drivers?
 	\item Some pattern descriptions are not completed. Please complete those.
+	\item For the plugin pattern, it does not become clear how plugins communicate with the Keepass. Are they loaded at runtime or are plugins separate processes that communicate with Keepass using an API, ... ?
+	\item The memento pattern (as described in `Elements of Reusable Object-Oriented Software') has 3 objects: originator, memento and caretaker. How are these roles filled in Keepass?
 \end{itemize}
 
 \section{Architecture Evaluation}
