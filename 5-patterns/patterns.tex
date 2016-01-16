@@ -59,55 +59,88 @@ Additionally, the portability is increased, since the client can run on Operatin
 \clearpage
 \section{Layers}
 % see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
+Layers pattern is a architectural pattern that consists of several layers, which
+each layer provides a set of services to the layer above and uses the services
+of the layer below. Docker implements this pattern to separate the concerns of
+each component with independent functionalities. Layers pattern implementation
+of Docker, based on our investigation, is shown in Figure \ref{fig:layers-pattern}.
+% \newglossaryentry{OS}{name=OS, description={Operating System}}
 
-% \begin{figure}[H]
-% \centering
-% \includegraphics[scale=0.4]{5-patterns/images/what-is-vm-diagram.png}
-% \caption{A layered overview of the Docker. Source \cite{whatisdocker}}
-% \label{fig:layers-pattern}
-% \end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{5-patterns/images/LayersPattern.png}
+\caption{A layered overview of the Docker.}
+\label{fig:layers-pattern}
+\end{figure}
 
 \begin{description}
 \item [Traceability]~\\
-Layers is mentioned in the Docker architecture in the online documentation,
-specifically in the explanation of Docker images\cite{dockerarchi}. \\
-Furthermore, the user guide of Docker also elaborates on layers in the Docker images\cite{dockerimage}.
+Layers is implicitly mentioned in the Docker architecture in the online
+documentation, specifically in the \textit{What is Docker’s architecture?}
+section \cite{dockerarchi}.
 
 \item [Source]~\\
 Architectural patterns revisited -- a pattern language, P. 29
 \cite{avgeriou2005architectural}
 
 \item [Issue]~\\
-Docker emphasizes on developing containerization with almost no overhead. Running
-multiple instances of Docker containers with the same image may end up in high
-overhead. A sharing and reuse mechanism must be implemented to prevent overhead
-and to save more space/resources.
+Docker's features, e.g., hosting the image, creating image, running container,
+and daemon supervision, vary in terms of functionality. Single
+implementation of those features will certainly result in abundant usage of
+resource because hosting the image means there must be huge amount of disk space
+available. Overlapping may also occur since multiple Docker instances may have
+the same images, which is actually can be stored and organized elsewhere. Docker
+also has several dependencies, especially the Linux kernel components
+(\texttt{namespaces} and \texttt{cgroups}) for OS level virtualization.
+Furthermore, Docker mostly needs remote supervision or control, since usually
+Docker is run on the cloud. Therefore, the features must be separated into
+several independent components and their dependencies and communication have to
+be clearly separated and maintained.
 
 \item [Assumptions/Constraints]~\\
-An application running in a Docker container must have a CLI\footnote{Command Line
-Interface} (bash), as Docker images are based on a Linux distribution.
-%Wouter: not so sure about that, I saw a presentation once of somebody using volume mounts to have a program with GUI run in a Docker container
+Docker is able to run only in Linux kernel since it makes use of
+\texttt{namespaces} and \texttt{cgroups} technology, which is only available in
+Linux kernel. However, Docker is also possible to be run on other OS
+although using virtual machine. The connection between local and remote
+components are carried out through secured TCP/IP connection.
 
 \item [Solution]~\\
-Each Docker image consists of a stack of layers, which is read-only. The first
-layer in the stack is a base image from a Linux distribution. Docker also
-implements copy-on-write strategy. In this strategy, system processes that need
-the same data share the same instance of data rather than having their own. A
-copy will be made when a specific system process makes a change to the data (copy-on-write).
+Docker will be separated into several components that have their own
+functionalities, as can be seen in Figure \ref{fig:layers-pattern}. The main
+components are containers, Docker daemon, local Docker client, libcontainer, and
+Linux kernel.
+
+Containers, plugins, Docker daemon, local Docker client, libcontainer, and Linux
+kernel are located in the same host (surrounded by dashed box). Inter-process
+communication is utilized to communicate between Docker, containers,
+libcontainer, and Linux kernel components, but Docker daemon, plugins, and
+Docker client communicate using Docker API
+\footnote{\url{https://github.com/docker/docker/blob/master/api/common.go}}.
+Remote connections are managed through secured TCP/IP based connection.
+
 
 \item [Rationale] ~\\
-Layers are very good in terms of sharing and reusability. In this way, overhead
-can be avoided by sharing resources. A new image that uses same stack of layers
-may reuse the layers rather than making a separate copy. This may result in
-smaller sizes of Docker images.
+Layers are very good in terms of sharing and reusability. In this way, several
+Docker daemon that uses the same image can just fetch it through the Docker
+registry. Using Docker registry also reduce disk space for storing images and
+increase easiness of sharing images. Layers pattern also supports connection to
+other layer, such as connection to plugins. It is also manageable to supervise
+remote Docker daemon through remote Docker client.
 
 \item [Implications]~\\
-A Docker container will use Docker image as the base of it. This will remain as
-read-only layers. Then, a Docker container will create another thin writable
-layer on top of the image. Multiple containers that run based on the same Docker
-image will not make their own copy of the image to prevent duplication.
 
-This will end up in more efficient memory allocation (better performance efficiency).
+This pattern gives positive implication to portability as clear separation of
+containers, Docker daemon, Docker registry, and Docker client makes Docker
+portable. Utilizing Docker registry also promotes sharing images, which make it
+easier to deploy an application without knowing what platform running below it.
+
+A connection is open to public, through TCP/IP, in the communication of Docker
+daemon and Docker registry and remote client, which makes this pattern hinders
+the security. In this condition, any malicious attacks may happen through this
+hole.
+
+Using this layer, it is easy to replicate something, which makes positive impact
+on reliability.
 
 \item [Related Patterns]~
 \begin{itemize}
