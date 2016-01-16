@@ -11,15 +11,18 @@ University of Groningen.
 Docker is an open-source project that automates the deployment of applications
 inside software containers, by providing an additional layer of abstraction and
 automation of operating-system-level virtualization on Linux \cite{dockerdef}.
+Docker can also run on Windows and Mac OSX, although it is actually run through
+a VM using Docker Machine because Docker Engine itself can only run on Linux.
 
 The structure of the document is explained as follows. Chapter \ref{ch:context}
 gives brief explanation with regard to Docker. Chapter \ref{ch:stakeholders}
 elaborates on the stakeholders involved in the Docker project and its
-corresponding key-drivers. Patterns discovered in the Docker project are
-documented in chapter \ref{ch:patterns}. Evaluation is presented in chapter
-\ref{ch:evaluation}. Chapter \ref{ch:recommendations} gives several
-recommendation for the Docker project. Lastly, a conclusion is drawn in chapter
-\ref{ch:conclusion}.
+corresponding key-drivers. Chapter \ref{ch:softwarearch} depicts the
+architecture of Docker using logic and process views to make it more clear.
+Patterns discovered in the Docker project are documented in chapter
+\ref{ch:patterns}. Evaluation is presented in chapter \ref{ch:evaluation}.
+Chapter \ref{ch:recommendations} gives several recommendation for the Docker
+project. Lastly, a conclusion is drawn in chapter \ref{ch:conclusion}.
 
 This project utilizes the IDAPO\footnote{Identifying Architectural Patterns in
 Open Source Software} process to recover the architecture \cite{idapo}. The
