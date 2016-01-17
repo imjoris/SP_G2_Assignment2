@@ -13,7 +13,7 @@ This chapter describes the patterns used in Docker identified by us. We document
 \item [Traceability]~\\
 The Client-Server pattern can be deducted from the online documentation\cite{dockerarchi}.
 
-The Client-Server pattern can be deducted from the `What is Docker’s architecture?' section of the online documentation\cite{dockerarchi}.
+The Client-Server pattern can be deducted from the `What is Dockers architecture?' section of the online documentation\cite{dockerarchi}.
 
 \item [Source]~\\
 Architectural patterns revisited -- a pattern language, P. 29 \cite{avgeriou2005architectural}
@@ -24,7 +24,7 @@ It should be possible for Docker containers to be controlled remotely and a sing
 Additionally, certain operating systems lack the underlying technologies necessary for running containers. For those OSes, it should be possible to call remote daemons running on operating systems which are supported. % /WindowsBashing
 
 \item [Solution]~\\
-Docker uses a \pattern{Client-Server} architecture. The client, a binary supplying a command-line interface, act as the primary interface for the user. The user enters commands into this client, which are then send to a server: the Docker daemon. 
+Docker uses a {Client-Server} architecture. The client, a binary supplying a command-line interface, act as the primary interface for the user. The user enters commands into this client, which are then send to a server: the Docker daemon. 
 
 
 \item [Assumptions/Constraints]~
@@ -44,9 +44,9 @@ By separating the client and server it is possible to use the same client to iss
 It is also possible to use the client on operating systems that do not support running containers.
 
 \item [Implications]~\\
-The use of the \pattern{Client-Server} pattern results in two different executable binaries: a daemon and a client. 
+The use of the {Client-Server} pattern results in two different executable binaries: a daemon and a client. 
 
-The use of the \pattern{Client-Server} pattern increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
+The use of the {Client-Server} pattern increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
 
 Additionally, the portability is increased, since the client can run on Operating Systems that cannot run containers themselves.
 
@@ -275,7 +275,7 @@ Security
 \begin{description}
 
 \item [Traceability]~\\
-The existence of Docker Plugins becomes apparent from it's documentation at \cite{dockerplugindocs}.
+The existence of Docker Plugins becomes apparent from its documentation at \cite{dockerplugindocs}.
 
 Additionally, the directories \verb|docker/pkg/plugins/| \footnote{\url{https://github.com/docker/docker/tree/master/pkg/plugins}} and \verb|  docker/daemon/graphdriver/plugin.go| \footnote{\url{https://github.com/docker/docker/blob/master/daemon/graphdriver/plugin.go}} (among others) in the project's repository contain the code for discovering plugins and the interfaces the plugins should implement.
 
@@ -283,15 +283,14 @@ Additionally, the directories \verb|docker/pkg/plugins/| \footnote{\url{https://
 Patterns of Enterprise Application Architecture, P. 499 \cite{eaa}
 
 \item [Issue]~\\
-The users of Docker want to have customization, by extending Docker with third party custom-built tools. This customization means that third parties should be able to write plugins that extend Docker's core functionality.\cite{dockerpluginblog}
+The users of Docker want to have customization or require functionality that is not included in Docker, by extending Docker with third party custom-built tools. This customization means that third parties should be able to write their own tools that extend Docker's core functionality\cite{dockerpluginblog}.
 
-The implementation of such plugins is only available at runtime.
+The implementation of such third party custom-built tools are only available at runtime.
 
 \item [Assumptions/Constraints]~
 \begin{itemize}
-\item Plugins can only extends the functionality of the components of Docker, that have an interface that plugins can implement.
+\item Plugins can only extend the functionality of the components of Docker if they have an interface that plugins can implement.
 \end{itemize}
-
 
 \item [Solution]~\\
 Docker uses the Plugin pattern to link the implementation of the interfaces of several extendable components with third-party implementation at runtime.
@@ -301,23 +300,87 @@ Docker discovers plugins by looking for .sock, .spec or .json files in the plugi
 
 The plugins themselves run as separate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (see also Section~\ref{sec:processplugins}). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.
 
-
 For these subsytems Docker will replace the default implementation by a Proxy, that forwards all calls over the REST interface to the plugin process.
 
 \item [Implications]~\\
-The use of the Plugins pattern means that the adaptability increases. 
+The use of the Plugins pattern means that the adaptability increases, because plugins allow the application to be adapted with new features.
+
+For the security, it means that there is extra communication over the API which has to be secured. The security of the plugins themselves cannot be guaranteed by Docker.
 
 \item [Related Patterns]~
 \begin{itemize}
-\item Proxy
+\item Broker
 \end{itemize}
 \end{description}
 
+\clearpage
+\section{Broker}
+\manuallabel{pattern:broker}{Broker}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.43]{5-patterns/images/broker.png}
+\caption{Broker for communication between Docker daemon and a plugin.}
+\label{fig:broker-pattern}
+\end{figure}
+
+\begin{description}
+\item [Traceability]~\\
+The use of the Broker pattern can be found in the proxy package in the source code:\\
+\verb| docker/pkg/proxy/tcp_proxy.go|\footnote{\url{https://github.com/docker/docker/blob/master/pkg/proxy/tcp_proxy.go}}.
+
+\item [Source]~\\
+Pattern-oriented Software Architecture - Volume 4, P.237 \cite{wiley4} \\
+Architectural Pattern Revisited - A Pattern Language, P.34 \cite{avgeriou2005architectural}
+
+\item [Issue]~\\
+Docker consists of multiple processes. For example, the client and daemon are separate processes and also the plugins are separate processes.
+
+These processes have to communicate with each other. However, dealing with the challenges of inter-process communication in the application code would greatly increase the complexity.
+The application components should be shielded form the details of the inter-process communication.
+
+\item [Assumptions/Constraints]~
+\begin{itemize}
+\item All the communication between the components in different processes have to go via the Broker.
+\end{itemize}
+
+\item [Solution]~\\
+Use a Broker to separate the logic for communication between the processes from the application functionality. Use a component-based model (using Proxies) to allow local components to invoke methods on components in remote processes as if they were local.
+
+\item [Rationale] ~\\ 
+The Broker pattern allows for and handles all the communication between the different processes. 
+
+This means that the logic for inter-process communication does not have to be implemented on a per-component basis.
+
+\item [Implications]~\\
+Using the Broker pattern is good for the portability, because it does not matter if a component is part of a different process (running locally or remotely).
+
+This pattern is also good for the security, since the Broker is a single entrypoint for all the inter-process communication, which makes it easier to secure.
+
+Additionally, the interoperability (compatibility) is increased, because it becomes possible for two components (in two different processes) to exchange information. 
+
+The Broker does however introduce a performance overhead, which decreases the performance efficiency.
+
+%TODO: reliability??
+\textit{Reliability?}
+
+%TODO: what about portability??
+
+\item [Related Patterns]~
+\begin{itemize}
+\item Plugin
+\item Proxy
+\item Client-Server
+\end{itemize}
+
+\end{description}
+
+
 \section{Proxy}
+\manuallabel{pattern:proxy}{Proxy}
 \begin{description}
 
 \item [Traceability]~\\
-The use of the \pattern{proxy} pattern becomes apparent from the source code in the repository on GitHub.
+The use of the {proxy} pattern becomes apparent from the source code in the repository on GitHub.
 For example, the proxy for the Volumes plugin can be found in \verb|docker/daemon/graphdriver/proxy.go| \footnote{\url{https://github.com/docker/docker/blob/master/daemon/graphdriver/proxy.go}}.
 
 \item [Source]~\\
@@ -337,17 +400,18 @@ Let the daemon only communicate with the plugins through a proxy. This proxy imp
 Whenever a call is done from the daemon to the plugin, it goes via the proxy, which communicates this call using a REST API to the plugin process.
 
 \item [Rationale] ~\\ 
-Using the \pattern{proxy} pattern allows the daemon to communicate with the plugins, without requiring direct access to these plugins. \\
+Using the {proxy} pattern allows the daemon to communicate with the plugins, without requiring direct access to these plugins. \\
 Also, because the subsystem component has the same interface as its proxy, the implementation of software using this component does not depend on whether the proxy is used or the original subsystem. 
 
 \item [Implications]~\\
-The use of the \pattern{proxy} pattern allows communication with the plugins, which increases the extendability. 
+The use of the {proxy} pattern allows communication with the plugins, which increases the extendability. 
 Because the communication with the process is not direct, there is some performance overhead.
 %TODO: what about portability??
 
 \item [Related Patterns]~
 \begin{itemize}
 \item Plugin
+\item \ref{pattern:broker}
 \end{itemize}
 
 \end{description}
