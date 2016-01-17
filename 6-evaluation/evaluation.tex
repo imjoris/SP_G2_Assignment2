@@ -101,11 +101,11 @@ There is a small negative impact on security, because the invocation on the Prox
 
 
 \subsection{Shared/Active repository} 
-The use of the Shared Repository patterns has different impacts on the differents Key Drivers : 
+The use of the Shared Repository patterns has different impacts on the different key Drivers : \\ 
 % Explaining how it works and the KD matched
-Reliability \\
-Security is enhanced because the repository is central so has its access who is controlled by a login for the users. \\
-Portability \\
+\textbf{Reliability} \\
+\textbf{Security} is enhanced because the access to the central registry is controlled by a login for the users. \\
+\textbf{Portability} \\
 
 \subsection{Publish Suscribe}
 
@@ -113,15 +113,18 @@ The publish subscribe pattern allows the event occuring in the Docker Registry t
 % Mechanism :
 % Endpoint, Http
 
-Reliability \\
-Security \\
-Portability \\
+\textbf{Reliability} \\
+\textbf{Security} \\
+\textbf{Portability} \\
 
 \subsection{Brokered Authentication}
 % Process 
-Reliability \\
-Security \\
-Portability \\
+\textbf{Reliability} can be an issue :
+The centralized authorization service can be a single point of failure. It may need to be online and available and if not the client can't get his token. If the authentication brokered becomes unavailable the registry and the client can't communicate with each other.
+texti{Solution :} redundant or back-up authentication broker. \\
+\textbf{Security} is ensured because the registry and the client don't communicate directly, the Bearer token is a barrier of protection between the two components.\\
+However security tokens must be signed by the authentication broker. If they are not, their integrity cannot be verified. This could result in attackers trying to issue false tokens. \\
+\textbf{Portability} \\
 
 
 \section{Overall system}
