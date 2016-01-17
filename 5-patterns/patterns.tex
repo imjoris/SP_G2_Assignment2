@@ -13,7 +13,7 @@ This chapter describes the patterns used in Docker identified by us. We document
 \item [Traceability]~\\
 The Client-Server pattern can be deducted from the online documentation\cite{dockerarchi}.
 
-The Client-Server pattern can be deducted from the `What is Docker’s architecture?' section of the online documentation\cite{dockerarchi}.
+The Client-Server pattern can be deducted from the `What is Dockers architecture?' section of the online documentation\cite{dockerarchi}.
 
 \item [Source]~\\
 Architectural patterns revisited -- a pattern language, P. 29 \cite{avgeriou2005architectural}
@@ -24,7 +24,7 @@ It should be possible for Docker containers to be controlled remotely and a sing
 Additionally, certain operating systems lack the underlying technologies necessary for running containers. For those OSes, it should be possible to call remote daemons running on operating systems which are supported. % /WindowsBashing
 
 \item [Solution]~\\
-Docker uses a \pattern{Client-Server} architecture. The client, a binary supplying a command-line interface, act as the primary interface for the user. The user enters commands into this client, which are then send to a server: the Docker daemon. 
+Docker uses a {Client-Server} architecture. The client, a binary supplying a command-line interface, act as the primary interface for the user. The user enters commands into this client, which are then send to a server: the Docker daemon. 
 
 
 \item [Assumptions/Constraints]~
@@ -44,9 +44,9 @@ By separating the client and server it is possible to use the same client to iss
 It is also possible to use the client on operating systems that do not support running containers.
 
 \item [Implications]~\\
-The use of the \pattern{Client-Server} pattern results in two different executable binaries: a daemon and a client. 
+The use of the {Client-Server} pattern results in two different executable binaries: a daemon and a client. 
 
-The use of the \pattern{Client-Server} pattern increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
+The use of the {Client-Server} pattern increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
 
 Additionally, the portability is increased, since the client can run on Operating Systems that cannot run containers themselves.
 
@@ -275,7 +275,7 @@ Security
 \begin{description}
 
 \item [Traceability]~\\
-The existence of Docker Plugins becomes apparent from it's documentation at \cite{dockerplugindocs}.
+The existence of Docker Plugins becomes apparent from its documentation at \cite{dockerplugindocs}.
 
 Additionally, the directories \verb|docker/pkg/plugins/| \footnote{\url{https://github.com/docker/docker/tree/master/pkg/plugins}} and \verb|  docker/daemon/graphdriver/plugin.go| \footnote{\url{https://github.com/docker/docker/blob/master/daemon/graphdriver/plugin.go}} (among others) in the project's repository contain the code for discovering plugins and the interfaces the plugins should implement.
 
@@ -283,15 +283,14 @@ Additionally, the directories \verb|docker/pkg/plugins/| \footnote{\url{https://
 Patterns of Enterprise Application Architecture, P. 499 \cite{eaa}
 
 \item [Issue]~\\
-The users of Docker want to have customization, by extending Docker with third party custom-built tools. This customization means that third parties should be able to write plugins that extend Docker's core functionality.\cite{dockerpluginblog}
+The users of Docker want to have customization or require functionality that is not included in Docker, by extending Docker with third party custom-built tools. This customization means that third parties should be able to write their own tools that extend Docker's core functionality\cite{dockerpluginblog}.
 
-The implementation of such plugins is only available at runtime.
+The implementation of such third party custom-built tools are only available at runtime.
 
 \item [Assumptions/Constraints]~
 \begin{itemize}
-\item Plugins can only extends the functionality of the components of Docker, that have an interface that plugins can implement.
+\item Plugins can only extend the functionality of the components of Docker if they have an interface that plugins can implement.
 \end{itemize}
-
 
 \item [Solution]~\\
 Docker uses the Plugin pattern to link the implementation of the interfaces of several extendable components with third-party implementation at runtime.
@@ -301,11 +300,12 @@ Docker discovers plugins by looking for .sock, .spec or .json files in the plugi
 
 The plugins themselves run as separate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (see also Section~\ref{sec:processplugins}). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.
 
-
 For these subsytems Docker will replace the default implementation by a Proxy, that forwards all calls over the REST interface to the plugin process.
 
 \item [Implications]~\\
-The use of the Plugins pattern means that the adaptability increases. 
+The use of the Plugins pattern means that the adaptability increases, because plugins allow the application to be adapted with new features.
+
+For the security, it means that there is extra communication over the API which has to be secured. The security of the plugins themselves cannot be guaranteed by Docker.
 
 \item [Related Patterns]~
 \begin{itemize}
