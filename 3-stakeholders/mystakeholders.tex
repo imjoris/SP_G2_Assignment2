@@ -2,7 +2,12 @@
 
 \section{Stakeholders}
 \label{sec:stakeholders}
-This section presents the stakeholders and their concerns. We list the main concern in bold and, where applicable, the specific concern in parenthesis.
+This section presents the stakeholders and their concerns. We list the main concern in bold and, where applicable, the specific concern in parentheses.
+
+%\item [Product owner] is the owner of the system. This stakeholder funds the project.  This affects the quality attributes usability and availability.
+\subsection*{Software Developers}
+The developers are those that use Docker to create their software systems. Docker is used by developers to deploy software and create architectures consisting of multiple containers. Developers using Docker for their system, expect it to work according to the documentation and have a good usability.
+%TODO source
 
 For Docker, we identified the following stakeholders:
 \begin{itemize}
@@ -13,11 +18,6 @@ For Docker, we identified the following stakeholders:
 \item Docker developers
 \item Plugin developers
 \end{itemize}
-
-%\item [Product owner] is the owner of the system. This stakeholder funds the project.  This affects the quality attributes usability and availability.
-\subsection*{Software Developers}
-The developers are those that use Docker to create their software systems. Docker is used by developers to deploy software and create architectures consisting of multiple containers. Developers using Docker for their system, expect it to work according to the documentation and have a good usability.
-%TODO source
 
 \textbf{Concerns}
 \begin{description}[labelwidth=6cm,labelindent=30pt,style=multiline,leftmargin=5.5cm,font=\normalfont\itshape]
@@ -44,7 +44,7 @@ The developers are those that use Docker to create their software systems. Docke
 \item[\textbf{Usability}] Since the software developers are using Docker, they want it to have good usability. This means it is easy to learn how to use Docker and it is not hard to work with. In fact, this is one of the main benefits of Docker, since it makes it easier to containerize applications, which could be done before, but was very difficult to do in practice.
 
 
-\item[\textbf{Functional Suitability} (Functional correctness)] Software developers care about the functional correctness, since bugs in the Docker software makes the development of their software more difficult. 
+\item[\textbf{Functional Suitability} (Functional correctness)] Software developers care about the functional correctness, since bugs in the Docker software make the development of their software more difficult. 
 
 \end{description}
 
@@ -82,7 +82,7 @@ There are numerous cloud providers offering services which are based on Docker\f
 
 \item[\textbf{Compatibility} (Co-Existence)] Docker has to share the environment with the existing architecture of the cloud providers.
 
-\item[\textbf{Reliability}] The customers using the cloud providers' services expect a good reliability. If cloud providers are to implement Docker in their architectures, they need Docker to have good reliability.
+\item[\textbf{Reliability}] The customers using the cloud providers' services expect a high reliability. If cloud providers are to implement Docker in their architectures, they need Docker to have good reliability.
 
 \item[\textbf{Security}] Cloud providers want to offer a secure cloud computing environment to their customers.
 \end{description}
@@ -132,7 +132,7 @@ Docker allows extending its capabilities with plugins\footnote{\url{https://blog
 \end{description}
 
 \subsection*{Overview}
-The stakeholders and their related concerns is visualized in Figure~\ref{fig:stakeholders-quality} below.
+The stakeholders and their related concerns are visualized in Figure~\ref{fig:stakeholders-quality} below.
 
 \begin{figure}[H]
 \centering

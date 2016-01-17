@@ -12,6 +12,37 @@
 \usepackage{listings}
 \usepackage{fancyhdr}
 
+%\usepackage{listings}
+%\usepackage[figure,table,lstlisting]{totalcount}
+\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
+\usepackage{graphicx}% http://ctan.org/pkg/graphicx
+\usepackage{lipsum}
+
+% add the command \conditionalLoT
+% that only displays the list of tables,
+% if any tables are defined
+\makeatletter
+\AtEndEnvironment{table}{\gdef\there@is@a@table{}} 
+\AtEndDocument{\ifdefined\there@is@a@table\label{table:was:used:in:doc}\fi} 
+\newcommand{\conditionalLoT}{\@ifundefined{r@table:was:used:in:doc}{}{
+	\addcontentsline{toc}{section}{List of Tables}	
+	\clearpage
+	\listoftables
+}}%
+
+% same as above, but then with list of figures
+\AtEndEnvironment{figure}{\gdef\there@is@a@figure{}} 
+\AtEndDocument{\ifdefined\there@is@a@figure\label{figure:was:used:in:doc}\fi} 
+\newcommand{\conditionalLoF}{\@ifundefined{r@figure:was:used:in:doc}{}{
+	\clearpage
+	\addcontentsline{toc}{section}{List of Figures}
+	\listoffigures
+}}%
+
+
+\makeatother
+
+
 %remove the blank page while using landscape:
 \usepackage{afterpage}
 

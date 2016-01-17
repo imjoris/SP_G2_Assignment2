@@ -3,9 +3,59 @@
 \clearpage
 \chapter{Conclusion}
 \label{ch:conclusion}
+% \section{Pattern-Based Architecture Reviews}
+% \section{IDAPO}
 
-\section{Pattern-Based Architecture Reviews}
-\section{IDAPO}
+% %sounds like we're about to die...
+% \section{Final Words}
 
-%sounds like we're about to die...
-\section{Final Words}
+This document have presented the architecture recovery of Docker by identifying
+software patterns and performing an evaluation of the architecture based on the
+identified patterns according to their impact on the Docker's quality
+attributes. This is done by implementing PBAR and IDAPO method. IDAPO method is
+used to identify the patterns within the Docker architecture, while PBAR is
+utilized to perform the architecture review.
+
+We firstly start by grasping some basic information about Docker. The findings
+were presented in the System Context chapter, which consists of brief
+explanation about Docker and its ecosystem, along with the communities
+supporting and developing it. We then figured out the stakeholders behind Docker
+project and their concerns. Based on our findings, the stakeholders can be
+grouped in to six groups, those are Docker developers, Software developers that
+utilize Docker in their project, the Open Container Initiative, cloud providers,
+Docker plugin developers, and software maintainers. The summary of stakeholders
+and their concerns can be seen in Figure \ref{fig:stakeholders-quality}. Based
+on their concerns, the key-drivers can be extracted and those are
+\textit{portability, security, and reliability}.
+
+Even if software designers or developers may not be aware of certain software
+patterns, the patterns may still be present \cite{idapo}. The IDAPO process is
+used to identify existing patterns in a open source software. Patterns recovery
+is very useful for quantifying the software project on a high-level approach. By
+knowing the patterns inside a particular software project it is also easier to
+measure or evaluate it by their impact to the software's key-drivers. The IDAPO
+consists of 12 iterative steps that aim to achieve a robust pattern recovery
+inside the OSS project. The mapping of IDAPO process and the chapters of this
+document is described in chapter \ref{ch:introduction}.
+
+A typical evaluation of an architecture requires a lot of effort and cost, for
+example, ATAM method. PBAR provides a lightweight architecture review process
+that can be used where traditional architecture review methods would not because
+of their high cost. PBAR focuses the evaluation on issues of the system's' key-
+drivers. It makes use of discovered patterns within the architecture to properly
+document issues. PBAR consists of four main steps, which the third step, the
+review meeting, is actually a repetitive steps.
+
+One of the reason why Docker is selected to be the target of this Pattern-based
+recovery and evaluation is of its popularity. The purpose this software is to
+make the deployment of distributed application easier. As stated in the
+documentation, Docker provides an integrated technology stacks, which enables
+the development and IT operation teams to build, ship, and run distributed
+applications anywhere without having to know the platform running below it.
+
+Our investigation showed that there are seven layers exists in Docker, although
+more patterns are likely to be there as well. The detailed documentations of
+those pattern are written in chapter \ref{ch:patterns}. In this project, we also
+implemented some insight that we achieved when working with the first project of
+Software Pattern. Hopefully, the enhanced insights and experiences of this
+second assignment would be beneficial for us in the future.

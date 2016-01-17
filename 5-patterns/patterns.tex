@@ -6,14 +6,17 @@
 This chapter describes the patterns used in Docker identified by us. We documented the patterns as described by Harrison et al.\cite{usingpatternscapture}, with added information about where the pattern was found (traceability).
 
 \section{Client-Server}
-
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.55]{5-patterns/images/client-server.png}
+\caption{Several clients connected to one daemon (server). The daemon spawned several containers.}
+\label{fig:clientserver-pattern}
+\end{figure}
 % see https://docs.docker.com/engine/introduction/understanding-docker/
 
 \begin{description}
 \item [Traceability]~\\
-The Client-Server pattern can be deducted from the online documentation\cite{dockerarchi}.
-
-The Client-Server pattern can be deducted from the `What is Docker’s architecture?' section of the online documentation\cite{dockerarchi}.
+The Client-Server pattern can be deduced from the `What is Dockers architecture?' section of the online documentation\cite{dockerarchi}.
 
 \item [Source]~\\
 Architectural patterns revisited -- a pattern language, P. 29 \cite{avgeriou2005architectural}
@@ -24,12 +27,12 @@ It should be possible for Docker containers to be controlled remotely and a sing
 Additionally, certain operating systems lack the underlying technologies necessary for running containers. For those OSes, it should be possible to call remote daemons running on operating systems which are supported. % /WindowsBashing
 
 \item [Solution]~\\
-Docker uses a \pattern{Client-Server} architecture. The client, a binary supplying a command-line interface, act as the primary interface for the user. The user enters commands into this client, which are then send to a server: the Docker daemon. 
+Docker uses a {Client-Server} architecture. The client, a binary supplying a command-line interface, acts as the primary interface for the user. The user enters commands into this client, which are then sent to a server: the Docker daemon. 
 
 
 \item [Assumptions/Constraints]~
 \begin{itemize}
-\item The versions of the client binary and the server binary should match. Different versions can cause problems.
+\item The versions of the client binary and the server binary should match. Different versions can cause problems when changes to the API were made.
 \item All the services offered by the daemon have to be made available to the client using a REST interface.
 \end{itemize}
 ~\\[-1.7cm]
@@ -44,70 +47,104 @@ By separating the client and server it is possible to use the same client to iss
 It is also possible to use the client on operating systems that do not support running containers.
 
 \item [Implications]~\\
-The use of the \pattern{Client-Server} pattern results in two different executable binaries: a daemon and a client. 
+The use of the {Client-Server} pattern results in two different executable binaries: a daemon and a client. 
 
-The use of the \pattern{Client-Server} pattern increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
+The use of the {Client-Server} pattern increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
 
 Additionally, the portability is increased, since the client can run on Operating Systems that cannot run containers themselves.
 
+There is also an impact on security, because the communication between the client and the server has to be secured.
 
-\item [Related Patterns]~\\
-
+\item [Related Patterns]~
+\begin{itemize}
+\item \ref{pattern:broker}
+\end{itemize}
 
 \end{description}
 
-\clearpage
 \section{Layers}
 % see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
+Layers pattern is a architectural pattern that consists of several layers, which
+each layer provides a set of services to the layer above and uses the services
+of the layer below. Docker implements this pattern to separate the concerns of
+each component with independent functionalities. Layers pattern implementation
+of Docker, based on our investigation, is shown in Figure \ref{fig:layers-pattern}.
+% \newglossaryentry{OS}{name=OS, description={Operating System}}
 
-% \begin{figure}[H]
-% \centering
-% \includegraphics[scale=0.4]{5-patterns/images/what-is-vm-diagram.png}
-% \caption{A layered overview of the Docker. Source \cite{whatisdocker}}
-% \label{fig:layers-pattern}
-% \end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{5-patterns/images/LayersPattern.png}
+\caption{A layered overview of the Docker.}
+\label{fig:layers-pattern}
+\end{figure}
 
 \begin{description}
 \item [Traceability]~\\
-Layers is mentioned in the Docker architecture in the online documentation,
-specifically in the explanation of Docker images\cite{dockerarchi}. \\
-Furthermore, the user guide of Docker also elaborates on layers in the Docker images\cite{dockerimage}.
+Layers is implicitly mentioned in the Docker architecture in the online
+documentation, specifically in the \textit{What is Docker’s architecture?}
+section \cite{dockerarchi}.
 
 \item [Source]~\\
 Architectural patterns revisited -- a pattern language, P. 29
 \cite{avgeriou2005architectural}
 
 \item [Issue]~\\
-Docker emphasizes on developing containerization with almost no overhead. Running
-multiple instances of Docker containers with the same image may end up in high
-overhead. A sharing and reuse mechanism must be implemented to prevent overhead
-and to save more space/resources.
+Docker's features, e.g., hosting the image, creating image, running container,
+and daemon supervision, vary in terms of functionality. Single
+implementation of those features will certainly result in abundant usage of
+resource because hosting the image means there must be huge amount of disk space
+available. Overlapping may also occur since multiple Docker instances may have
+the same images, which is actually can be stored and organized elsewhere. Docker
+also has several dependencies, especially the Linux kernel components
+(\texttt{namespaces} and \texttt{cgroups}) for OS level virtualization.
+Furthermore, Docker mostly needs remote supervision or control, since usually
+Docker is run on the cloud. Therefore, the features must be separated into
+several independent components and their dependencies and communication have to
+be clearly separated and maintained.
 
 \item [Assumptions/Constraints]~\\
-An application running in a Docker container must have a CLI\footnote{Command Line
-Interface} (bash), as Docker images are based on a Linux distribution.
-%Wouter: not so sure about that, I saw a presentation once of somebody using volume mounts to have a program with GUI run in a Docker container
+Docker is able to run only in Linux kernel since it makes use of
+\texttt{namespaces} and \texttt{cgroups} technology, which is only available in
+Linux kernel. However, Docker is also possible to be run on other OS
+although using virtual machine. The connection between local and remote
+components are carried out through secured TCP/IP connection.
 
 \item [Solution]~\\
-Each Docker image consists of a stack of layers, which is read-only. The first
-layer in the stack is a base image from a Linux distribution. Docker also
-implements copy-on-write strategy. In this strategy, system processes that need
-the same data share the same instance of data rather than having their own. A
-copy will be made when a specific system process makes a change to the data (copy-on-write).
+Docker will be separated into several components that have their own
+functionalities, as can be seen in Figure \ref{fig:layers-pattern}. The main
+components are containers, Docker daemon, local Docker client, libcontainer, and
+Linux kernel.
+
+Containers, plugins, Docker daemon, local Docker client, libcontainer, and Linux
+kernel are located in the same host (surrounded by dashed box). Inter-process
+communication is utilized to communicate between Docker, containers,
+libcontainer, and Linux kernel components, but Docker daemon, plugins, and
+Docker client communicate using Docker API
+\footnote{\url{https://github.com/docker/docker/blob/master/api/common.go}}.
+Remote connections are managed through secured TCP/IP based connection.
+
 
 \item [Rationale] ~\\
-Layers are very good in terms of sharing and reusability. In this way, overhead
-can be avoided by sharing resources. A new image that uses same stack of layers
-may reuse the layers rather than making a separate copy. This may result in
-smaller sizes of Docker images.
+Layers are very good in terms of sharing and reusability. In this way, several
+Docker daemon that uses the same image can just fetch it through the Docker
+registry. Using Docker registry also reduce disk space for storing images and
+increase easiness of sharing images. Layers pattern also supports connection to
+other layer, such as connection to plugins. It is also manageable to supervise
+remote Docker daemon through remote Docker client.
 
 \item [Implications]~\\
-A Docker container will use Docker image as the base of it. This will remain as
-read-only layers. Then, a Docker container will create another thin writable
-layer on top of the image. Multiple containers that run based on the same Docker
-image will not make their own copy of the image to prevent duplication.
+This pattern gives positive implication to portability as clear separation of
+containers, Docker daemon, Docker registry, and Docker client makes Docker
+portable. Utilizing Docker registry also promotes sharing images, which make it
+easier to deploy an application without knowing what platform running below it.
 
-This will end up in more efficient memory allocation (better performance efficiency).
+A connection is open to public, through TCP/IP, in the communication of Docker
+daemon and Docker registry and remote client, which makes this pattern hinders
+the security. In this condition, any malicious attacks may happen through this
+hole.
+
+Using this layer, it is easy to replicate something, which makes positive impact
+on reliability.
 
 \item [Related Patterns]~
 \begin{itemize}
@@ -273,7 +310,7 @@ Shared/Active Repository Pattern
 \begin{description}
 
 \item [Traceability]~\\
-The existence of Docker Plugins becomes apparent from it's documentation at \cite{dockerplugindocs}.
+The existence of Docker Plugins becomes apparent from its documentation at \cite{dockerplugindocs}.
 
 Additionally, the directories \verb|docker/pkg/plugins/| \footnote{\url{https://github.com/docker/docker/tree/master/pkg/plugins}} and \verb|  docker/daemon/graphdriver/plugin.go| \footnote{\url{https://github.com/docker/docker/blob/master/daemon/graphdriver/plugin.go}} (among others) in the project's repository contain the code for discovering plugins and the interfaces the plugins should implement.
 
@@ -281,15 +318,14 @@ Additionally, the directories \verb|docker/pkg/plugins/| \footnote{\url{https://
 Patterns of Enterprise Application Architecture, P. 499 \cite{eaa}
 
 \item [Issue]~\\
-The users of Docker want to have customization, by extending Docker with third party custom-built tools. This customization means that third parties should be able to write plugins that extend Docker's core functionality.\cite{dockerpluginblog}
+The users of Docker want to have customization or require functionality that is not included in Docker, by extending Docker with third party custom-built tools. This customization means that third parties should be able to write their own tools that extend Docker's core functionality\cite{dockerpluginblog}.
 
-The implementation of such plugins is only available at runtime.
+The implementation of such third party custom-built tools are only available at runtime.
 
 \item [Assumptions/Constraints]~
 \begin{itemize}
-\item Plugins can only extends the functionality of the components of Docker, that have an interface that plugins can implement.
+\item Plugins can only extend the functionality of the components of Docker if they have an interface that plugins can implement.
 \end{itemize}
-
 
 \item [Solution]~\\
 Docker uses the Plugin pattern to link the implementation of the interfaces of several extendable components with third-party implementation at runtime.
@@ -299,23 +335,87 @@ Docker discovers plugins by looking for .sock, .spec or .json files in the plugi
 
 The plugins themselves run as separate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (see also Section~\ref{sec:processplugins}). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.
 
-
 For these subsytems Docker will replace the default implementation by a Proxy, that forwards all calls over the REST interface to the plugin process.
 
 \item [Implications]~\\
-The use of the Plugins pattern means that the adaptability increases. 
+The use of the Plugins pattern means that the adaptability increases, because plugins allow the application to be adapted with new features.
+
+For the security, it means that there is extra communication over the API which has to be secured. The security of the plugins themselves cannot be guaranteed by Docker.
 
 \item [Related Patterns]~
 \begin{itemize}
-\item Proxy
+\item Broker
 \end{itemize}
 \end{description}
 
+\clearpage
+\section{Broker}
+\manuallabel{pattern:broker}{Broker}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.43]{5-patterns/images/broker.png}
+\caption{Broker for communication between Docker daemon and a plugin.}
+\label{fig:broker-pattern}
+\end{figure}
+
+\begin{description}
+\item [Traceability]~\\
+The use of the Broker pattern can be found in the proxy package in the source code:\\
+\verb| docker/pkg/proxy/tcp_proxy.go|\footnote{\url{https://github.com/docker/docker/blob/master/pkg/proxy/tcp_proxy.go}}.
+
+\item [Source]~\\
+Pattern-oriented Software Architecture - Volume 4, P.237 \cite{wiley4} \\
+Architectural Pattern Revisited - A Pattern Language, P.34 \cite{avgeriou2005architectural}
+
+\item [Issue]~\\
+Docker consists of multiple processes. For example, the client and daemon are separate processes and also the plugins are separate processes.
+
+These processes have to communicate with each other. However, dealing with the challenges of inter-process communication in the application code would greatly increase the complexity.
+The application components should be shielded form the details of the inter-process communication.
+
+\item [Assumptions/Constraints]~
+\begin{itemize}
+\item All the communication between the components in different processes have to go via the Broker.
+\end{itemize}
+
+\item [Solution]~\\
+Use a Broker to separate the logic for communication between the processes from the application functionality. Use a component-based model (using Proxies) to allow local components to invoke methods on components in remote processes as if they were local.
+
+\item [Rationale] ~\\ 
+The Broker pattern allows for and handles all the communication between the different processes. 
+
+This means that the logic for inter-process communication does not have to be implemented on a per-component basis.
+
+\item [Implications]~\\
+Using the Broker pattern is good for the portability, because it does not matter if a component is part of a different process (running locally or remotely).
+
+This pattern is also good for the security, since the Broker is a single entrypoint for all the inter-process communication, which makes it easier to secure.
+
+Additionally, the interoperability (compatibility) is increased, because it becomes possible for two components (in two different processes) to exchange information. 
+
+The Broker does however introduce a performance overhead, which decreases the performance efficiency.
+
+%TODO: reliability??
+\textit{Reliability?}
+
+%TODO: what about portability??
+
+\item [Related Patterns]~
+\begin{itemize}
+\item Plugin
+\item Proxy
+\item Client-Server
+\end{itemize}
+
+\end{description}
+
+
 \section{Proxy}
+\manuallabel{pattern:proxy}{Proxy}
 \begin{description}
 
 \item [Traceability]~\\
-The use of the \pattern{proxy} pattern becomes apparent from the source code in the repository on GitHub.
+The use of the {proxy} pattern becomes apparent from the source code in the repository on GitHub.
 For example, the proxy for the Volumes plugin can be found in \verb|docker/daemon/graphdriver/proxy.go| \footnote{\url{https://github.com/docker/docker/blob/master/daemon/graphdriver/proxy.go}}.
 
 \item [Source]~\\
@@ -335,17 +435,19 @@ Let the daemon only communicate with the plugins through a proxy. This proxy imp
 Whenever a call is done from the daemon to the plugin, it goes via the proxy, which communicates this call using a REST API to the plugin process.
 
 \item [Rationale] ~\\ 
-Using the \pattern{proxy} pattern allows the daemon to communicate with the plugins, without requiring direct access to these plugins. \\
+Using the {proxy} pattern allows the daemon to communicate with the plugins, without requiring direct access to these plugins. \\
 Also, because the subsystem component has the same interface as its proxy, the implementation of software using this component does not depend on whether the proxy is used or the original subsystem. 
 
 \item [Implications]~\\
-The use of the \pattern{proxy} pattern allows communication with the plugins, which increases the extendability. 
+The use of the {proxy} pattern allows communication with the plugins, which increases the extendability. 
+The Proxy has a positive impact on the portability because the location of the component accessed through the proxy is transparent for the caller.
 Because the communication with the process is not direct, there is some performance overhead.
-%TODO: what about portability??
+%TODO: what about security??
 
 \item [Related Patterns]~
 \begin{itemize}
 \item Plugin
+\item \ref{pattern:broker}
 \end{itemize}
 
 \end{description}
