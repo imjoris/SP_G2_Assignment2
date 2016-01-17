@@ -23,7 +23,21 @@ evaluation. Force Resolution Maps (FRM) are also utilized to present the result.
 \end{table}
 
 \section{Patterns}
+%TODO: some text must be here
+
 \subsection{Client-Server}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{6-evaluation/images/clientserver_frm.png}
+\caption{Force Resolution Map for Client-Server pattern}
+\label{fig:clientserver-frm}
+\end{figure}
+For the Client-Server pattern, the portability of the system increases, because the client and server (daemon) can be located on completely different systems.
+
+The security has a slight negative impact because for communication between the client and server to be possible, the client and server have to expose an interface, which has to be secured. 
+
+Reliability also has a small negative impact, because the communication between client and server relies on underlying communication infrastructure that could fail. 
+
 \subsection{Layers}
 \begin{figure}[H]
 \centering
@@ -38,10 +52,14 @@ images, which make it easier to deploy an application without knowing what
 platform running below it. Exposing TCP/IP connection, specifically REST,
 contributes to negative effect on the security. It means that any unwanted
 connections or attacks could possible exploit this hole. However, this weak
-point is compensated by other patterns. Furthermore, Decoupling some components
+point is compensated by other patterns. 
+
+Furthermore, decoupling some components
 means that the components below or above can be replicated in order to gain more
 reliability as it has more availability. Thus, this patterns give positive
-effect to the reliability. The summary of the Layers pattern evaluation is shown
+effect to the reliability. 
+
+The summary of the Layers pattern evaluation is shown
 in FRM in Figure \ref{fig:layers-frm}.
 
 \subsection{Shared repository}
