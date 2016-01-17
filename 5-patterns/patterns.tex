@@ -119,123 +119,153 @@ This will end up in more efficient memory allocation (better performance efficie
 % \clearpage
 
 
-\section{Shared repository}
+\section{Shared/Active repository}
 %\textit{Can we consider the docker registry a shared repository?}
 % Schemas
 %http://fr.slideshare.net/Docker/https-dldropboxusercontentcomu20637798docker-meetup-freiburg
 % http://blog.octo.com/en/docker-registry-first-steps/   http://fr.slideshare.net/egorpushkin/docker-demo   
 % Because of Pull/¨Push can we talk about Pattern publish suscribe ?   Asynhcronous Queuing ?
 
-The docker registry is considered as a Shared Repository. \\
+The Docker registry is considered as a Shared Repository. \\
 Two alternatives exist:DockerHub and Docker Trusted Registry. \\
+Docker has a feature which is an option choosen by the user and can be configured : the Notification Sytem \cite{docknotif} which makes the Shared Repository an \textbf{Active Repository}.
 
-Docker has a feature wich can be configured : the Notification Sytem which makes the Shared Repository an active Repository.
-\textit{https://docs.docker.com/registry/notifications/}
 
 \begin{description}
 \item[Traceability]~\\
-The Shared Repository pattern can be deducted from the online documentation : \textit{https://docs.docker.com/registry/} ``The Registry is a stateless, highly scalable server side application that \textbf{stores} and lets you \textbf{distribute} Docker images. A registry is a storage and content delivery system.''
+The Shared Repository pattern can be deducted from the online documentation : \cite{dockregistry} ``The Registry is a stateless, highly scalable server side application that \textbf{stores} and lets you \textbf{distribute} Docker images. A registry is a storage and content delivery system.''
+Everything dealing with the registry is in the "Registry folder" in the Docker repository.
 
 % File store.go , registry.go
 
 \item[Source]~\\
-%\EAA, P.322 \cite{eaa}\\
+
 Architectural Pattern Revisited - A Pattern Language, P.13 \cite{avgeriou2005architectural}
 
 \item[Issue]~\\
 Docker provided a way for the user to conrol the storage and distribution of images. \\
 The user wants to be alerted of new events happening in the registry through notifications. % Develop ?
 
-%\item[Assumptions/ Contrainst]~\\
+\item[Assumptions/ Contrainst]~\\
 
 \item[Solution]~\\ %how does it work ?
-Users interact with a registry by using docker push and pull commands.
+Users interact with a registry by using docker push and pull commands. % develop
 
 \item[Rationale]~\\ % in which way this pattern helps Docker? What is the goal ? KD
- After the integration of the Shared Repository Pattern each has one central repository containing their images and they can it access using a loggin. \\
+ After the integration of the Shared Repository Pattern each has one central repository containing their images and they can it access using a loggin.
+ Users can also access images from others users : The registry is a sharing unit. \\
+ 
+ \item [Implications]~\\
+Users can get their own images from the public registry and also the ones created by other users. % share
+The use of this pattern enhances Reusability, Changeability, Maintainability, Integrability because the Registry is central.
 
 \item [Related Patterns]~\\
-Event-driven Messaging
+Publish Subscribe 
+Brokered Authentication
 
-\item [Related Quality Attributes/Key drivers]~\\
-Reusability, Changeability, Maintainability, Integrability
-
+\textit{Users can share and distribute images in the Docker Registry.}
  \begin{figure}[H]
  \centering
- \includegraphics[scale=0.7]{5-patterns/images/docker-registry.png}
- \caption{Docker Registry}
+ \includegraphics[scale=0.7]{5-patterns/images/SharedRepo.png}
+ \caption{Docker Registry and Shared Repository Patterns}
  \label{fig:docker-registry}
  \end{figure}
-
+ 
 \end{description}
 
-\section{Event-Driven Messaging}
-
+\section{Publish Subscribe}
+% Deisgn Pattern : Event driven messaging 
 \begin{description}
 
 \item[Traceability]~\\
-The notification mechanism of the Docker Registry uses the Even-Driven Messaging Pattern.
+The notification mechanism of the Docker Registry uses the Publish Subscribe Pattern.
 
 \item[Source]~\\
-http://soapatterns.org/designpatterns/eventdrivenmessaging
+Pattern Oriented Software Architecture- Volume 1
+%http://soapatterns.org/designpatterns/eventdrivenmessaging
 
-\item[Issue]~\\ The user wants to be alerted about certain events occuring in his registry.
-The notification system needs a mechanism in order to send the events to the user.
+\item[Issue]~\\ The user wants to be alerted about certain events/changes occuring in his registry.
+The notification system needs a mechanism in order to send those events to the user.
 
 \item[Assumptions/Contrainst]~\\ This pattern is used at a lower level in the Docker Registry/Active Repository Pattern.
 
-%\item[Solution]~\\
+\item[Solution]~\\
 
 \item[Rationale]~\\ 
 
-\quote {"Notifications are sent to endpoints via HTTP requests. Each configured endpoint has isolated queues, retry configuration and http targets within each instance of a registry. When an action happens within the registry, it is converted into an event which is dropped into an inmemory queue. When the event reaches the end of the queue, an http request is made to the endpoint until the request succeeds. The events are sent serially to each endpoint but order is not guaranteed."}
+\quote {"Notifications are sent to endpoints via HTTP requests. Each configured endpoint has isolated queues, retry configuration and http targets within each instance of a registry. When an action happens within the registry, it is converted into an event which is dropped into an inmemory queue. When the event reaches the end of the queue, an http request is made to the endpoint until the request succeeds. The events are sent serially to each endpoint but order is not guaranteed."} % it seems like it's the way it works
+
+\item[Implications]~\\ After the integration of the Publish-Suscribe pattern %BLABLABLA
+The Publish Suscribe Pattern enhances Integrability,Modifiability because publisher and suscribers aren't directly connected.% develop
 
 \item [Related Patterns]~\\
-Active Repository Pattern
+Shared/Active Repository Pattern
 
-%\item [Related Quality Attributes/Key drivers]~\\
 
 \end{description}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=2]{images/EDM.png}
-\caption{Event-Driven Messaging}
-\label{fig:event-driven}
+\includegraphics[scale=0.7]{5-patterns/images/RegistryPS.png}
+\caption{Events managing- Publish Subscribe Pattern}
+\label{fig:publish-subscribe}
 \end{figure}
 
-\section{Direct Authentication}
-%Brokered Authentication
-
+\section{Brokered Authentication}
 
 \begin{description}
 
 \item[Traceability]~\\
-The Direct Authentication pattern can be deducted from the source code through the "auth.go" file from the Docker Github Repository. \\
-The notification mechanism of the Docker Registry uses this pattern.
-\quote{Since securing access to your hosted images is paramount, the Registry natively supports TLS and basic authentication.}
+From the v2 of Docker the authentication is done through a central service. \\
+The Brokered Authentication pattern can be deducted from the source code through the "auth.go" and the "token.go" files from the Docker Registry Github Repository. \\
+Docker Authentication \cite{dockauth}
+%https://docs.docker.com/registry/spec/auth/jwt/
+
+The main functions for authentication are : \\
+func tryV2TokenAuthLogin(authConfig *types.AuthConfig, params map[string]string, registryEndpoint *Endpoint) \\
+func loginV2(authConfig *types.AuthConfig, registryEndpoint *Endpoint, scope string) 
+% They allow the 
+
+\quote {This service is used by the official Docker Registry to authenticate clients and verify their authorization to Docker image repositories.}
 
 \item[Source]~\\
-\textit{https://msdn.microsoft.com/en-us/library/ff647715.aspx} \\
-%http://soapatterns.org/design_patterns/direct_authentication
-%https://docs.docker.com/registry/spec/auth/token/
+Brokered Authentication Pattern\cite{brokeredauth} \\
+%https://msdn.microsoft.com/en-us/library/ff650014.aspx
+
+\item[Issue]~\\ The Docker Registry needs an authentication system in order to ensure security when allowing pull and push commands from the user.
+
+\item[Assumptions/Contrainst]~\\ 
+
+    Registry clients which can understand and respond to token auth challenges returned by the resource server.
+    An authorization server capable of managing access controls to their resources hosted by any given service (such as repositories in a Docker Registry).
+    A Docker Registry capable of trusting the authorization server to sign tokens which clients can use for authorization and the ability to verify these tokens for single use or for use during a sufficiently short period of time.
 
 
-\item[Issue]~\\ The Docker Registry needs an authentication system in order to ensure security for the user through a login.
+\item[Solution]~\\ 
+An authentication broker that both parties trust independently issues a security token to the client. There is no direct relationship between the user and the registry.
+"An authentication broker with a centralized identity store assumes the responsibility for authenticating the consumer and issuing a token that the consumer can use to access the service."
+By using the Brokered Authentication the access to the Docker Registry is controlled for each user.
 
-%\item[Assumptions/Contrainst]~\\ 
-
-\item[Solution]~\\ By using the Direct Authentication the access to the Docker Registry is controlled for each user.
+%The consumer submits a request with credentials to the authentication broker (1), which the broker authenticates against a central identity store (2). The broker then responds with a token (3) that the consumer can use to access Services A, B, and C (4), none of which require their own identity store.  % sum up in my own words
+% Explaining the steps
+%In the Docker registry case the central identity store is the Authorization service from the picture.
 
 \item[Rationale]~\\ 
+
+\item[Implication]~\\ After the integration of the Brokered authentication the textbf{Security} for the registry is ensured. % why BLABLABLA but single point of failure
+The authentication broker manages trust centrally. This eliminates the need for each client and service to independently manage their own trust relationships.
 
 \item [Related Patterns]~\\
 Shared/Active Repository Pattern
 
-\item [Related Quality Attributes/Key drivers]~\\
-Security
-
 \end{description}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{5-patterns/images/Authentication.png}
+\caption{Authentication process of the Docker registry }
+\label{fig:auth-process}
+\end{figure}
 
 \section{Plugin}
 \label{sec:pattern-plugin}
