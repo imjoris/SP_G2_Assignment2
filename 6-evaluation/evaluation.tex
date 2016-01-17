@@ -39,6 +39,7 @@ The security has a slight negative impact because for communication between the 
 Reliability also has a small negative impact, because the communication between client and server relies on underlying communication infrastructure that could fail. 
 
 \subsection{Layers}
+
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.7]{6-evaluation/images/layers_frm.pdf}
@@ -62,9 +63,6 @@ effect to the reliability.
 The summary of the Layers pattern evaluation is shown
 in FRM in Figure \ref{fig:layers-frm}.
 
-\subsection{Shared repository}
-\subsection{Event-Driven Messaging}
-\subsection{Direct Authentication/Brokered Authentication}
 \subsection{Plugin}
 \begin{figure}[H]
 \centering
@@ -100,5 +98,33 @@ This pattern is also positive for the security of Docker, because it is a single
 \end{figure}
 The use of the Proxy pattern has a positive impact on the portability, because the location of the component accessed through the proxy is transparent for the caller.
 There is a small negative impact on security, because the invocation on the Proxy are forwarded to the component in another process. This communication has to be secured.
+
+
+\subsection{Shared/Active repository} 
+The use of the Shared Repository patterns has different impacts on the different key Drivers : \\ 
+% Explaining how it works and the KD matched
+\textbf{Reliability} \\
+\textbf{Security} is enhanced because the access to the central registry is controlled by a login for the users. \\
+\textbf{Portability} \\
+
+\subsection{Publish Suscribe}
+
+The publish subscribe pattern allows the event occuring in the Docker Registry to be triggered to the user who has previously subscribed to them. When those events happen the user receives a webhook notification.
+% Mechanism :
+% Endpoint, Http
+
+\textbf{Reliability} \\
+\textbf{Security} \\
+\textbf{Portability} \\
+
+\subsection{Brokered Authentication}
+% Process 
+\textbf{Reliability} can be an issue :
+The centralized authorization service can be a single point of failure. It may need to be online and available and if not the client can't get his token. If the authentication brokered becomes unavailable the registry and the client can't communicate with each other.
+texti{Solution :} redundant or back-up authentication broker. \\
+\textbf{Security} is ensured because the registry and the client don't communicate directly, the Bearer token is a barrier of protection between the two components.\\
+However security tokens must be signed by the authentication broker. If they are not, their integrity cannot be verified. This could result in attackers trying to issue false tokens. \\
+\textbf{Portability} \\
+
 
 \section{Overall system}
