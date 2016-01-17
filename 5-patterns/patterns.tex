@@ -16,7 +16,27 @@ This chapter describes the patterns used in Docker identified by us. We document
 
 \begin{description}
 \item [Traceability]~\\
-The Client-Server pattern can be deduced from the `What is Dockers architecture?' section of the online documentation\cite{dockerarchi}.
+The Client-Server pattern can be deduced from the `What is Dockers architecture?' section of the online documentation\cite{dockerarchi}.\\
+Also, when listing the dependencies using the dependency tools, very few packages use the docker daemon. \\
+The significant packages that use the daemon are:
+\begin{itemize}
+	\item github.com/docker/docker/container
+	\item github.com/docker/docker/layer
+\end{itemize}
+
+However, the daemon was referenced quite a lot when looking at the dependency tables discussed earlier in section \ref{sec:viewlogical}.\\
+It is also remarkable that if the dependencies to the docker container are listed, only the docker daemon seems to be referencing it.\\
+So clearly, the docker daemon is a main access point for modifying the containers.\\
+The documentation says that only the docker api communicates with the daemon. Clearly there is no package using the docker daemon, but also the api does not seem to be referencing the docker daemon. This is because the docker daemon uses the api through means of HTTP requests. As is made clear when looking at the code in $$api/client/cli.go$$. This contains the line: $$client, err := client.NewClient(host, verStr, clientTransport, customHeaders)$$
+Indicating that the client is not referencing the daemon through means of sending HTTP requests to the api.
+
+%github.com/docker/docker/builder
+%github.com/docker/docker/container
+%github.com/docker/docker/daemon
+%github.com/docker/docker/distribution
+%github.com/docker/docker/docker
+%github.com/docker/docker/dockerinit
+%github.com/docker/docker/layer
 
 \item [Source]~\\
 Architectural patterns revisited -- a pattern language, P. 29 \cite{avgeriou2005architectural}
