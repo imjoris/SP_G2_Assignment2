@@ -99,11 +99,13 @@ This pattern is also positive for the security of Docker, because it is a single
 The use of the Proxy pattern has a positive impact on the portability, because the location of the component accessed through the proxy is transparent for the caller.
 There is a small negative impact on security, because the invocation on the Proxy are forwarded to the component in another process. This communication has to be secured.
 
+
 \subsection{Shared/Active repository} 
+The use of the Shared Repository patterns has different impacts on the differents Key Drivers : 
 % Explaining how it works and the KD matched
-Reliability
-Security
-Portability
+Reliability \\
+Security is enhanced because the repository is central so has its access who is controlled by a login for the users. \\
+Portability \\
 
 \subsection{Publish Suscribe}
 
@@ -111,15 +113,15 @@ The publish subscribe pattern allows the event occuring in the Docker Registry t
 % Mechanism :
 % Endpoint, Http
 
-Reliability
-Security
-Portability
+Reliability \\
+Security \\
+Portability \\
 
 \subsection{Brokered Authentication}
 % Process 
-Reliability
-Security
-Portability
+Reliability \\
+Security \\
+Portability \\
 
 
 \section{Overall system}
