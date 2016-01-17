@@ -232,7 +232,7 @@ The notification system needs a mechanism in order to send those events to the u
 
 \quote {"Notifications are sent to endpoints via HTTP requests. Each configured endpoint has isolated queues, retry configuration and http targets within each instance of a registry. When an action happens within the registry, it is converted into an event which is dropped into an inmemory queue. When the event reaches the end of the queue, an http request is made to the endpoint until the request succeeds. The events are sent serially to each endpoint but order is not guaranteed."} % it seems like it's the way it works
 
-\item[Implications]~\\ After the integration of the Publish-Suscribe pattern %BLABLABLA
+\item[Implications]~\\ %After the integration of the Publish-Suscribe pattern BLABLABLA
 The Publish Suscribe Pattern enhances Integrability,Modifiability because publisher and suscribers aren't directly connected.% develop
 
 \item [Related Patterns]~\\
@@ -273,9 +273,9 @@ Brokered Authentication Pattern\cite{brokeredauth} \\
 
 \item[Assumptions/Contrainst]~\\ 
 
-    Registry clients which can understand and respond to token auth challenges returned by the resource server.
-    An authorization server capable of managing access controls to their resources hosted by any given service (such as repositories in a Docker Registry).
-    A Docker Registry capable of trusting the authorization server to sign tokens which clients can use for authorization and the ability to verify these tokens for single use or for use during a sufficiently short period of time.
+  %  \quote {Registry clients which can understand and respond to token auth challenges returned by the resource server. \\
+   % An authorization server capable of managing access controls to their resources hosted by any given service (such as repositories in a Docker Registry). \\
+   % A Docker Registry capable of trusting the authorization server to sign tokens which clients can use for authorization and the ability to verify these tokens for single use or for use during a sufficiently short period of time.} \\
 
 
 \item[Solution]~\\ 
