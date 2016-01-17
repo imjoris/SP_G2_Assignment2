@@ -405,8 +405,9 @@ Also, because the subsystem component has the same interface as its proxy, the i
 
 \item [Implications]~\\
 The use of the {proxy} pattern allows communication with the plugins, which increases the extendability. 
+The Proxy has a positive impact on the portability because the location of the component accessed through the proxy is transparent for the caller.
 Because the communication with the process is not direct, there is some performance overhead.
-%TODO: what about portability??
+%TODO: what about security??
 
 \item [Related Patterns]~
 \begin{itemize}
