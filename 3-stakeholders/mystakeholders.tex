@@ -2,7 +2,7 @@
 
 \section{Stakeholders}
 \label{sec:stakeholders}
-This section presents the stakeholders and their concerns. We list the main concern in bold and, where applicable, the specific concern in parentheses.
+This section presents the stakeholders and their concerns. The main concerns are listed in bold and, where applicable, the specific concern in parentheses.
 
 %\item [Product owner] is the owner of the system. This stakeholder funds the project.  This affects the quality attributes usability and availability.
 \subsection*{Software Developers}
@@ -64,7 +64,7 @@ The software maintainers expect Docker to be reliable, portable, efficient and s
 \item[\textbf{Performance efficiency}] The software maintainers want Docker to have a good performance. They want the resources of their servers to be used as efficiently as possible and therefore want Docker to have almost no overhead, like Virtual Machines often do have.
 
 
-\item[\textbf{Security}] Software maintainers want Docker to be secure, so they can run their applications inside the containers without Docker negatively affecting the security of their application.
+\item[\textbf{Security}] Software maintainers want Docker to be secure, so applications can be run inside the containers, without Docker negatively affecting the security of this application.
 
 
 \end{description}
@@ -82,7 +82,7 @@ There are numerous cloud providers offering services which are based on Docker\f
 
 \item[\textbf{Compatibility} (Co-Existence)] Docker has to share the environment with the existing architecture of the cloud providers.
 
-\item[\textbf{Reliability}] The customers using the cloud providers' services expect a high reliability. If cloud providers are to implement Docker in their architectures, they need Docker to have good reliability.
+\item[\textbf{Reliability}] The customers using the cloud providers' services expect a high reliability. If cloud providers are to implement Docker in their architectures, they need Docker to be as reliable as running the application naively or inside a VM.
 
 \item[\textbf{Security}] Cloud providers want to offer a secure cloud computing environment to their customers.
 \end{description}
@@ -101,7 +101,7 @@ Docker has donated its container format and runtime, known as `runC' to this ini
 \textbf{Concerns}
 \begin{description}[labelindent=25pt,style=multiline,leftmargin=4.0cm,font=\normalfont\itshape]
 
-\item[\textbf{Portability}] The main goal of the initiative is to standardize the container format and runtime used also by the Docker project. This allows users of Docker to use the Docker containers with other container runtimes.
+\item[\textbf{Portability}] The main goal of the initiative is to standardize the format for the container and the runtime. These standards are used by Docker to allow using Docker containers with other container runtimes.
 
 \item[\textbf{Compatibility} (Interoperability)] Docker has to be able to work with the containers from the initiative.
 

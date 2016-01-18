@@ -7,7 +7,6 @@
 %	PRE-DOCUMENT PAGES
 %----------------------------------------------------------------------------------------
 %
-%\makeglossaries
 %
 %\graphicspath{{img/}}
 %\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
@@ -19,6 +18,8 @@
 \input{0-predocument/packages.tex}
 \input{0-predocument/commands.tex}
 \input{0-predocument/customization.tex}
+\input{0-predocument/glossary.tex}
+\makenoidxglossaries
 
 \title{Pattern-based Recovery \& Evaluation:\\ Docker}		
 
@@ -61,6 +62,8 @@
 %	\fancyhead{} % get rid of headers on plain pages
 %	\renewcommand{\headrulewidth}{0pt} % and the line
 %}
+%\makeglossaries
+
 
 \setcounter{tocdepth}{2}
 
@@ -91,11 +94,13 @@
 %\iftotaltables\listoftables\fi
 %\iftotallstlistings\lstlistoflistings\fi
 
-
 \clearpage
 \addcontentsline{toc}{section}{Table of Contents}
 \tableofcontents
 
+\glsaddall
+%\printglossary
+\printnoidxglossaries
 %Conditionally insert List of Figures
 \conditionalLoF 
 

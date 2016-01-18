@@ -9,6 +9,15 @@
 % And it those subsubsections are also included in the table of content
 % The following commands make sure that this numbering/listing happens as in the example.
 
+\newcommand*{\captionsource}[2]{%
+  \caption[{#1}]{%
+    #1%
+    \\
+    \textbf{Source:} #2%
+  }%
+}
+
+
 %\begingroup
 \setlength{\LTleft}{-20cm plus -1fill}
 \setlength{\LTright}{\LTleft}

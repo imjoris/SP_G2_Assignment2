@@ -19,8 +19,8 @@ gives brief explanation with regard to Docker. Chapter \ref{ch:stakeholders}
 elaborates on the stakeholders involved in the Docker project and its
 corresponding key-drivers. Chapter \ref{ch:softwarearch} depicts the
 architecture of Docker using logic and process views to make it more clear.
-Patterns, which are discovered in the Docker project, are documented in chapter
-\ref{ch:patterns}. Evaluation is presented in chapter \ref{ch:evaluation}.
+The patterns that were identified in the Docker project, are documented in chapter
+\ref{ch:patterns}. Evaluation is presented in chapter \ref{ch:archreview}.
 Chapter \ref{ch:recommendations} gives several recommendation for the Docker
 project. Lastly, a conclusion is drawn in chapter \ref{ch:conclusion}.
 
@@ -29,21 +29,41 @@ Open Source Software} process to recover the architecture \cite{idapo}. The
 PBAR\footnote{Pattern-Based Architecture Reviews} approach is used to perform
 the evaluation \cite{pbar}.
 
-There are 12 steps in IDAPO. Those steps are:
-\begin{enumerate}
-\item identifying the type and domain
-\item identifying used technologies
-\item studying used technologies
-\item identifying candidate patterns
-\item reading patterns literature
-\item studying the documentation
-\item studying the source code
-\item studying components \& connectors
-\item identifying patterns and variants
-\item validating identified patterns
-\item getting the feedback from community
-\item register pattern usage
-\end{enumerate}
+There are 12 steps in IDAPO. Those steps are:\\
+\begin{table}[H]
+\begin{tabular}{l l l}
+\textbf{Step} & \textbf{Description} & \textbf{Chapter} \\
+1 & identifying the type and domain & \ref{ch:context}\&\ref{ch:stakeholders} \\
+2 & identifying used technologies & \ref{ch:softwarearch} \\
+3 & studying used technologies & \ref{ch:softwarearch} \\
+4 & identifying candidate patterns & \ref{ch:softwarearch} \\
+5 	& 	reading patterns literature 	& 	\ref{ch:softwarearch} 	\\
+6 	& 	studying the documentation 		& 	\ref{ch:patterns} 		\\
+7 	& 	studying the source code 		&	\ref{ch:patterns} \\
+8 & studying components \& connectors 	&	\ref{ch:patterns} \\
+9 & identifying patterns and variants 	&	\ref{ch:patterns} \\
+10 & validating identified patterns 	& 	\ref{ch:patterns} \\
+11 & getting the feedback from community 	&	\ref{ch:patterns} \\
+12 & register pattern usage 				&	\ref{ch:patterns} \\
+\end{tabular}
+\caption{IDAPO steps}
+\label{table:idaposteps}
+\end{table}
+
+%\begin{enumerate}
+%\item identifying the type and domain
+%\item identifying used technologies
+%\item studying used technologies
+%\item identifying candidate patterns
+%\item reading patterns literature
+%\item studying the documentation
+%\item studying the source code
+%\item studying components \& connectors
+%\item identifying patterns and variants
+%\item validating identified patterns
+%\item getting the feedback from community
+%\item register pattern usage
+%\end{enumerate}
 
 Chapter \ref{ch:context} and Chapter \ref{ch:stakeholders} correspond to step
 (1) of IDAPO. Step (2) to (5) are related to Chapter \ref{ch:softwarearch},
@@ -51,10 +71,9 @@ where used technologies are presented in the architecture. Chapter
 \ref{ch:patterns} corresponds to step (6) to (12), where the result of those
 steps is the pattern documentation.
 
-While IDAPO cares about the pattern recovery inside Docker, PBAR process is
-responsible for the evaluation of the architecture. PBAR also specifies pattern-
-based recovery high-level process. The evaluation is documented in Chapter
-\ref{ch:evaluation}.
+While IDAPO is used to recover the patterns from the Docker project, PBAR is used to review and evaluate this recovered architecture. This review is documented in Chapter \ref{ch:archreview}.
+%PBAR specifies pattern-based recovery high-level process. 
+
 
 %\begin{table}
 %\begin{tabular}{c c c}
