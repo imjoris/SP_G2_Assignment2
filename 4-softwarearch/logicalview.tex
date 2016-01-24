@@ -78,16 +78,16 @@ The following sections will discuss the most important parts of docker in more d
 The client is a small binary and acts as the primary user interface to Docker. The user inputs commands into the client and the client forwards these commands to the Docker daemon, which executes commands.
 The Docker client is capable of connecting to daemons running on the local machine, as well as connecting to daemons running on remote machines over the internet.
 
-\subsection{Server / Daemon}
+\subsection{Docker host: Daemon (server)}
 The Docker daemon is a process running on the host machine (as can be seen in Figure~\ref{fig:dockerarchipic}). This process is usually started when the host machine starts and runs in the background. It exposes a REST interface and listens for requests coming from clients on the same or remote hosts.
 
-\subsubsection{Images}
+\subsection{Docker host: Images}
 Docker images can be interpreted as a read-only template from which Docker containers are
 started. A Docker image consists of a stack of layers which are bonded by a union file system. These layers support reusability and sharing.
 
 Docker images can be built from text files (`Dockerfiles'), which contain instructions like installing software and copying files.
 
-\subsubsection{Containers}
+\subsection{Docker host: Containers}
 % running usin libcontainer from the open specification
 Docker containers are based on Docker images. These images consist of read-only
 layers. Docker containers contain an additional thin writable layer on top of the images to
@@ -99,6 +99,7 @@ each containers. Instead, they will share the same image with their own writable
 To run Docker containers, Docker uses the \verb|libcontainer| library, which is part of the Open Container Initiative.
 
 \subsection{Registry}
+\label{subsec:dockerregistry}
 A Docker registry is a place where Docker images can be stored and retrieved. The Docker daemon
 fetches desired Docker images from this repository. This registry can be either public or private and may thus reside behind a firewall. Docker
 Hub\footnote{\url{https://hub.docker.com/}} is one example of a docker registry
