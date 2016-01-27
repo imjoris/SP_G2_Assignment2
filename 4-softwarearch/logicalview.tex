@@ -15,6 +15,10 @@ Docker is made using the the go language created by Google. Docker is an applica
 Several tools have been used to get information about the dependencies of the different packages \cite{goviz} \cite{godepgraph}. Using these tools, statistics can be generated about the usage of the packages. This can give an insight about the most important packages of the system.\\
 The packages that are most used by other packages is listed below.
 
+\begin{table}
+\label{tab:deptablehighestin}
+\caption{List of packages sorted by the amount of incoming dependencies.}
+
 \begin{tabular}{l l l}
 \textbf{In} & \textbf{Out} & \textbf{Package} \\
 %23 & 10 & github.com/docker/notary/tuf/data \\
@@ -39,11 +43,17 @@ The packages that are most used by other packages is listed below.
 104 & 9 & github.com/docker/docker/api/types \\
 187 & 0 & github.com/Sirupsen/logrus \\
 \end{tabular} 
+\end{table}
+
 
 The most referenced package is the logging package called ``logrus''. After that it is the api package that is most referenced. This is to be expected, since it is the only way to communicate with the docker daemon \cite{dockerapi}. \\
 The ``pkg'' package, the third most referenced package, is, ``a collection of utility packages used by the Docker project without being specific to its internals.''. This means that it can contain any kind of logic for which the developers decided that it should not go in to the core codebase in order to keep the core small \cite{dockerpkg}. The specific mkflag package that is referenced here, is responsible for parsing the multiple flags (hence mflag) that are passed to the command-line interface \cite{dockermflag}. \\
 The command line interface (cli) package is most used after this. The docker container package seems to be used by a lot of packages (In) and reference a lot of packages itself as well (Out). Same goes for the docker daemon and the docker image with increasingly less references. \\
 Next, the the packages that have the most references to other packages are listed.
+
+\begin{table}
+\label{tab:deptablehighestin}
+\caption{List of packages sorted by the amount of outgoing dependencies.}
 
 \begin{tabular}{l l l}
 %2 & 35 & github.com/docker/docker/daemon/execdriver/native \\
@@ -58,6 +68,7 @@ Next, the the packages that have the most references to other packages are liste
 1 & 235 & github.com/docker/docker/api/client \\
 11 & 349 & github.com/docker/docker/daemon \\
 \end{tabular}
+\end{table}
 
 Not surprisingly, the docker daemon has the most references. This is because it is responsible for making the containers run in a secure and reliable way. While at the same time the daemon handles requests coming from the API, which is the package with the second most amount of outgoing references.\\
 The container package has a lot of references to the runc package, which is a ``CLI tool for spawning and running containers according to the Open Container Format (OCF) specification.'' \cite{opencontainersrunc}. \\
