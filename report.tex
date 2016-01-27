@@ -87,6 +87,10 @@
 \setcounter{page}{1}
 \pagenumbering{roman}
 
+% Joris: Has to be called after the title page, because that page messes up the float styles.
+\let\newfloat\relax
+\floatsetup[table]{capposition=top}
+
 \addcontentsline{toc}{section}{Revisions}
 \input{0-predocument/authorRevisionpage.tex}
 

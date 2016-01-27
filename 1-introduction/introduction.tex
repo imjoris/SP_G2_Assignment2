@@ -24,15 +24,26 @@ The patterns that were identified in the Docker project, are documented in chapt
 Chapter \ref{ch:recommendations} gives several recommendation for the Docker
 project. Lastly, a conclusion is drawn in chapter \ref{ch:conclusion}.
 
-This project utilizes the IDAPO\footnote{Identifying Architectural Patterns in
-Open Source Software} process to recover the architecture \cite{idapo}. The
-PBAR\footnote{Pattern-Based Architecture Reviews} approach is used to perform
-the evaluation \cite{pbar}.
+Obtaining and gathering information about Docker is done using the IDAPO \cite{idapo} approach\footnote{Identifying Architectural Patterns in
+Open Source Software}. This approach defines the process of gathering the information in a clear and structured way.
+ This approach is designed to gather the relevant information that will eventually lead to exposing the architecture of docker and with it, the architectural patterns. \\
+ % evaluation of the patterns, the 
+% PBAR
+The recovered patterns will be evaluated using the \footnote{Pattern-Based Architecture Reviews} method \cite{pbar}. This method provides a time-efficient yet reliable way of reviewing the the software architecture and the software patterns.\\
+The IDAPO process consists of 12 distinct steps. Each step will be handled and discussed in this document. The following table, Table \ref{table:idaposteps} relates the IDAPO steps to its discussion in this document.
 
-There are 12 steps in IDAPO. Those steps are:\\
+
+
+
 \begin{table}[H]
+\caption{IDAPO steps}
+\label{table:idaposteps}
+
+
 \begin{tabular}{l l l}
+
 \textbf{Step} & \textbf{Description} & \textbf{Chapter} \\
+\toprule
 1 & identifying the type and domain & \ref{ch:context}\&\ref{ch:stakeholders} \\
 2 & identifying used technologies & \ref{ch:softwarearch} \\
 3 & studying used technologies & \ref{ch:softwarearch} \\
@@ -46,8 +57,8 @@ There are 12 steps in IDAPO. Those steps are:\\
 11 & getting the feedback from community 	&	\ref{ch:patterns} \\
 12 & register pattern usage 				&	\ref{ch:patterns} \\
 \end{tabular}
-\caption{IDAPO steps}
-\label{table:idaposteps}
+
+
 \end{table}
 
 %\begin{enumerate}
