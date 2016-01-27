@@ -53,8 +53,13 @@ Docker uses a {Client-Server} architecture. The client, a binary supplying a com
 
 \item [Assumptions/Constraints]~
 \begin{itemize}
-\item The versions of the client binary and the server binary should match. Different versions can cause problems when changes to the API were made.
-\item All the services offered by the daemon have to be made available to the client using a REST interface.
+\item The docker daemon should support the API calls made by the client. This means that if the client is outdated, the daemon is assumed to have the legacy controllers needed to still provide the wanted functionality.
+
+%\item The versions of the client binary and the server binary should match. Different versions can cause problems when changes to the API were made.
+%either the docker and client versions match or the docker daemon contains the needed
+
+\item The REST interface that the daemon offers is assumed to be available and accessible by the client
+
 \end{itemize}
 ~\\[-1.7cm]
 \item [Rationale] ~\\
@@ -114,8 +119,7 @@ Docker's features, e.g., hosting the image, creating image, running container,
 and daemon supervision, vary in terms of functionality. Single
 implementation of those features will certainly result in abundant usage of
 resource because hosting the image means there must be huge amount of disk space
-available. Overlapping may also occur since multiple Docker instances may have
-the same images, which is actually can be stored and organized elsewhere. Docker
+available. Overlapping may also occur since multiple Docker instances may use the same image or configuration file, which is actually can be stored and organized elsewhere. Docker
 also has several dependencies, especially the Linux kernel components
 (\texttt{namespaces} and \texttt{cgroups}) for OS level virtualization.
 Furthermore, Docker mostly needs remote supervision or control, since usually
@@ -184,10 +188,18 @@ on reliability.
 % http://blog.octo.com/en/docker-registry-first-steps/   http://fr.slideshare.net/egorpushkin/docker-demo   
 % Because of Pull/¨Push can we talk about Pattern publish suscribe ?   Asynhcronous Queuing ?
 
-The Docker registry is considered as a Shared Repository. \\
-Two alternatives exist:DockerHub and Docker Trusted Registry. \\
-Docker has a feature which is an option choosen by the user and can be configured : the Notification Sytem \cite{docknotif} which makes the Shared Repository an \textbf{Active Repository}.
+%TODO joris: Add ref to registry
+Using the Docker files and the docker commands, personalized images can be created that support a specified project. Docker allows these images to be stored in a docker registry, earlier discussed in \ref{}. Anyone with access to this registry can pull this image and use it.\\
+Users of this project its application can pull the image in order to run the project and obtain the desired functionality. This registry also allows the image to be easily shared with other developers working on any related project.\\
+This makes the docker registry a shared repository.
+%TODO joris: add concluding sentence: 'So because the image can be easily shared, it increases porta/mainta/sec... enz.
 
+
+%TODO joris: is this relevant? not specific to the pattern, should be discussed in logical view or earlier?
+% Docker itself hosts a few registries that can be used called ``DockerHub'' \cite{} and ``Docker Trusted''. 
+%Two alternatives exist:DockerHub and Docker Trusted Registry. \\
+
+The Docker registry also contains functionality for sending notifications when certain events occur \cite{docknotif}. This makes the docker registry an active repository as well.
 
 \begin{description}
 \item[Traceability]~\\
@@ -201,10 +213,10 @@ Everything dealing with the registry is in the "Registry folder" in the Docker r
 Architectural Pattern Revisited - A Pattern Language, P.13 \cite{avgeriou2005architectural}
 
 \item[Issue]~\\
-Docker provided a way for the user to conrol the storage and distribution of images. \\
+Docker provided a way for the user to control the storage and distribution of images. \\
 The user wants to be alerted of new events happening in the registry through notifications. % Develop ?
 
-\item[Assumptions/ Contrainst]~\\
+\item[Assumptions/ Constraint]~\\
 
 \item[Solution]~\\ %how does it work ?
 Users interact with a registry by using docker push and pull commands. % develop
@@ -236,21 +248,26 @@ Brokered Authentication
 \begin{description}
 
 \item[Traceability]~\\
-The notification mechanism of the Docker Registry uses the Publish Subscribe Pattern.
+The notification mechanism of the Docker Registry uses the Publish Subscribe Pattern \cite{docknotif}.
 
 \item[Source]~\\
+%TODO joris: add more books/refs
 Pattern Oriented Software Architecture- Volume 1
 %http://soapatterns.org/designpatterns/eventdrivenmessaging
 
-\item[Issue]~\\ The user wants to be alerted about certain events/changes occuring in his registry.
+\item[Issue]~\\ The user wants to be alerted about certain events/changes that occur in a registry.
 The notification system needs a mechanism in order to send those events to the user.
 
-\item[Assumptions/Contrainst]~\\ This pattern is used at a lower level in the Docker Registry/Active Repository Pattern.
+\item[Assumptions/Contrainst]~\\ 
+This pattern is used at a lower level in the Docker Registry/Active Repository Pattern.
+
+
 
 \item[Solution]~\\
 
 \item[Rationale]~\\ 
 
+%TODO fix, use POSA or something
 \begin{quote}
 "Notifications are sent to endpoints via HTTP requests. Each configured endpoint has isolated queues, retry configuration and http targets within each instance of a registry. When an action happens within the registry, it is converted into an event which is dropped into an inmemory queue. When the event reaches the end of the queue, an http request is made to the endpoint until the request succeeds. The events are sent serially to each endpoint but order is not guaranteed."% it seems like it's the way it works
 \end{quote} 
@@ -345,9 +362,11 @@ Additionally, the directories \verb|docker/pkg/plugins/| \footnote{\url{https://
 Patterns of Enterprise Application Architecture, P. 499 \cite{eaa}
 
 \item [Issue]~\\
-The users of Docker want to have customization or require functionality that is not included in Docker, by extending Docker with third party custom-built tools. This customization means that third parties should be able to write their own tools that extend Docker's core functionality\cite{dockerpluginblog}.
+%TODO joris: make neat sentence
+The users of Docker want to have customization or require functionality that is not included in Docker, by extending Docker with third party custom-built tools. This customization means that third parties are able to write their own tools that extend Docker's core functionality\cite{dockerpluginblog}.
 
-The implementation of such third party custom-built tools are only available at runtime.
+%TODO joris: add consequences of this issue (regarding key d's?).
+The third party custom-built tools are only usable during runtime.
 
 \item [Assumptions/Constraints]~
 \begin{itemize}
