@@ -32,15 +32,10 @@ This chapter describes the patterns used in Docker. The patterns are documented 
 \begin{description}
 \item [Traceability]~\\
 The Client-Server pattern can be deduced from the `What is Dockers architecture?' section of the online documentation\cite{dockerarchi}.\\
-Also, when listing the dependencies using the dependency tools, very few packages use the docker daemon. \\
-The significant packages that use the daemon are:
-\begin{itemize}
-	\item github.com/docker/docker/container
-	\item github.com/docker/docker/layer
-\end{itemize}
-
-However, the daemon was referenced quite a lot when looking at table \ref{table:deptablehighestin}, that lists the packages with the highest amount of incoming references, earlier discussed in section \ref{sec:viewlogical}.
-It is also remarkable that only the daemon seems to be referencing the container, when listing the dependencies. So clearly, the docker daemon is a main access point for modifying the containers.\\
+When listing the dependencies using the dependency tools, very few packages use the docker daemon. Looking at the high-level parts of docker, the main package that references the daemon is the docker container.
+However, the daemon seems to be referenced quite a lot when looking at table \ref{table:deptablehighestin}(section \ref{sec:viewlogical}), that lists the packages with the highest amount of incoming references. \\
+This shows that the container part of docker is heavily using the docker daemon.\\
+It is remarkable that when listing the dependencies of the daemon. It seems to only reference the container. So clearly, the docker daemon is a main access point for modifying the containers.\\
 The documentation says that only the docker api communicates with the daemon. Clearly there is no package using the docker daemon, but also the api does not seem to be referencing the docker daemon. This is because the docker api uses the daemon through means of HTTP requests. As is made clear when looking at the code in $$api/client/cli.go$$
 This contains the line: 
 $$client, err := client.NewClient(host, verStr, clientTransport, customHeaders)$$
@@ -75,9 +70,9 @@ Docker uses a {Client-Server} architecture. The client, a binary supplying a com
 %either the docker and client versions match or the docker daemon contains the needed
 
 \item The REST interface that the daemon offers is assumed to be available and accessible by the client
-
 \end{itemize}
 ~\\[-1.7cm]
+
 \item [Rationale] ~\\
 The daemon is a background process, which supplies the requested services to the client. The daemon exposes a REST interface.
 
