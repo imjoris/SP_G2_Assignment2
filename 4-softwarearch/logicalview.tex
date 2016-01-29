@@ -120,3 +120,32 @@ A Docker registry is a place where Docker images can be stored and retrieved. Th
 fetches desired Docker images from this repository. This registry can be either public or private and may thus reside behind a firewall. Docker
 Hub\footnote{\url{https://hub.docker.com/}} is one example of a docker registry
 hosted by Docker. A registry provides an easy way to distribute images among different hosts.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PARTS FROM PATTERNS CHAPTER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TODO joris: organize chapter into logical sections
+%from cli-serv rationale:
+\subsection{Client-Server rationale}
+The daemon is a background process, which supplies the requested services to the client. The daemon exposes a REST interface.
+For Docker, the client can be configured to connect to other daemon processes than the one running on the local machine. It can be configured to connect to remote Docker daemons as well, allowing the user to issue commands to daemons running remotely.
+
+%from cli-serv solution:
+\subsection{Client-server solution}
+Docker uses a {Client-Server} architecture. The client, a binary supplying a command-line interface, acts as the primary interface for the user. The user enters commands into this client, which are then sent to a server: the Docker daemon.
+
+\subsection{Broker authentication rationale}
+Docker discovers plugins by looking for .sock, .spec or .json files in the plugin directories on the host system. These files describe how Docker can communicate with the plugins using the REST API (usually via a Unix socket).
+The plugins themselves run as separate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (see also Section~\ref{sec:processplugins}). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.
+For these subsytems Docker will replace the default implementation by a Proxy, that forwards all calls over the REST interface to the plugin process.
+
+\section{Proxy rationale}
+Using the {proxy} pattern allows the daemon to communicate with the plugins, without requiring direct access to these plugins.
+Also, because the subsystem component has the same interface as its proxy, the implementation of software using this component does not depend on whether the proxy is used or the original subsystem.
+
+
+
+
+
+
+

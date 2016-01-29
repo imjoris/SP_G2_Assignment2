@@ -54,12 +54,13 @@ Indicating that the client is referencing the daemon through means of sending HT
 Architectural patterns revisited -- a pattern language, P. 29 \cite{avgeriou2005architectural}
 
 \item [Issue]~\\
+Docker containers can not be be controlled remotely.
 It should be possible for Docker containers to be controlled remotely and a single interface should be able to control containers on multiple hosts (e.g. in the cloud).
 
-Additionally, certain operating systems lack the underlying technologies necessary for running containers. For those OSes, it should be possible to call remote daemons running on operating systems which are supported. % /WindowsBashing
+Additionally, certain operating systems lack the underlying technologies necessary for running containers. The inability to remotely control containers from these operating systems prevents these systems from using docker in any way.
 
 \item [Solution]~\\
-Docker uses a {Client-Server} architecture. The client, a binary supplying a command-line interface, acts as the primary interface for the user. The user enters commands into this client, which are then sent to a server: the Docker daemon. 
+Docker uses a {Client-Server} architecture. The client, a binary supplying a command-line interface, acts as the primary interface for the user. The user enters commands into this client, which are then sent to a server: the Docker daemon.
 
 
 \item [Assumptions/Constraints]~
@@ -74,11 +75,6 @@ Docker uses a {Client-Server} architecture. The client, a binary supplying a com
 ~\\[-1.7cm]
 
 \item [Rationale] ~\\
-The daemon is a background process, which supplies the requested services to the client. The daemon exposes a REST interface.
-
-For Docker, the client can be configured to connect to other daemon processes than the one running on the local machine. It can be configured to connect to remote Docker daemons as well, allowing the user to issue commands to daemons running remotely.
-
-%todo move above to architecture chapter 
 
 By separating the client and server it is possible to use the same client to issue commands to different daemons, running on different hosts.
 It is also possible to use the client on operating systems that do not support running containers.
@@ -88,9 +84,9 @@ The use of the {Client-Server} pattern results in two different executable binar
 
 The use of the {Client-Server} pattern increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
 
-Additionally, the portability is increased, since the client can run on Operating Systems that cannot run containers themselves.
+Additionally, the portability is increased, since the client can run on Operating Systems that are unable run containers themselves.
 
-There is also an impact on security, because the communication between the client and the server has to be secured.
+There is also an impact on security, because the communication between the client and the server needs to be secured. Because docker is composed of different layers, securing this communication can be done from a single place. This is discussed in section \ref{sec:layers-pattern}, which discusses the layers pattern.
 
 \item [Related Patterns]~
 \begin{itemize}
@@ -100,6 +96,7 @@ There is also an impact on security, because the communication between the clien
 \end{description}
 
 \section{Layers}
+\label{sec:layers-pattern}
 % see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
 Layers pattern is a architectural pattern that consists of several layers, which
 each layer provides a set of services to the layer above and uses the services
@@ -140,7 +137,7 @@ although using virtual machine. The connection between local and remote
 components are carried out through secured TCP/IP connection.
 
 \item [Solution]~\\
-Docker will be separated into several components that have their own
+Docker is separated into several components that have their own
 functionalities, as can be seen in Figure \ref{fig:layers-pattern}. The main components are:
 \begin{itemize}
     \item Containers
@@ -313,7 +310,7 @@ This service is used by the official Docker Registry to authenticate clients and
 Brokered Authentication Pattern\cite{brokeredauth} \\
 %https://msdn.microsoft.com/en-us/library/ff650014.aspx
 
-\item[Issue]~\\ The Docker Registry needs an authentication system in order to ensure security when allowing pull and push commands from the user.
+\item[Issue]~\\ The Docker Registry needs an authentication system in order to ensure security of pulling and pushing images.
 
 \item[Assumptions/Contrainst]~\\ 
 
@@ -321,10 +318,10 @@ Brokered Authentication Pattern\cite{brokeredauth} \\
    % An authorization server capable of managing access controls to their resources hosted by any given service (such as repositories in a Docker Registry). \\
    % A Docker Registry capable of trusting the authorization server to sign tokens which clients can use for authorization and the ability to verify these tokens for single use or for use during a sufficiently short period of time.} \\
 
-
+%"An authentication broker with a centralized identity store assumes the responsibility for authenticating the consumer and issuing a token that the consumer can use to access the service."
 \item[Solution]~\\ 
-An authentication broker that both parties trust independently issues a security token to the client. There is no direct relationship between the user and the registry.
-"An authentication broker with a centralized identity store assumes the responsibility for authenticating the consumer and issuing a token that the consumer can use to access the service."
+An authentication broker that both parties trust independently, issues a security token to the client. The client can use this token to authenticate himself. This means that there is no direct relationship between the user and the registry.
+
 By using the Brokered Authentication the access to the Docker Registry is controlled for each user.
 
 %The consumer submits a request with credentials to the authentication broker (1), which the broker authenticates against a central identity store (2). The broker then responds with a token (3) that the consumer can use to access Services A, B, and C (4), none of which require their own identity store.  % sum up in my own words
@@ -378,11 +375,6 @@ The additional functionality that is added, is only usable during run time.
 Docker uses the Plugin pattern to link the implementation of the interfaces of several extendable components with third-party implementation at runtime.
 
 \item [Rationale] ~\\ % https://docs.docker.com/engine/extend/plugin_api/
-Docker discovers plugins by looking for .sock, .spec or .json files in the plugin directories on the host system. These files describe how Docker can communicate with the plugins using the REST API (usually via a Unix socket).
-
-The plugins themselves run as separate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (see also Section~\ref{sec:processplugins}). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.
-
-For these subsytems Docker will replace the default implementation by a Proxy, that forwards all calls over the REST interface to the plugin process.
 
 \item [Implications]~\\
 The use of the Plugins pattern means that the adaptability increases, because plugins allow the application to be adapted with new features.
@@ -481,8 +473,6 @@ Let the daemon only communicate with the plugins through a proxy. This proxy imp
 Whenever a call is done from the daemon to the plugin, it goes via the proxy, which communicates this call using a REST API to the plugin process.
 
 \item [Rationale] ~\\ 
-Using the {proxy} pattern allows the daemon to communicate with the plugins, without requiring direct access to these plugins. \\
-Also, because the subsystem component has the same interface as its proxy, the implementation of software using this component does not depend on whether the proxy is used or the original subsystem. 
 
 \item [Implications]~\\
 The use of the {proxy} pattern allows communication with the plugins, which increases the extendability. 
