@@ -5,10 +5,15 @@
 In this chapter an global information about the Docker project is presented. This includes a general overview of the working of docker and the history of the docker project.
 
 \section{Overview}
-Docker is an open-source project, with the purpose of making the deployment and distributed of applications easier.
-`Docker provides an integrated technology suite that enables development and IT operations teams to build, ship, and run distributed applications anywhere'\cite{whatisdocker}.
+%TODO joris: Add citation for:
+% 	main goal
+%	dotCload
+% 	first release
 
-Docker automates the deployment of applications inside so-called `containers' by making use of operating-system-level virtualization.
+Docker is an open-source project, created by Solomon Hykes, written in the \q{Go} programming language \cite{golang}. The goal of docker is making the deployment and distribution of applications easier. Docker started as an internal project within dotCloud, a platform-as-a-service company with four main developers. The first open-source version of Docker was released in March 2013.\\
+
+Docker automates the deployment of applications inside so-called \q{containers} by making use of operating-system-level virtualization.
+They state that ``Docker provides an integrated technology suite that enables development and IT operations teams to build, ship, and run distributed applications anywhere''\cite{whatisdocker}.\\
 
 %borrowed from bsc thesis
 Operating-system-level virtualization is a virtualization method where the kernel of an operating system allows the isolation of multiple instances of the user space of the operating system. Leveraging this type of virtualization over full virtualization (i.e. hardware emulation) offers a significant performance increase, because there is no need for emulation of the hardware.\cite{VirtualizationTechnologies}
@@ -24,33 +29,22 @@ Operating-system-level virtualization is a virtualization method where the kerne
 Figure \ref{fig:vmvsdocker} illustrates the difference between virtualization using hardware emulation and operating-system-level virtualization. As opposed to a virtual machine, a container does not have a guest operating system. Additionally, it does not need a hypervisor for emulating virtual hardware and trapping privileged instructions. This saves a lot of performance overhead. \\
 
 One tool that makes use of operating-system-level virtualization is Docker. Docker can be used to package applications and dependencies in a `container'. Running this container using Docker will run it within a separate user space using operating-system-level virtualization. \\
-Docker containers are instances of running Docker images. The process of creating a Docker image is relatively uncomplicated. It involves the creation of a so-called `Dockerfile', which is a type of Makefile, containing instructions that are to be executed to install the application and dependencies (using the \verb|RUN| instruction), and copy relevant data into the container (using \verb|ADD|). Every Dockerfile extends another image (using the \verb|FROM| instruction), which is either a previously created image or a base image (often containing the files of a specific operating system).
+Docker containers are instances of running Docker images. The process of creating a Docker image is relatively uncomplicated. It involves the creation of a so-called \q{Dockerfile}, which is a type of Makefile, containing instructions that are to be executed to install the application and dependencies (using the \codeu{run} instruction), and copy relevant data into the container (using \codeu{add}). Every Dockerfile extends another image (using the \codeu{from} instruction), which is either a previously created image or a base image (often containing the files of a specific operating system).
 
 Docker images use a layered file system. Every command executed during the build-proces, creates a new layer where all modifications to the file system are stored.
 Docker supports exporting images to tar-archive that are usable by similar versions of Docker.
 %end of borrowed from bsc thesis
 
-The creator of Docker is Solomon Hykes. \\
-Docker started as an internal project within dotCloud, a platform-as-a-service company with four main developers. \\
-The first open-source version of Docker was released in March 2013.\\
-%\textit{https://en.wikipedia.org/wiki/Docker_\%28software\%29#History}
 
-
-
-Docker is written in the Go Programming language \\
 
 \section{Community}
 
 % Always quote and reference https://www.docker.com/docker-community
 
-In this subsection the developers of Docker and their surrounding community are discussed. \\
-
-The following organizations are the main contributors to Docker: the Docker team, Red Hat, IBM, Google, Cisco Systems and Amadeus IT Group. 
-
 Docker has an active community and the managers encourage developers around the world to contribute. \cite{dockeroswrittenfor}
 
 There are several ways to get in contact with the community of Docker:
-\begin{description}[labelwidth=6cm,labelindent=30pt,style=multiline,leftmargin=5.5cm,font=\normalfont\itshape]
+\begin{description}
 
 \item [IRC] Here, the most knowledgeable Docker users reside. At the \verb|#docker| and \verb|#docker-dev| groups on \verb|irc.freenode.net|.
 
@@ -59,4 +53,15 @@ There are several ways to get in contact with the community of Docker:
 \item [Stack Overflow] Questions about Docker itself can be asked on the Stack Overflow. 
 
 \end{description}
+
+The main organizations that contribute to Docker are:
+\begin{itemize}
+    \item Docker team
+    \item Red Hat
+    \item IBM
+    \item Google 
+    \item Cisco Systems
+    \item Amadeus IT Group
+\end{itemize}
+
 

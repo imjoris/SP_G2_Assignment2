@@ -1,6 +1,21 @@
 % !TEX root = ../report.tex
 
 \clearpage
+%\setlist[description]{%
+%	leftmargin=!,%
+%	itemindent=!,%
+%	labelsep=!,%
+%	labelwidth=!,%
+%	labelindent=!,%
+%}
+%
+%
+%restore default description style
+\setlist[description]{}
+% see:
+%http://ctan.cs.uu.nl/macros/latex/contrib/enumitem/enumitem.pdf
+%{labelwidth=6cm,labelindent=30pt,style=multiline,leftmargin=5.5cm,font=\normalfont\itshape}
+
 \chapter{Pattern Documentation}
 \label{ch:patterns}
 This chapter describes the patterns used in Docker. The patterns are documented as described by Harrison et al.\cite{usingpatternscapture}, including additional information about concerning where the pattern was found (traceability) in the code or documentation.
@@ -24,11 +39,12 @@ The significant packages that use the daemon are:
 	\item github.com/docker/docker/layer
 \end{itemize}
 
-However, the daemon was referenced quite a lot when looking at the dependency tables discussed earlier in section \ref{sec:viewlogical}.\\
-It is also remarkable that only the daemon seems to be referencing the container, when listing the dependencies.\\
-So clearly, the docker daemon is a main access point for modifying the containers.\\
+However, the daemon was referenced quite a lot when looking at table \ref{table:deptablehighestin}, that lists the packages with the highest amount of incoming references, earlier discussed in section \ref{sec:viewlogical}.
+It is also remarkable that only the daemon seems to be referencing the container, when listing the dependencies. So clearly, the docker daemon is a main access point for modifying the containers.\\
 The documentation says that only the docker api communicates with the daemon. Clearly there is no package using the docker daemon, but also the api does not seem to be referencing the docker daemon. This is because the docker api uses the daemon through means of HTTP requests. As is made clear when looking at the code in $$api/client/cli.go$$
-This contains the line: $$client, err := client.NewClient(host, verStr, clientTransport, customHeaders)$$
+This contains the line: 
+$$client, err := client.NewClient(host, verStr, clientTransport, customHeaders)$$
+
 Indicating that the client is referencing the daemon through means of sending HTTP requests to the daemon api.
 
 %github.com/docker/docker/builder
@@ -115,17 +131,11 @@ Architectural patterns revisited -- a pattern language, P. 29
 \cite{avgeriou2005architectural}
 
 \item [Issue]~\\
-Docker's features, e.g., hosting the image, creating image, running container,
-and daemon supervision, vary in terms of functionality. Single
-implementation of those features will certainly result in abundant usage of
-resource because hosting the image means there must be huge amount of disk space
-available. Overlapping may also occur since multiple Docker instances may use the same image or configuration file, which is actually can be stored and organized elsewhere. Docker
-also has several dependencies, especially the Linux kernel components
-(\texttt{namespaces} and \texttt{cgroups}) for OS level virtualization.
-Furthermore, Docker mostly needs remote supervision or control, since usually
-Docker is run on the cloud. Therefore, the features must be separated into
-several independent components and their dependencies and communication have to
-be clearly separated and maintained.
+Docker provides several features (e.g. hosting the image, creating image, running container, and daemon supervision). Each of the features vary in terms of the functionality they give. Single implementation of features will certainly result in abundant usage of resources, because hosting the image means there must be huge amount of disk space available.
+%TODO joris: Rephrase sentence about the hosting of the image. Rephrase, make clear why.
+%
+Overlapping may also occur since multiple Docker instances may use the same image or configuration file, which could be stored and organized elsewhere. Docker also has several dependencies, especially the Linux kernel components (\texttt{namespaces} and \texttt{cgroups}) for OS level virtualization.
+Furthermore, Docker mostly needs remote supervision or control, since Docker usually runs in the cloud. Therefore, the features must be separated into several independent components and their dependencies and communication have to be clearly separated and maintained.
 
 \item [Assumptions/Constraints]~\\
 Docker is able to run only in Linux kernel since it makes use of
@@ -136,18 +146,17 @@ components are carried out through secured TCP/IP connection.
 
 \item [Solution]~\\
 Docker will be separated into several components that have their own
-functionalities, as can be seen in Figure \ref{fig:layers-pattern}. The main
-components are containers, Docker daemon, local Docker client, libcontainer, and
-Linux kernel.
+functionalities, as can be seen in Figure \ref{fig:layers-pattern}. The main components are:
+\begin{itemize}
+    \item Containers
+    \item Docker daemon
+    \item Local Docker client
+    \item Libcontainer
+    \item Linux kernel
+\end{itemize}
 
-Containers, plugins, Docker daemon, local Docker client, libcontainer, and Linux
-kernel are located in the same host (surrounded by dashed box). Inter-process
-communication is utilized to communicate between Docker, containers,
-libcontainer, and Linux kernel components, but Docker daemon, plugins, and
-Docker client communicate using Docker API
-\footnote{\url{https://github.com/docker/docker/blob/master/api/common.go}}.
-Remote connections are managed through secured TCP/IP based connection.
-
+Everything inside the dotted box is located on the same host. Inter-process communication is utilized to communicate between Docker, containers, libcontainer, and Linux kernel components, but Docker daemon, plugins, and Docker client communicate using Docker API
+\footnote{\url{https://github.com/docker/docker/blob/master/api/common.go}}. Remote connections are managed through secured TCP/IP based connection.
 
 \item [Rationale] ~\\
 Layers are very good in terms of sharing and reusability. In this way, several
@@ -163,13 +172,10 @@ containers, Docker daemon, Docker registry, and Docker client makes Docker
 portable. Utilizing Docker registry also promotes sharing images, which make it
 easier to deploy an application without knowing what platform running below it.
 
-A connection is open to public, through TCP/IP, in the communication of Docker
-daemon and Docker registry and remote client, which makes this pattern hinders
-the security. In this condition, any malicious attacks may happen through this
-hole.
-
-Using this layer, it is easy to replicate something, which makes positive impact
-on reliability.
+A host is open to public in the communication of Docker
+daemon and Docker registry and remote client. This pattern provides the ability to secure all the communication from single place. This can increase the security, because focus on security is reduces toa single place, meaning that strengthening the security there makes everything more secure. \\
+However, a security breach will effect the entire system and not only a single component. \\
+This security layer can be easily replicated, having a positive impact on reliability. The security is defined in a single place, and so the level of security that is defined there can be expected from each component.
 
 \item [Related Patterns]~
 \begin{itemize}
@@ -188,9 +194,8 @@ on reliability.
 % http://blog.octo.com/en/docker-registry-first-steps/   http://fr.slideshare.net/egorpushkin/docker-demo   
 % Because of Pull/¨Push can we talk about Pattern publish suscribe ?   Asynhcronous Queuing ?
 
-%TODO joris: Add ref to registry
-Using the Docker files and the docker commands, personalized images can be created that support a specified project. Docker allows these images to be stored in a docker registry, earlier discussed in \ref{}. Anyone with access to this registry can pull this image and use it.\\
-Users of this project its application can pull the image in order to run the project and obtain the desired functionality. This registry also allows the image to be easily shared with other developers working on any related project.\\
+Using the Docker files and the docker commands, personalized images can be created that support a specified project. Docker allows these images to be stored in a docker registry, earlier discussed in subsection \ref{subsec:dockerregistry}. Anyone with access to this registry can pull this image and use it.\\
+Users of the application a specific project provides, are able to pull the image. This allows running the application, thereby obtain the desired functionality. The registry also allows the image to be easily shared with other developers working on any related project.\\
 This makes the docker registry a shared repository.
 %TODO joris: add concluding sentence: 'So because the image can be easily shared, it increases porta/mainta/sec... enz.
 
@@ -251,7 +256,6 @@ Brokered Authentication
 The notification mechanism of the Docker Registry uses the Publish Subscribe Pattern \cite{docknotif}.
 
 \item[Source]~\\
-%TODO joris: add more books/refs
 Pattern Oriented Software Architecture- Volume 1
 %http://soapatterns.org/designpatterns/eventdrivenmessaging
 
@@ -267,7 +271,8 @@ This pattern is used at a lower level in the Docker Registry/Active Repository P
 
 \item[Rationale]~\\ 
 
-%TODO fix, use POSA or something
+%TODO fix, remove the big quote. Use POSA or something
+
 \begin{quote}
 "Notifications are sent to endpoints via HTTP requests. Each configured endpoint has isolated queues, retry configuration and http targets within each instance of a registry. When an action happens within the registry, it is converted into an event which is dropped into an inmemory queue. When the event reaches the end of the queue, an http request is made to the endpoint until the request succeeds. The events are sent serially to each endpoint but order is not guaranteed."% it seems like it's the way it works
 \end{quote} 
@@ -363,10 +368,11 @@ Patterns of Enterprise Application Architecture, P. 499 \cite{eaa}
 
 \item [Issue]~\\
 %TODO joris: make neat sentence
-The users of Docker want to have customization or require functionality that is not included in Docker, by extending Docker with third party custom-built tools. This customization means that third parties are able to write their own tools that extend Docker's core functionality\cite{dockerpluginblog}.
-
+Docker users desire functionality not natively provided by docker. They want the ability of extending Docker with third party custom-built tools that do provide this missing functionality. \\
+These custumizations mean that third parties are able to write tools, extending Docker's core functionality\cite{dockerpluginblog}.
+The additional functionality that is added, is only usable during run time.
 %TODO joris: add consequences of this issue (regarding key d's?).
-The third party custom-built tools are only usable during runtime.
+
 
 \item [Assumptions/Constraints]~
 \begin{itemize}

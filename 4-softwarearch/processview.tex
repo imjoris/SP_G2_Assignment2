@@ -4,11 +4,18 @@
 \label{sec:viewprocess}
 This section discusses the system processes, how they communicate and the runtime behaviour of the system.
 
+
+%TODO joris: ADD:
+	% PROCESSES:
+		% subscription to registry notifications,
+		% the publishing and receiving of notifications.
+	% SEQUENCE DIAGRAMS
+	
 \subsection{Plugins}
 \label{sec:processplugins}
 Docker supports extending its capabilities using third-party plugins. Docker allows extending the functionality of the volumes, which are responsible for storing files outside containers. And Docker allows extending the functionality of the network subsystems that provides inter-container communication over the network. This functionality will be extended in the future\cite{dockerplugindocs}.
 
-A plugin runs in its own separate process and communicates with the Docker daemon using the REST API. In order for the Docker daemon to know about the plugins existence, a file has to be placed in a pre-defined directory. %todo explain exactly (sock file, etc file, json file ...)
+A plugin runs in its own separate process and communicates with the Docker daemon using the REST API. In order for the Docker daemon to know about the plugins existence, a file has to be placed in a predefined directory. %todo explain exactly (sock file, etc file, json file ...)
 
 In Figure~\ref{fig:activity_plugin} the process of using a plugin can be seen.
 \begin{figure}[H]
