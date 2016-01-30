@@ -185,7 +185,12 @@ This security layer can be easily replicated, having a positive impact on reliab
 %http://fr.slideshare.net/Docker/https-dldropboxusercontentcomu20637798docker-meetup-freiburg
 % http://blog.octo.com/en/docker-registry-first-steps/   http://fr.slideshare.net/egorpushkin/docker-demo   
 % Because of Pull/¨Push can we talk about Pattern publish suscribe ?   Asynhcronous Queuing ?
-
+ \begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.55]{5-patterns/images/SharedRepo.png}
+ \caption{The shared repository with brokered authentication}
+ \label{fig:docker-registry}
+ \end{figure}
 Using the Docker files and the docker commands, personalized images can be created that support a specified project. Docker allows these images to be stored in a docker registry, earlier discussed in subsection \ref{subsec:dockerregistry}. Anyone with access to this registry can pull this image and use it.\\
 Users of the application a specific project provides, are able to pull the image. This allows running the application, thereby obtain the desired functionality. The registry also allows the image to be easily shared with other developers working on any related project.\\
 This makes the docker registry a shared repository.
@@ -195,7 +200,6 @@ This makes the docker registry a shared repository.
 %TODO joris: is this relevant? not specific to the pattern, should be discussed in logical view or earlier?
 % Docker itself hosts a few registries that can be used called ``DockerHub'' \cite{} and ``Docker Trusted''. 
 %Two alternatives exist:DockerHub and Docker Trusted Registry. \\
-
 The Docker registry also contains functionality for sending notifications when certain events occur \cite{docknotif}. This makes the docker registry an active repository as well.
 
 \begin{description}
@@ -206,8 +210,9 @@ Everything dealing with the registry is in the "Registry folder" in the Docker r
 % File store.go , registry.go
 
 \item[Source]~\\
-
-Architectural Pattern Revisited - A Pattern Language, P.13 \cite{avgeriou2005architectural}
+Patterns of Enterprise Application Architecture, P.322 \cite{eaa}\\
+Architectural Patterns Revisited - A Pattern Language, P.13 \cite{avgeriou2005architectural}\\
+Pattern-oriented Software Architecture - Volume 4, P.202 \cite{wiley4}
 
 \item[Issue]~\\
 Docker provided a way for the user to control the storage and distribution of images. \\
@@ -231,12 +236,6 @@ Publish Subscribe
 Brokered Authentication
 
 \textit{Users can share and distribute images in the Docker Registry.}
- \begin{figure}[H]
- \centering
- \includegraphics[scale=0.7]{5-patterns/images/SharedRepo.png}
- \caption{Docker Registry and Shared Repository Patterns}
- \label{fig:docker-registry}
- \end{figure}
  
 \end{description}
 
