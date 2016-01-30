@@ -1,7 +1,9 @@
-pdflatex report
-pdflatex report
-bibtex report
-makeglossaries report
-pdflatex report
+#!/bin/bash
 
-#rubber -d report
+file='report';
+
+#rubber -d $target
+pdflatex "$file" > /dev/null
+pdflatex "$file" > /dev/null
+makeglossaries "${file%.*}" > /dev/null
+rubber -d "$target";

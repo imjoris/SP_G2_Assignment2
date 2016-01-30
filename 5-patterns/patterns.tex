@@ -11,7 +11,7 @@
 %
 %
 %restore default description style
-\setlist[description]{}
+\setlist[description]{style=nextline}
 % see:
 %http://ctan.cs.uu.nl/macros/latex/contrib/enumitem/enumitem.pdf
 %{labelwidth=6cm,labelindent=30pt,style=multiline,leftmargin=5.5cm,font=\normalfont\itshape}
@@ -30,8 +30,7 @@ This chapter describes the patterns used in Docker. The patterns are documented 
 % see https://docs.docker.com/engine/introduction/understanding-docker/
 
 \begin{description}
-\item [Traceability]~\\
-The Client-Server pattern can be deduced from the `What is Dockers architecture?' section of the online documentation\cite{dockerarchi}.\\
+\item [Traceability] The Client-Server pattern can be deduced from the `What is Dockers architecture?' section of the online documentation\cite{dockerarchi}.\\
 When listing the dependencies using the dependency tools, very few packages use the docker daemon. Looking at the high-level parts of docker, the main package that references the daemon is the docker container.
 However, the daemon seems to be referenced quite a lot when looking at table \ref{table:deptablehighestin}(section \ref{sec:viewlogical}), that lists the packages with the highest amount of incoming references. \\
 This shows that the container part of docker is heavily using the docker daemon.\\
