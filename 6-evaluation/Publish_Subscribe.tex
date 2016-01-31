@@ -4,7 +4,11 @@ The publish subscribe pattern allows the event occuring in the Docker Registry t
 % Mechanism :
 % Endpoint, Http
 
-\textbf{Reliability} isn't affected by this pattern. \\
+\textbf{Reliability}
+
+'Currently, the queues are inmemory, so endpoints should be reasonably reliable. They are designed to make a best-effort to send the messages but if an instance is lost, messages may be dropped. If an endpoint goes down, care should be taken to ensure that the registry instance is not terminated before the endpoint comes back up or messages will be lost.
+This can be mitigated by running endpoints in close proximity to the registry instances. One could run an endpoint that pages to disk and then forwards a request to provide better durability.' \\
+
 \textbf{Security} isn't affected by this pattern.\\
 \textbf{Portability} is enhanced by this pattern because whatever the platform used everyone can suscribe to the notification system.\\
 
