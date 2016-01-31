@@ -1,12 +1,20 @@
-\section{Publish Subscribe}
-% Deisgn Pattern : Event driven messaging 
+% !TEX root = ../report.tex
+\section{Publish-Subscribe}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{5-patterns/images/PubSub.png}
+\caption{Docker Registry's event manager and subscribed endpoints}
+\label{fig:publish-subscribe}
+\end{figure}
 \begin{patdescription}
 
 \item[Traceability]
 The notification mechanism of the Docker Registry uses the Publish Subscribe Pattern \cite{docknotif}.
 
 \item[Source]
-Pattern Oriented Software Architecture- Volume 1
+Pattern Oriented Software Architecture- Volume 4, P.234 \cite{wiley4} \\
+Architectural Patterns Revisited -- a pattern language, P.32
+\cite{avgeriou2005architectural}
 %http://soapatterns.org/designpatterns/eventdrivenmessaging
 
 \item[Issue] The user wants to be alerted about certain events/changes that occur in a registry.
@@ -25,6 +33,8 @@ This pattern is used at a lower level in the Docker Registry/Active Repository P
 
 \begin{quote}
 "Notifications are sent to endpoints via HTTP requests. Each configured endpoint has isolated queues, retry configuration and http targets within each instance of a registry. When an action happens within the registry, it is converted into an event which is dropped into an inmemory queue. When the event reaches the end of the queue, an http request is made to the endpoint until the request succeeds. The events are sent serially to each endpoint but order is not guaranteed."% it seems like it's the way it works
+
+As can be seen in Figure~\ref{fig:publish-subscribe}, a listener listens for events and forwards these to the event manager. The event manager forwards messages of this event to all the subscribed endpoints.
 \end{quote} 
 
 \item[Implications] %After the integration of the Publish-Suscribe pattern BLABLABLA
@@ -35,11 +45,4 @@ Shared/Active Repository Pattern
 
 
 \end{patdescription}
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.7]{5-patterns/images/RegistryPS.png}
-\caption{Events managing- Publish Subscribe Pattern}
-\label{fig:publish-subscribe}
-\end{figure}
 

@@ -1,3 +1,4 @@
+% !TEX root = ../report.tex
 \section{Broker}
 \manuallabel{pattern:broker}{Broker}
 \begin{figure}[H]
@@ -38,14 +39,13 @@ This means that the logic for inter-process communication does not have to be im
 \item [Implications]
 Using the Broker pattern is good for the portability, because it does not matter if a component is part of a different process (running locally or remotely).
 
-This pattern is also good for the security, since the Broker is a single entrypoint for all the inter-process communication, which makes it easier to secure.
+This pattern is also good for the security, since the Broker is a single entry point for all the inter-process communication, which makes it easier to secure. This has been done by using Transport Layer Security for the communication between the processes.
 
 Additionally, the interoperability (compatibility) is increased, because it becomes possible for two components (in two different processes) to exchange information. 
 
 The Broker does however introduce a performance overhead, which decreases the performance efficiency.
 
 %TODO: reliability??
-\textit{Reliability?}
 
 %TODO: what about portability??
 
