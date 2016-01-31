@@ -30,6 +30,7 @@ Architectural patterns revisited -- a pattern language, P. 29
 Docker provides several features (e.g. hosting the image, creating image, running container, and daemon supervision). Each of the features vary in terms of the functionality they give. Single implementation of features will certainly result in abundant usage of resources, because hosting the image means there must be huge amount of disk space available.
 %TODO joris: Rephrase sentence about the hosting of the image. Rephrase, make clear why.
 %
+
 Overlapping may also occur since multiple Docker instances may use the same image or configuration file, which could be stored and organized elsewhere. Docker also has several dependencies, especially the Linux kernel components (\texttt{namespaces} and \texttt{cgroups}) for OS level virtualization.
 Furthermore, Docker mostly needs remote supervision or control, since Docker usually runs in the cloud. Therefore, the features must be separated into several independent components and their dependencies and communication have to be clearly separated and maintained.
 
