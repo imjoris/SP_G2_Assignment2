@@ -2,6 +2,10 @@
 The use of the Shared Repository patterns has different impacts on the different key Drivers : \\ 
 % Explaining how it works and the KD matched
 \textbf{Reliability} \\
+'A reliable service is one that notifies the user if delivery fails, while an "unreliable" one does not notify the user if delivery fails.'  \textit{Wikipedia} \\
+
+According to this definition we can consider that the registry is reliable because in case a push command doesnt work the user is notified (same system as Github for example) by an error message/prompt and can try again. \\
+
 \textbf{Security} is enhanced because the access to the registry is controlled by a login and passwords for the users. \\
 Moreover,the push and pull commands in the registry are also secure (see Brokered Authentication Pattern).
 \textbf{Portability} The docker registry is good for portability because whatever the environement of the user everybody can suscribe and acess this functionnality.\\
