@@ -28,3 +28,16 @@ In Figure~\ref{fig:activity_plugin} the process of using a plugin can be seen.
 A user indicates that he/she wants to use a plugin by passing a command-line parameter to the Docker client when starting a container. If this parameter is present, then the daemon will start looking for the plugin in the plugin directory. If the plugin is not found, it returns an error to the user. 
 When the plugin is found, the daemon will send a handshake to the plugin using a UNIX socket and the plugin will reply with a list of subsystems it implements. 
 The Docker daemon will then use a Proxy to forward calls to this subsystem to the plugin process.
+
+\subsection{Brokered Authentication}
+\begin{figure}[H]
+\caption{A sequence diagram showing the brokered authentication process for the registry}
+\centering
+\includegraphics[scale=0.7]{4-softwarearch/images/seq_brokered_auth.png}
+\label{fig:brokered_auth_seq}
+\end{figure}
+The Docker Registry uses a brokered authentication scheme. An independent authentication broker issues authentication tokens to clients that want to use the registry.
+
+The sequence diagram in Figure~\ref{fig:brokered_auth_seq} shows globally the process of authenticating with the registry using an authentication broker (authorization service).
+
+After the client has issued a command (e.g. a pull command) that interacts with the registry (and the client forwarded it to the daemon), the daemon attempts to start the pull-operation with the registry. If the registry requires authentication it returns a \texttt{401 Unauthorized} http response. Then, the daemon will connect to the authorization service and request a bearer token and after receiving this bearer token the daemon will retry the pull-operation on the registry with the token. If the token is valid and accepted by the registry it will start the pull-operation.
