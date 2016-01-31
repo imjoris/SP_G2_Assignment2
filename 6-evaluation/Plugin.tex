@@ -1,3 +1,4 @@
+% !TEX root = ../report.tex
 \subsection{Plugin}
 \begin{figure}[H]
 \centering
@@ -9,5 +10,5 @@ The Plugin pattern greatly increases the portability, because it increases the a
 
 It has a slight negative impact on the security, because there is communication between the daemon and plugin process which has to be secured. Additionally, the security of the plugins is not controlled by Docker, so defects in a plugins security can affect the security of the Docker daemon as well. 
 
-There are no significant impacts on the reliability because of this pattern.
+Individual plugins can fail, which affects the reliability. However, because plugins function as a replacement for components in Docker and the implementation of the plugins themselves are not part of Docker, we do not consider this a negative impact on the reliability of Docker.
 
