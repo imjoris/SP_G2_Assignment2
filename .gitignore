@@ -26,9 +26,8 @@ build/*
 *.fls
 *.out
 *.toc
-# report.pdf
-/report.pdf
-./report.pdf
+report.pdf
+.*.pdf
 
 ## Intermediate documents:
 *.dvi
