@@ -7,3 +7,69 @@
 %\section{Event-driven}
 %\section{Deprecation of Modules}
 %\section{Virtual Machine}
+
+\section{Networking}
+
+\begin{itemize}
+
+\item \href{%
+https://groups.google.com/forum/#!topic/docker-user/TgCGntvTAjs
+}{%
+Enabling IPv6 requires me to search and fiddle with the systemd unit files for daemon startup options. Why? Docker should add a config for such networking things, e.g. /etc/dockerd.conf or similar. Didn't it strike anyone as weird that the docker daemon needs to be restarted, and then supplied with some explicitly specified startup option just to have IPv6? A line in a config and killall -SIGHUP should do it as it works for other daemons, why not for docker?
+}
+
+\end{itemize}
+
+\section{Connectivity}
+\begin{itemize}
+
+\item \href{%
+https://developer.ibm.com/bluemix/2015/11/18/docker-workaround-lack-of-network-connectivity-between-client-and-container/
+}{%
+SSH provides more functionality than docker exec does directly: with SSH you can do file transfers (scp, sftp) and create a variety of network tunnels/proxies (TCP host\& port forwarding and SOCKS proxies); SSH can also do tun/tap tunnels but containers do not usually have the kernel capabilities needed to configure tun/tap tunnels.}
+
+\item \href{%
+https://medium.com/@gchudnov/copying-data-between-docker-containers-26890935da3f#.1qil6fc2j
+}{%
+Docker 1.7.0 should have an extended `docker cp` command to support copying data to containers. Until that, you can use one of the alternative solutions.
+}
+\end{itemize}
+
+
+\section{security}
+%https://blog.docker.com/2015/12/docker-webinar-qa-intro-to-docker-security/
+
+%Security is something that we at Docker are extremely excited about. The ability to enable enterprises to not only build, ship and run their applications. But to do it in a way that gives them security and control over their environment. The resources below provide more information that you might find helpful. As always, you can reach out to us with any questions that you have.
+
+%Notary https://github.com/docker/notary
+%Do your plan to open source Project Nautilus so people can use it on their own private deployments or will it only be able within your infrastructure?
+%We know that we will provide the scanning of all official images for free. One of our big goals is to have the Docker hub be the safest place folks can go for content. And it is because we are working tirelessly to make sure that those images are scanned and are not vulnerable. We are also exploring the commercial opportunities of this solution as well. So if you are looking at using our on-prem registry you will probably get it as an add-on. But as of right now there are no plans to open source the scanning techniques, because not all of them are ours. We augment with some 3rd party providers combined with our own techniques to make sure they are as complete as possible. If you have been pulling from the official images within Docker Hub then you have already been protected by these scans, but it’s not 100% clear on how we will make it available to others as well.
+%
+
+%https://blog.docker.com/2015/12/docker-webinar-qa-intro-to-docker-security/
+
+But as of right now there are no plans to open source the scanning techniques
+
+%http://www.dwheeler.com/secure-programs/Secure-Programs-HOWTO/open-source-security.html
+
+Bruce Schneier argues that smart engineers should “demand open source code for anything related to security” [Schneier 1999],
+“Not only because more people can look at it, but, more importantly, because the model forces people to write more clear code, and to adhere to standards. This in turn facilitates security review” [Rijmen 2000].
+http://thenewstack.io/the-new-stack-analysts-show-9-dockers-inherent-lack-of-security-the-black-hat-view/
+
+Vincent Rijmen, a developer of the winning Advanced Encryption Standard (AES) encryption algorithm, believes that the open source nature of Linux provides a superior vehicle to making security vulnerabilities easier to spot and fix, “Not only because more people can look at it, but, more importantly, because the model forces people to write more clear code, and to adhere to standards. This in turn facilitates security review” [Rijmen 2000].
+
+https://blog.docker.com/2015/12/docker-webinar-qa-intro-to-docker-security/
+Project Nautilus that is used to scan the images in the Docker hub is not open source.
+
+\section{Windows support}
+%https://docs.docker.com/engine/installation/windows/
+Because the Docker daemon uses Linux-specific kernel features, you can’t run Docker natively in Windows. \\
+
+%https://azure.microsoft.com/en-us/blog/microsoft-unveils-new-container-technologies-for-the-next-generation-cloud/
+Windows develops their own proprietary version of docker called Hyper-V Containers.
+%http://www.infoworld.com/article/2973492/application-virtualization/windows-server-containers-arrive-with-docker-support.html
+Microsoft's Mark Russinovich recently explained that Hyper-V Containers are meant to provide an additional level of isolation, but can be managed with the Docker client tool set.
+
+
+%Instead, you must use docker-machine to create and attach to a Docker VM on your machine. This VM hosts Docker for you on your Windows system.
+
