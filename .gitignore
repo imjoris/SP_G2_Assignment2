@@ -27,7 +27,7 @@ build/*
 *.out
 *.toc
 # report.pdf
-.*.pdf
+report.pdf
 
 ## Intermediate documents:
 *.dvi

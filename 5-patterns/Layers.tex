@@ -22,6 +22,7 @@ documentation, specifically in the \textit{What is Docker’s architecture?}
 section \cite{dockerarchi}.
 
 \item [Source]
+%TODO joris: there should be a standard way or referencing the page using the \cite command
 Architectural patterns revisited -- a pattern language, P. 29
 \cite{avgeriou2005architectural}
 
@@ -33,15 +34,11 @@ Overlapping may also occur since multiple Docker instances may use the same imag
 Furthermore, Docker mostly needs remote supervision or control, since Docker usually runs in the cloud. Therefore, the features must be separated into several independent components and their dependencies and communication have to be clearly separated and maintained.
 
 \item [Assumptions/Constraints]
-Docker is able to run only in Linux kernel since it makes use of
-\texttt{namespaces} and \texttt{cgroups} technology, which is only available in
-Linux kernel. However, Docker is also possible to be run on other OS
-although using virtual machine. The connection between local and remote
-components are carried out through secured TCP/IP connection.
+%TODO joris: improve and correct this
+ Docker is able to run only in Linux kernel since it uses \codeu{namespaces} and \codeu{cgroups} technology, which is only available in Linux kernel. However, Docker is also possible to be run on other OS although using virtual machine. The connection between local and remote components are carried out through secured TCP/IP connection. 
 
 \item [Solution]
-Docker is separated into several components that have their own
-functionalities, as can be seen in Figure \ref{fig:layers-pattern}. The main components are:
+Docker is separated into several components that have their own functionality, as can be seen in Figure \ref{fig:layers-pattern}. The main components are:
 \begin{itemize}
     \item Containers
     \item Docker daemon
@@ -54,23 +51,12 @@ Everything inside the dotted box is located on the same host. Inter-process comm
 \footnote{\url{https://github.com/docker/docker/blob/master/api/common.go}}. Remote connections are managed through secured TCP/IP based connection.
 
 \item [Rationale] 
-Layers are very good in terms of sharing and reusability. In this way, several
-Docker daemon that uses the same image can just fetch it through the Docker
-registry. Using Docker registry also reduce disk space for storing images and
-increase easiness of sharing images. Layers pattern also supports connection to
-other layer, such as connection to plugins. It is also manageable to supervise
-remote Docker daemon through remote Docker client.
+Layers are very good in terms of sharing and reusability. In this way, several Docker daemon that uses the same image can just fetch it through the Docker registry. Using Docker registry also reduce disk space for storing images and increase easiness of sharing images. Layers pattern also supports connection to other layer, such as connection to plugins. It is also manageable to supervise remote Docker daemon through remote Docker client.
 
-\item [Implications]
-This pattern gives positive implication to portability as clear separation of
-containers, Docker daemon, Docker registry, and Docker client makes Docker
-portable. Utilizing Docker registry also promotes sharing images, which make it
-easier to deploy an application without knowing what platform running below it.
-
-A host is open to public in the communication of Docker
-daemon and Docker registry and remote client. This pattern provides the ability to secure all the communication from single place. This can increase the security, because focus on security is reduces toa single place, meaning that strengthening the security there makes everything more secure. \\
-However, a security breach will effect the entire system and not only a single component. \\
-This security layer can be easily replicated, having a positive impact on reliability. The security is defined in a single place, and so the level of security that is defined there can be expected from each component.
+\item [Implications] 
+This pattern gives positive implication to portability as clear separation of containers, Docker daemon, Docker registry, and Docker client makes Docker portable. Utilizing Docker registry also promotes sharing images, which make it easier to deploy an application without knowing what platform running below it.\\
+A host is open to public in the communication of Docker daemon and Docker registry and remote client. This pattern provides the ability to secure all the communication from single place. This can increase the security, because focus on security is reduces to single place, meaning that strengthening the security there makes everything more secure. \\ 
+However, a security breach will effect the entire system and not only a single component. This security layer can be easily replicated, having a positive impact on reliability. The security is defined in a single place, and so the level of security that is defined there can be expected from each component. 
 
 \item [Related Patterns]
 \begin{mynesteditemlist}
