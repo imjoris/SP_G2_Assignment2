@@ -23,22 +23,18 @@ The notification system needs a mechanism in order to send those events to the u
 \item[Assumptions/Constraints] 
 This pattern is used at a lower level in the Docker Registry/Active Repository Pattern.
 
-
-
 \item[Solution]
+The Publish-Subscribe pattern allows publisher to send messages to endpoints which are subscribed to these messages.
+
+As can be seen in Figure~\ref{fig:publish-subscribe}, a listener listens for events and forwards these to the event manager. The event manager forwards messages of this event to all the subscribed endpoints over HTTP.
 
 \item[Rationale] 
-
-%TODO fix, remove the big quote. Use POSA or something
-
-\begin{quote}
-"Notifications are sent to endpoints via HTTP requests. Each configured endpoint has isolated queues, retry configuration and http targets within each instance of a registry. When an action happens within the registry, it is converted into an event which is dropped into an inmemory queue. When the event reaches the end of the queue, an http request is made to the endpoint until the request succeeds. The events are sent serially to each endpoint but order is not guaranteed."% it seems like it's the way it works
-
-As can be seen in Figure~\ref{fig:publish-subscribe}, a listener listens for events and forwards these to the event manager. The event manager forwards messages of this event to all the subscribed endpoints.
-\end{quote} 
+Using the Publish-Subscribe pattern allows users to configure endpoints, which will receive notifications about the events/changes that occur in the registry.
 
 \item[Implications] %After the integration of the Publish-Suscribe pattern BLABLABLA
-The Publish Suscribe Pattern enhances Integrability,Modifiability because publisher and suscribers aren't directly connected.% develop
+The Publish-Subscribe Pattern enhances modifiability because publisher and subscribers are decoupled.
+
+The portability is increased using this pattern, because the decoupling of the publishers and subscribers (combined with the messages send over HTTP) means that the subscribers can be in a completely different environment than the registry itself.
 
 \item [Related Patterns]
 Shared/Active Repository Pattern

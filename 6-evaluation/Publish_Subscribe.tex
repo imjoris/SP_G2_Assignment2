@@ -1,16 +1,20 @@
+% !TEX root = ../report.tex
 \subsection{Publish-Subscribe}
-
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{6-evaluation/images/pubsub_frm.png}
+\caption{Force Resolution Map for Publish-Subscribe pattern}
+\label{fig:pubsub-frm}
+\end{figure}
 The publish subscribe pattern allows the event occurring in the Docker Registry to be triggered to the user who has previously subscribed to them. When those events happen the user receives a webhook notification.
 % Mechanism :
 % Endpoint, Http
 
-\textbf{Reliability}
+As mentioned in the documentation\cite{docknotif}, Docker's implementation of this pattern places messages in an in-memory queue. Attempts to deliver messages are repeated until they are accepted. This means that when an endpoint is not available for a longer time, the message queue gets larger and drops messages. This has a negative impact on the reliability.
 
-'Currently, the queues are in-memory, so endpoints should be reasonably reliable. They are designed to make a best-effort to send the messages but if an instance is lost, messages may be dropped. If an endpoint goes down, care should be taken to ensure that the registry instance is not terminated before the endpoint comes back up or messages will be lost.
-This can be mitigated by running endpoints in close proximity to the registry instances. One could run an endpoint that pages to disk and then forwards a request to provide better durability.' \\
+The portability is enhanced by this pattern because whatever the platform used everyone can subscribe to the notification system.
 
-\textbf{Security} isn't affected by this pattern.\\
-\textbf{Portability} is enhanced by this pattern because whatever the platform used everyone can subscribe to the notification system.\\
+Security is not affected by this pattern.
 
-It can also be mentioned that the Publish subscribe patterns increases Scalability and enhances integrability and modifiability.
+%It can also be mentioned that the Publish-Subscribe patterns increases Scalability and enhances modifiability.
 
