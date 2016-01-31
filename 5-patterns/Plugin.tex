@@ -1,38 +1,63 @@
+% !TEX root = ../report.tex
 \section{Plugin}
 \label{sec:pattern-plugin}
-%TODO image
+Plugin pattern basically expands the capability of a particular software. Plugin
+pattern also provides centralized, runtime configuration\cite{eaa}. An
+illustration of plugin pattern is shown in Figure \ref{fig:plugin-pattern}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{5-patterns/images/plugins-pattern.pdf}
+\caption{Plugin pattern illustration for Docker.}
+\label{fig:plugin-pattern}
+\end{figure}
+
 \begin{patdescription}
 
 \item [Traceability]
-The existence of Docker Plugins becomes apparent from its documentation at \cite{dockerplugindocs}.
+The existence of Docker plugin becomes apparent from its documentation, which
+describes the plugin feature of Docker \cite{dockerplugindocs}.
 
-Additionally, the directories \verb|docker/pkg/plugins/| \footnote{\url{https://github.com/docker/docker/tree/master/pkg/plugins}} and \verb|  docker/daemon/graphdriver/plugin.go| \footnote{\url{https://github.com/docker/docker/blob/master/daemon/graphdriver/plugin.go}} (among others) in the project's repository contain the code for discovering plugins and the interfaces the plugins should implement.
+Additionally, the directories \verb|docker/pkg/plugin/|\footnote{\url{https://github.com/docker/docker/tree/master/pkg/plugin}} and
+\verb|docker/daemon/graphdriver/plugin.go|\footnote{
+\url{https://github.com/docker/docker/blob/master/daemon/graphdriver/plugin.go}}
+(among others) in the project's repository contain the code for discovering
+plugin and the interfaces the plugin should implement.
 
 \item [Source]
 Patterns of Enterprise Application Architecture, P. 499 \cite{eaa}
 
 \item [Issue]
 %TODO joris: make neat sentence
-Docker users desire functionality not natively provided by docker. They want the ability of extending Docker with third party custom-built tools that do provide this missing functionality. \\
-These custumizations mean that third parties are able to write tools, extending Docker's core functionality\cite{dockerpluginblog}.
-The additional functionality that is added, is only usable during run time.
+Several of Docker users desired functionalities are not natively provided by
+docker. Docker provides the mechanism so that third party custom-built tools
+that provide this missing functionality to extend Docker. These customizations
+mean that third party developers are able to write tools, extending Docker's
+core functionality\cite{dockerpluginblog}. The additional functionality that is
+added, is only usable during run time.
 %TODO joris: add consequences of this issue (regarding key d's?).
 
 
 \item [Assumptions/Constraints]
 \begin{mynesteditemlist}
-\item Plugins can only extend the functionality of the components of Docker if they have an interface that plugins can implement.
+\item plugin can only extend the functionality of the Docker components if
+necessary APIs are provided for certain need or use.
 \end{mynesteditemlist}
 
 \item [Solution]
-Docker uses the Plugin pattern to link the implementation of the interfaces of several extendable components with third-party implementation at runtime.
+Docker implements the plugin pattern to link several Docker's extendable
+component's interfaces with third-party code at runtime.
 
 \item [Rationale]  % https://docs.docker.com/engine/extend/plugin_api/
+By using plugin pattern, any feature that is currently not supported natively
+by Docker can be added. The users can also develop a custom code that will
+exploit Docker APIs to fulfill their need.
 
 \item [Implications]
-The use of the Plugins pattern means that the adaptability increases, because plugins allow the application to be adapted with new features.
-
-For the security, it means that there is extra communication over the API which has to be secured. The security of the plugins themselves cannot be guaranteed by Docker.
+The use of the plugin pattern means that the adaptability increases, because
+plugin allow the application to be adapted with new features. For the security
+concern, it means that there is extra communication over the API which has to be
+secured. The security of the plugin themselves cannot be guaranteed by Docker.
 
 \item [Related Patterns]
 \begin{mynesteditemlist}
