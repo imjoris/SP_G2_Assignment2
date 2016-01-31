@@ -5,7 +5,22 @@
 \newcommand{\code}[1]{\textbf{\texttt{\uppercase{#1}}}}
 \newcommand{\codeu}[1]{\textbf{\code{#1}}}
 
-
+\newcommand{\inputAllPatterns}[1]{%
+	\input{#1/Client-Server.tex}
+	\input{#1/Layers.tex}
+	\input{#1/Shared_Active_repository.tex}
+	\input{#1/Publish_Subscribe.tex}
+	\input{#1/Brokered_Authentication.tex}
+	\input{#1/Plugin.tex}
+	\input{#1/Broker.tex}
+}
+%\input{6-evaluation/Client-Server.tex}
+%\input{6-evaluation/Layers.tex}
+%\input{6-evaluation/Plugin.tex}
+%\input{6-evaluation/Broker.tex}
+%\input{6-evaluation/Proxy.tex}
+%\input{6-evaluation/Shared_Active_repository.tex}
+%\input{6-evaluation/Publish_Suscribe.tex}
 
 \newcommand{\todonote}[1]{\textcolor{red}{#1}}
 \newcommand{\attention}[1]{\textcolor{green}{#1}}

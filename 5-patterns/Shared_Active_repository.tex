@@ -1,0 +1,60 @@
+\section{Shared/Active repository}
+%\textit{Can we consider the docker registry a shared repository?}
+% Schemas
+%http://fr.slideshare.net/Docker/https-dldropboxusercontentcomu20637798docker-meetup-freiburg
+% http://blog.octo.com/en/docker-registry-first-steps/   http://fr.slideshare.net/egorpushkin/docker-demo   
+% Because of Pull/¨Push can we talk about Pattern publish suscribe ?   Asynhcronous Queuing ?
+ \begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.55]{5-patterns/images/SharedRepo.png}
+ \caption{The shared repository with brokered authentication}
+ \label{fig:docker-registry}
+ \end{figure}
+Using the Docker files and the docker commands, personalized images can be created that support a specified project. Docker allows these images to be stored in a docker registry, earlier discussed in subsection \ref{subsec:dockerregistry}. Anyone with access to this registry can pull this image and use it.\\
+Users of the application a specific project provides, are able to pull the image. This allows running the application, thereby obtain the desired functionality. The registry also allows the image to be easily shared with other developers working on any related project.\\
+This makes the docker registry a shared repository.
+%TODO joris: add concluding sentence: 'So because the image can be easily shared, it increases porta/mainta/sec... enz.
+
+
+%TODO joris: is this relevant? not specific to the pattern, should be discussed in logical view or earlier?
+% Docker itself hosts a few registries that can be used called ``DockerHub'' \cite{} and ``Docker Trusted''. 
+%Two alternatives exist:DockerHub and Docker Trusted Registry. \\
+The Docker registry also contains functionality for sending notifications when certain events occur \cite{docknotif}. This makes the docker registry an active repository as well.
+
+\begin{patdescription}
+\item[Traceability]
+The Shared Repository pattern can be deducted from the online documentation : \cite{dockregistry} ``The Registry is a stateless, highly scalable server side application that \textbf{stores} and lets you \textbf{distribute} Docker images. A registry is a storage and content delivery system.''
+Everything dealing with the registry is in the "Registry folder" in the Docker repository.
+
+% File store.go , registry.go
+
+\item[Source]
+Patterns of Enterprise Application Architecture, P.322 \cite{eaa}\\
+Architectural Patterns Revisited - A Pattern Language, P.13 \cite{avgeriou2005architectural}\\
+Pattern-oriented Software Architecture - Volume 4, P.202 \cite{wiley4}
+
+\item[Issue]
+Docker provided a way for the user to control the storage and distribution of images. \\
+The user wants to be alerted of new events happening in the registry through notifications. % Develop ?
+
+\item[Assumptions/ Constraint]
+
+\item[Solution] %how does it work ?
+Users interact with a registry by using docker push and pull commands. % develop
+
+\item[Rationale] % in which way this pattern helps Docker? What is the goal ? KD
+ After the integration of the Shared Repository Pattern each has one central repository containing their images and they can it access using a loggin.
+ Users can also access images from others users : The registry is a sharing unit. \\
+ 
+ \item [Implications]
+Users can get their own images from the public registry and also the ones created by other users. % share
+The use of this pattern enhances Reusability, Changeability, Maintainability, Integrability because the Registry is central.
+
+\item [Related Patterns]
+Publish Subscribe 
+Brokered Authentication
+
+\textit{Users can share and distribute images in the Docker Registry.}
+ 
+\end{patdescription}
+

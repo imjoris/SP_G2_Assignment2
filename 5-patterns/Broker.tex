@@ -1,0 +1,59 @@
+\section{Broker}
+\manuallabel{pattern:broker}{Broker}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.43]{5-patterns/images/broker.png}
+\caption{Broker for communication between Docker daemon and a plugin.}
+\label{fig:broker-pattern}
+\end{figure}
+
+\begin{patdescription}
+\item [Traceability]
+The use of the Broker pattern can be found in the proxy package in the source code:\\
+\verb| docker/pkg/proxy/tcp_proxy.go|\footnote{\url{https://github.com/docker/docker/blob/master/pkg/proxy/tcp_proxy.go}}.
+
+\item [Source]
+Pattern-oriented Software Architecture - Volume 4, P.237 \cite{wiley4} \\
+Architectural Pattern Revisited - A Pattern Language, P.34 \cite{avgeriou2005architectural}
+
+\item [Issue]
+Docker consists of multiple processes. For example, the client and daemon are separate processes and also the plugins are separate processes.
+
+These processes have to communicate with each other. However, dealing with the challenges of inter-process communication in the application code would greatly increase the complexity.
+The application components should be shielded form the details of the inter-process communication.
+
+\item [Assumptions/Constraints]
+\begin{mynesteditemlist}
+\item All the communication between the components in different processes have to go via the Broker.
+\end{mynesteditemlist}
+
+\item [Solution]
+Use a Broker to separate the logic for communication between the processes from the application functionality. Use a component-based model (using Proxies) to allow local components to invoke methods on components in remote processes as if they were local.
+
+\item [Rationale]  
+The Broker pattern allows for and handles all the communication between the different processes. 
+
+This means that the logic for inter-process communication does not have to be implemented on a per-component basis.
+
+\item [Implications]
+Using the Broker pattern is good for the portability, because it does not matter if a component is part of a different process (running locally or remotely).
+
+This pattern is also good for the security, since the Broker is a single entrypoint for all the inter-process communication, which makes it easier to secure.
+
+Additionally, the interoperability (compatibility) is increased, because it becomes possible for two components (in two different processes) to exchange information. 
+
+The Broker does however introduce a performance overhead, which decreases the performance efficiency.
+
+%TODO: reliability??
+\textit{Reliability?}
+
+%TODO: what about portability??
+
+\item [Related Patterns]
+\begin{mynesteditemlist}
+\item Plugin
+\item Proxy
+\item Client-Server
+\end{mynesteditemlist}
+
+\end{patdescription}

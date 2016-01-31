@@ -1,6 +1,36 @@
 %!TEX root = report.tex
-\setlist[itemize]{topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex,after=\vspace{\baselineskip}}
-\setlist[enumerate]{topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex,after=\vspace{\baselineskip}}
+\setlist[itemize]{%
+	style=nextline,%
+	topsep=0pt,%
+	label={$\bullet$},
+	labelsep=1em,
+	itemsep=-1ex,%
+	partopsep=1ex,%
+	parsep=1ex,%
+	after=\vspace{\baselineskip}%
+}
+
+\newlist{mynesteditemlist}{itemize}{1}
+\setlist[mynesteditemlist,1]{%
+style=nextline,
+label={$\bullet$},
+labelsep=1em,
+before=\mbox{}\vspace{-5mm},%
+%topsep=-5px,
+partopsep=0px,noitemsep,
+}
+
+\newlist{patdescription}{description}{1}
+\setlist[patdescription,1]{style=nextline,labelsep=\textwidth}
+
+\setlist[enumerate]{%
+    style=nextline,%
+	topsep=0pt,%
+	itemsep=-1ex,%
+	partopsep=1ex,%
+	parsep=1ex,%
+	after=\vspace{\baselineskip}%
+}
 
 \setlist[description] {%
 	labelwidth=6cm,%

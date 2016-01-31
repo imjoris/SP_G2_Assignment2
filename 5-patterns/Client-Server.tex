@@ -1,0 +1,75 @@
+\section{Client-Server}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.55]{5-patterns/images/client-server.png}
+\caption{Visualization of the client-server pattern used by the Docker clients (client) and the Docker daemon (server).}
+\label{fig:clientserver-pattern}
+\end{figure}
+% see https://docs.docker.com/engine/introduction/understanding-docker/
+
+\begin{patdescription}
+\item [Traceability] 
+The Client-Server pattern can be deduced from the `What is Dockers architecture?' section of the online documentation\cite{dockerarchi}.\\
+When listing the dependencies using the dependency tools, very few packages use the docker daemon. Looking at the high-level parts of docker, the main package that references the daemon is the docker container.
+However, the daemon seems to be referenced quite a lot when looking at table \ref{table:deptablehighestin}(section \ref{sec:viewlogical}), that lists the packages with the highest amount of incoming references. \\
+This shows that the container part of docker is heavily using the docker daemon.\\
+It is remarkable that when listing the dependencies of the daemon. It seems to only reference the container. So clearly, the docker daemon is a main access point for modifying the containers.\\
+The documentation says that only the docker api communicates with the daemon. Clearly there is no package using the docker daemon, but also the api does not seem to be referencing the docker daemon. This is because the docker api uses the daemon through means of HTTP requests. As is made clear when looking at the code in $$api/client/cli.go$$
+This contains the line: 
+$$client, err := client.NewClient(host, verStr, clientTransport, customHeaders)$$
+
+Indicating that the client is referencing the daemon through means of sending HTTP requests to the daemon api.
+
+%github.com/docker/docker/builder
+%github.com/docker/docker/container
+%github.com/docker/docker/daemon
+%github.com/docker/docker/distribution
+%github.com/docker/docker/docker
+%github.com/docker/docker/dockerinit
+%github.com/docker/docker/layer
+
+\item [Source]
+Architectural patterns revisited -- a pattern language, P. 29 \cite{avgeriou2005architectural}
+
+\item [Issue]
+Docker containers can not be be controlled remotely.
+It should be possible for Docker containers to be controlled remotely and a single interface should be able to control containers on multiple hosts (e.g. in the cloud).
+
+Additionally, certain operating systems lack the underlying technologies necessary for running containers. The inability to remotely control containers from these operating systems prevents these systems from using docker in any way.
+
+\item [Solution]
+Docker uses a {Client-Server} architecture. The client, a binary supplying a command-line interface, acts as the primary interface for the user. The user enters commands into this client, which are then sent to a server: the Docker daemon.
+
+
+\item [Assumptions/Constraints]
+\begin{mynesteditemlist}
+%\begin{mynesteditemlist}
+\item The docker daemon should support the API calls made by the client. This means that if the client is outdated, the daemon is assumed to have the legacy controllers needed to still provide the wanted functionality.
+
+%\item The versions of the client binary and the server binary should match. Different versions can cause problems when changes to the API were made.
+%either the docker and client versions match or the docker daemon contains the needed
+
+\item The REST interface that the daemon offers is assumed to be available and accessible by the client
+\end{mynesteditemlist}
+
+\item [Rationale] 
+
+By separating the client and server it is possible to use the same client to issue commands to different daemons, running on different hosts.
+It is also possible to use the client on operating systems that do not support running containers.
+
+\item [Implications]
+The use of the {Client-Server} pattern results in two different executable binaries: a daemon and a client. 
+
+The use of the {Client-Server} pattern increases the interoperability, since the client can send commands to daemons running on remote machines and the local machine.
+
+Additionally, the portability is increased, since the client can run on Operating Systems that are unable run containers themselves.
+
+There is also an impact on security, because the communication between the client and the server needs to be secured. Because docker is composed of different layers, securing this communication can be done from a single place. This is discussed in section \ref{sec:layers-pattern}, which discusses the layers pattern.
+
+\item [Related Patterns]
+\begin{mynesteditemlist}
+\item \ref{pattern:broker}
+\end{mynesteditemlist}
+
+\end{patdescription}
+

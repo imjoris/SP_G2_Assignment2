@@ -1,0 +1,13 @@
+\subsection{Plugin}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{6-evaluation/images/plugin_frm.png}
+\caption{Force Resolution Map for Plugin pattern}
+\label{fig:plugin-frm}
+\end{figure}
+The Plugin pattern greatly increases the portability, because it increases the adaptability by allowing third parties to develop extensions for Docker. 
+
+It has a slight negative impact on the security, because there is communication between the daemon and plugin process which has to be secured. Additionally, the security of the plugins is not controlled by Docker, so defects in a plugins security can affect the security of the Docker daemon as well. 
+
+There are no significant impacts on the reliability because of this pattern.
+

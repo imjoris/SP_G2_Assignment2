@@ -1,0 +1,85 @@
+\section{Layers}
+\label{sec:layers-pattern}
+% see https://www.docker.com/sites/default/files/what-is-vm-diagram.png
+Layers pattern is a architectural pattern that consists of several layers, which
+each layer provides a set of services to the layer above and uses the services
+of the layer below. Docker implements this pattern to separate the concerns of
+each component with independent functionalities. Layers pattern implementation
+of Docker, based on our investigation, is shown in Figure \ref{fig:layers-pattern}.
+% \newglossaryentry{OS}{name=OS, description={Operating System}}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{5-patterns/images/LayersPattern.png}
+\caption{A layered overview of the Docker.}
+\label{fig:layers-pattern}
+\end{figure}
+
+\begin{patdescription}
+\item [Traceability]
+Layers is implicitly mentioned in the Docker architecture in the online
+documentation, specifically in the \textit{What is Docker’s architecture?}
+section \cite{dockerarchi}.
+
+\item [Source]
+Architectural patterns revisited -- a pattern language, P. 29
+\cite{avgeriou2005architectural}
+
+\item [Issue]
+Docker provides several features (e.g. hosting the image, creating image, running container, and daemon supervision). Each of the features vary in terms of the functionality they give. Single implementation of features will certainly result in abundant usage of resources, because hosting the image means there must be huge amount of disk space available.
+%TODO joris: Rephrase sentence about the hosting of the image. Rephrase, make clear why.
+%
+Overlapping may also occur since multiple Docker instances may use the same image or configuration file, which could be stored and organized elsewhere. Docker also has several dependencies, especially the Linux kernel components (\texttt{namespaces} and \texttt{cgroups}) for OS level virtualization.
+Furthermore, Docker mostly needs remote supervision or control, since Docker usually runs in the cloud. Therefore, the features must be separated into several independent components and their dependencies and communication have to be clearly separated and maintained.
+
+\item [Assumptions/Constraints]
+Docker is able to run only in Linux kernel since it makes use of
+\texttt{namespaces} and \texttt{cgroups} technology, which is only available in
+Linux kernel. However, Docker is also possible to be run on other OS
+although using virtual machine. The connection between local and remote
+components are carried out through secured TCP/IP connection.
+
+\item [Solution]
+Docker is separated into several components that have their own
+functionalities, as can be seen in Figure \ref{fig:layers-pattern}. The main components are:
+\begin{itemize}
+    \item Containers
+    \item Docker daemon
+    \item Local Docker client
+    \item Libcontainer
+    \item Linux kernel
+\end{itemize}
+
+Everything inside the dotted box is located on the same host. Inter-process communication is utilized to communicate between Docker, containers, libcontainer, and Linux kernel components, but Docker daemon, plugins, and Docker client communicate using Docker API
+\footnote{\url{https://github.com/docker/docker/blob/master/api/common.go}}. Remote connections are managed through secured TCP/IP based connection.
+
+\item [Rationale] 
+Layers are very good in terms of sharing and reusability. In this way, several
+Docker daemon that uses the same image can just fetch it through the Docker
+registry. Using Docker registry also reduce disk space for storing images and
+increase easiness of sharing images. Layers pattern also supports connection to
+other layer, such as connection to plugins. It is also manageable to supervise
+remote Docker daemon through remote Docker client.
+
+\item [Implications]
+This pattern gives positive implication to portability as clear separation of
+containers, Docker daemon, Docker registry, and Docker client makes Docker
+portable. Utilizing Docker registry also promotes sharing images, which make it
+easier to deploy an application without knowing what platform running below it.
+
+A host is open to public in the communication of Docker
+daemon and Docker registry and remote client. This pattern provides the ability to secure all the communication from single place. This can increase the security, because focus on security is reduces toa single place, meaning that strengthening the security there makes everything more secure. \\
+However, a security breach will effect the entire system and not only a single component. \\
+This security layer can be easily replicated, having a positive impact on reliability. The security is defined in a single place, and so the level of security that is defined there can be expected from each component.
+
+\item [Related Patterns]
+\begin{mynesteditemlist}
+	\item Client-server
+	\item Shared repository
+\end{mynesteditemlist}
+
+\end{patdescription}
+
+% \clearpage
+
+

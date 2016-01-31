@@ -1,0 +1,13 @@
+\subsection{Client-Server}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{6-evaluation/images/clientserver_frm.png}
+\caption{Force Resolution Map for Client-Server pattern}
+\label{fig:clientserver-frm}
+\end{figure}
+For the Client-Server pattern, the portability of the system increases, because the client and server (daemon) can be located on completely different systems.
+
+The security has a slight negative impact because for communication between the client and server to be possible, the client and server have to expose an interface, which has to be secured. 
+
+Reliability also has a small negative impact, because the communication between client and server relies on underlying communication infrastructure that could fail. 
+
