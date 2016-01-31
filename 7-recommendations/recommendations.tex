@@ -1,4 +1,4 @@
-%!TEX root = ../report.tex
+% !TEX root = ../report.tex
 
 \clearpage
 \chapter{Recommendations}
@@ -7,6 +7,24 @@
 %\section{Event-driven}
 %\section{Deprecation of Modules}
 %\section{Virtual Machine}
+
+\begin{center}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline \textbf{Pattern} & \textbf{Portability} & \textbf{Security} & \textbf{Reliability} \\ 
+\hline Client-Server & ++ & - & - \\ 
+\hline Layers & + & - & ++ \\ 
+\hline Shared/Active Repository & ++ & + & + \\ 
+\hline Publish-Subscribe & + &  & - \\ 
+\hline Brokered Authentication & + & + & - \\ 
+\hline Plugin & ++ & - &  \\ 
+\hline Broker & ++ & + &  \\ 
+\hline 
+\end{tabular} 
+\caption{Overview of the patterns and the implications on Quality Attributes}
+\end{table}
+\end{center}
+
 
 \section{Networking}
 
