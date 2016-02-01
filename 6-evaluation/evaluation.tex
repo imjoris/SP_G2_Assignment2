@@ -36,3 +36,36 @@ contributions.
 
 
 \section{Overall system}
+The previous sections discussed the forces each pattern has on the system individually. This section discusses how the combination of these patterns effect the system as a whole. This shows how well the system does at achieving the key drivers.\\
+Table \ref{tab:qa-overview} shows an overview of the patterns and the implications on the key drivers.
+
+\begin{center}
+\begin{table}[H]
+\label{tab:qa-overview}
+\caption{Overview of the patterns and the implications on Key Drivers}
+\begin{tabular}{|c|c|c|c|}
+\hline \textbf{Pattern} & \textbf{Portability} & \textbf{Security} & \textbf{Reliability} \\ 
+\hline Client-Server 					& ++ 	& - 	& - 	\\ 
+\hline Layers 							& + 	& - 	& ++ 	\\ 
+\hline Shared/Active Repository 		& ++ 	& + 	& + 	\\ 
+\hline Publish-Subscribe 				& + 	& \s 	& - 	\\ 
+\hline Brokered Authentication 			& + 	& + 	& - 	\\ 
+\hline Plugin 							& ++ 	& - 	& \s 	\\ 
+\hline Broker 							& ++ 	& + 	& \s 	\\ 
+\hline Total							& ++   	& \s	& \s	\\
+\hline
+\end{tabular} 
+\end{table}
+\end{center}
+ From this table it becomes clear that the portability is taken well care of with the patterns. This is good, since it was identified as the most important key driver.\\
+However, while there are some positive impacts on the reliability and security quality attributes, there are also negative impacts. The  positive and negative impact of the patterns seem to even out the for the key drivers security and reliability.\\
+Figure \ref{fig:eval-overall} shows the final FRM of the architecture.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{6-evaluation/images/overall_frm.png}
+\caption{Force Resolution Map for the overall system}
+\label{fig:eval-overall}
+\end{figure}
+
+It seems that Docker wants to fully focus on providing portability as long as the security and reliability aren't negatively effected. In section \ref{subsec:kd-portability}, that discusses the key drivers, the main goal of Docker is to provide the ability to \q{Build, ship and run any app, anywhere}.  The patterns used in the architecture of Docker are a very good combination to achieve this goal.
