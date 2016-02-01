@@ -1,5 +1,0 @@
-%s/Ca(\s*\(\d*\)) Ce(\(\s*\d*\))/\1 \2/g
- 
-%s/Inst:\(\d*\.\d*\) Ca(\s*\(\d*\)) Ce(\(\s*\d*\))/\1 \2 \3/g
-
-find . -type f -name "*D-4.dot" | while read -r i; do cat "$i" | grep -r '\-> "github.com/docker/docker/daemon'; done | awk '{print $2}' | sed 's@"\(github.com/docker/docker/\w*\)\(/\|\"\).*@\1@g' | sort | uniq

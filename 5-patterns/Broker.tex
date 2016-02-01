@@ -30,6 +30,9 @@ The application components should be shielded form the details of the inter-proc
 
 \item [Solution]
 Use a Broker to separate the logic for communication between the processes from the application functionality. Use a component-based model (using Proxies) to allow local components to invoke methods on components in remote processes as if they were local.
+Using the broker pattern allows the daemon to communicate with the plugins, without requiring direct access to these plugins.
+Also, because the subsystem component has the same interface as its proxy, the implementation of software using this component does not depend on whether the proxy is used or the original subsystem.
+
 
 \item [Rationale]  
 The Broker pattern allows for and handles all the communication between the different processes. 

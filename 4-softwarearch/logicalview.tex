@@ -78,7 +78,22 @@ The container package has a lot of references to the runc package, which is a ``
 %TODO joris: Add a dependency image to proof it? or not?
 % If the main ``/docker'' package is build, containing the functionality of docker, the dependencies can be visualized using a visualization tool. This generates an image that closely resembles the image found in the official documentation \ref{fig:dockerarchipic}.
 
-The following image \ref{fig:dockerarchipic} shows an overview of the Docker architecture.
+The dependency tools \cite{goviz} \cite{godepgraph} can be used in combination with graphviz \cite{graphviz} to automatically generate dependency graphs.\\ Figure \ref{fig:dep:dockerd2} shows the image that is generated from building the main project \q{github.com/docker/docker}. The depth of the graph has been maximized to 2 in order to keep the graph small and understandable. All the leaf nodes are visualized as a \q{point}.
+
+%\includegraphics[width=0.8\textwidth]
+\begin{figure}[H]
+\caption{%
+Generated dependency graph of main docker project\\
+Root: docker\\
+Depth: 2%
+}
+\centering
+\includegraphics[width=0.8\textwidth, height=15cm]{images/dependencyGoviz/govizdockerD-2-normal-waybetter.png}
+\label{fig:dep:dockerd2}
+\end{figure}
+
+Looking at the generated graph in figure \ref{fig:dep:dockerd2}, it shows that the docker project is immediately split into two large parts: the docker client and the docker daemon. The most noticable package after these seems to be the registry package that uses wide range of other packages. The server package provides the functionality concerning the HTTP REST API.\\
+The following image \ref{fig:dockerarchipic} shows an overview of the Docker architecture as Docker itself says it is \cite{dockerarchi}.
 
 \begin{figure}[H]
 \captionsource{A high-level overview of the Docker architecture}{\cite{dockerarchi}}
@@ -86,29 +101,94 @@ The following image \ref{fig:dockerarchipic} shows an overview of the Docker arc
 \includegraphics[scale=0.4]{4-softwarearch/images/architecture.png}
 \label{fig:dockerarchipic}
 \end{figure}
-Docker uses a client-server architecture. The client (a command-line tool) acts as the primary user interface and talks to the Docker daemon. The daemon is a background process which does all the heavy lifting, e.g. the building and running of the containers.
-
+Docker uses a client-server architecture. The client (a command-line tool) acts as the primary user interface and talks to the Docker daemon using a REST API. The user enters commands into this client, which are then sent to a server: the Docker daemon. The daemon is a background process which does all the heavy lifting, e.g. the building and running of the containers.\\
 The following sections will discuss the most important parts of docker in more detail.
 
 \subsection{Client}
-The client is a small binary and acts as the primary user interface to Docker. The user inputs commands into the client and the client forwards these commands to the Docker daemon, which executes commands.
+%The client is a small binary and acts as the primary user interface to Docker. 
+
+%The client command line tool (cli) has very little dependencies, as is shown in the generated dependency graph for the client in figure \ref{fig:dep:clid4}.
+% 
+%%\includegraphics[width=0.8\textwidth]
+%\begin{figure}[H]
+%\caption{%
+%Generated dependency graph of the client\\
+%Root: cli\\
+%Depth: 4%
+%}
+%\centering
+%\includegraphics[scale=0.4]{images/dependencyGoviz/govizcLiod-4-waybetter.png}
+%\label{fig:dep:clid4}
+%\end{figure}
+
+The user inputs commands into the client and the client forwards these commands to the Docker daemon, which executes commands.\\
 The Docker client is capable of connecting to daemons running on the local machine, as well as connecting to daemons running on remote machines over the internet.
 
 \subsection{Docker host: Daemon (server)}
-The Docker daemon is a process running on the host machine (as can be seen in Figure~\ref{fig:dockerarchipic}). This process is usually started when the host machine starts and runs in the background. It exposes a REST interface and listens for requests coming from clients on the same or remote hosts.
+The Docker daemon is a process running on the host machine (as can be seen in Figure~\ref{fig:dockerarchipic}). 
+The daemon is a background process and is usually started when the host machine starts. It exposes a REST interface and listens for requests coming from clients on the same or remote hosts.\\
+
+When looking at the daemon package, the daemon is one of the biggest packages and contains references to packages in each part of the docker project. \\
+To give an illustration of how big this package is, the generated dependency graph with a depth of only 2 is shown in figure \ref{fig:dep:deamond2}.
+
+\begin{figure}[H]
+\caption{%
+Generated dependency graph of the daemon\\
+Root: daemon\\
+Depth: 2%
+}
+\centering
+\includegraphics[width=0.8\textwidth, height=15cm]{images/dependencyGoviz/govizdaemonD-2-waybetter.png}
+\label{fig:dep:deamond2}
+\end{figure}
+
+In the above Image \ref{fig:dep:deamond2}, shows the importance of the container that has a relatively high amount of outgoing dependencies.
+
+For Docker, the client can be configured to connect to other daemon processes than the one running on the local machine. It can be configured to connect to remote Docker daemons as well, allowing the user to issue commands to daemons running remotely.\\
+
+Besides the provided docker daemon, docker discovers additional plugins by looking for .sock, .spec or .json files in the plugin directories on the host system. These files describe how Docker can communicate with the plugins using the REST API (usually via a Unix socket).
+The plugins themselves run as separate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (see also Section~\ref{sec:processplugins}). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.
+For these subsystems Docker will replace the default implementation by a Proxy, that forwards all calls over the REST interface to the plugin process.
 
 \subsection{Docker host: Images}
-Docker images can be interpreted as a read-only template from which Docker containers are
-started. A Docker image consists of a stack of layers which are bonded by a union file system. These layers support reusability and sharing.
+
+Docker images can be interpreted as a read-only template from which Docker containers are started. The generated dependency graph for the image is shown below in figure \ref{fig:dep:imaged3}.
+
+\begin{figure}[H]
+\caption{%
+Generated dependency graph for image\\
+Root: image\\
+Depth: 3%
+}
+\centering
+\includegraphics[width=0.8\textwidth, height=10cm]{images/dependencyGoviz/govizimageD-3-waybetter.png}
+\label{fig:dep:imaged3}
+\end{figure}
+
+Figure \ref{fig:dep:imaged3} shows that the image is mainly concerned about how to run a container. The figure shows that the \q{image} package mainly uses packages that provide low level system functions.\\
+A Docker image consists of a stack of layers which are bonded by a union file system. These layers support reusability and sharing.
 
 Docker images can be built from text files (`Dockerfiles'), which contain instructions like installing software and copying files.
 
 \subsection{Docker host: Containers}
+\label{subsec:container}
 % running usin libcontainer from the open specification
-Docker containers are based on Docker images. These images consist of read-only
-layers. Docker containers contain an additional thin writable layer on top of the images to
-perform operations on them. Docker containers basically consist of the files of the operating system,
-user-added files, application files, and data files. Multiple containers may run
+Docker containers are based on Docker images. These images consist of read-only layers. Docker containers contain an additional thin writable layer on top of the images to
+perform operations on them, as is shown in the dependency graph of figure \ref{fig:dep:containerd2}.
+
+\begin{figure}[H]
+\caption{%
+Generated dependency graph for container\\
+Root: container\\
+Depth: 2%
+}
+\centering
+\includegraphics[width=0.8\textwidth, height=10cm]{images/dependencyGoviz/govizcontainerD-2-waybetter.png}
+\label{fig:dep:containerd2}
+\end{figure}
+
+Docker containers basically consist of the files of the operating system,
+user-added files, application files, and data files.  Multiple containers may run
 based on the same image. In this case, Docker will not create separate copies for
 each containers. Instead, they will share the same image with their own writable layer.
 
@@ -116,34 +196,24 @@ To run Docker containers, Docker uses the \verb|libcontainer| library, which is 
 
 \subsection{Registry}
 \label{subsec:dockerregistry}
-A Docker registry is a place where Docker images can be stored and retrieved. The Docker daemon
+A Docker registry is a place where Docker images can be stored and retrieved. This also becomes apparent when looking at the generated dependency graph of the image, shown in figure  \ref{fig:dep:registryd2}.
+
+\begin{figure}[H]
+\caption{%
+Generated dependency graph for registry\\
+Root: registry\\
+Depth: 2%
+}
+\centering
+\includegraphics[height=10cm]{images/dependencyGoviz/govizregistryD-2-waybetter.png}
+\label{fig:dep:registryd2}
+\end{figure}
+
+Figure \ref{fig:dep:registryd2} graph shows that a registry references itself (via types). This is how multiple containers can be run when using an image, as was previously discussed in subsection\ref{subsec:container}.\\
+The Docker daemon
 fetches desired Docker images from this repository. This registry can be either public or private and may thus reside behind a firewall. Docker
 Hub\footnote{\url{https://hub.docker.com/}} is one example of a docker registry
 hosted by Docker. A registry provides an easy way to distribute images among different hosts.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% PARTS FROM PATTERNS CHAPTER
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%TODO joris: organize chapter into logical sections
-%from cli-serv rationale:
-\subsection{Client-Server rationale}
-The daemon is a background process, which supplies the requested services to the client. The daemon exposes a REST interface.
-For Docker, the client can be configured to connect to other daemon processes than the one running on the local machine. It can be configured to connect to remote Docker daemons as well, allowing the user to issue commands to daemons running remotely.
-
-%from cli-serv solution:
-\subsection{Client-server solution}
-Docker uses a {Client-Server} architecture. The client, a binary supplying a command-line interface, acts as the primary interface for the user. The user enters commands into this client, which are then sent to a server: the Docker daemon.
-
-\subsection{Broker authentication rationale}
-Docker discovers plugins by looking for .sock, .spec or .json files in the plugin directories on the host system. These files describe how Docker can communicate with the plugins using the REST API (usually via a Unix socket).
-The plugins themselves run as separate processes on the same host as the Docker daemon and implement an HTTP server listening for requests from the Docker daemon. After a user requires a plugin (this is indicated e.g. as a command-line parameter when starting a container using the Docker client) Docker uses the discovery algorithm (see also Section~\ref{sec:processplugins}). After that, Docker sends a handshake to the plugin and the plugin returns a list of which subsystems this plugin implements.
-For these subsytems Docker will replace the default implementation by a Proxy, that forwards all calls over the REST interface to the plugin process.
-
-\section{Proxy rationale}
-Using the {proxy} pattern allows the daemon to communicate with the plugins, without requiring direct access to these plugins.
-Also, because the subsystem component has the same interface as its proxy, the implementation of software using this component does not depend on whether the proxy is used or the original subsystem.
-
-
 
 
 
