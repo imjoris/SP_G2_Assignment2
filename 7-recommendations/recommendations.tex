@@ -3,62 +3,50 @@
 \clearpage
 \chapter{Recommendations}
 \label{ch:recommendations}
-%
-%\section{Event-driven}
-%\section{Deprecation of Modules}
-%\section{Virtual Machine}
 
-\begin{center}
-\begin{table}[H]
-\label{tab:qa-overview}
-\caption{Overview of the patterns and the implications on Key Drivers}
-\begin{tabular}{|c|c|c|c|}
-\hline \textbf{Pattern} & \textbf{Portability} & \textbf{Security} & \textbf{Reliability} \\ 
-\hline Client-Server & ++ & - & - \\ 
-\hline Layers & + & - & ++ \\ 
-\hline Shared/Active Repository & ++ & + & + \\ 
-\hline Publish-Subscribe & + &  & - \\ 
-\hline Brokered Authentication & + & + & - \\ 
-\hline Plugin & ++ & - &  \\ 
-\hline Broker & ++ & + &  \\ 
-\hline 
-\end{tabular} 
+Table \ref{tab:qa-overview} shows the overview of the patterns and the implications on the key drivers. According to this table, the docker architecture is doing very well at increasing support for the main key driver: portability, while showing no particular effect for the other key drivers: security and reliability.\\
+Docker is used a lot in the cloud to host certain services. Networking capabilities are this essential to Docker and directly effect the key drivers. It seams however, that certain aspects of Docker might negatively influence the an otherwise positive aspect of a pattern. This means that some patterns arent used in their full potential, thus giving the opportunity to increase key drivers.
+Though Docker is doing very well at positively influencing their main key driver, there are some recommendations that might improve their key drivers. These recommendations are discussed in this chapter \\
 
-\end{table}
-\end{center}
-Table \ref{tab:qa-overview} shows an overview of the patterns and the implications on the key drivers. From this table it becomes clear that the portability is taken well care of with the patterns. This is good, since it was identified as the most important key driver.
-
-However, while there are some positive impacts on the reliability and security quality attributes, there are also negative impacts. The following sections list some recommendations to improve these attributes.
 
 \section{Networking}
+Networking is done using a broker pattern, yet modifying the configuration of the networking seems to be very hard. This is because the networking is done by the docker daemon, only accessible using the client. So modification of the networking of docker has to be supported by the docker daemon and the docker client in order to work.\\
+The functionality is there, however. So improving the networking functionality might be achieved by delegating the task of modifying the  configuration using already available services. The daemon is only required to provide the security by authenticating the request using the brokered authentication. The docker daemon could, for example, delegate docker client commands to ssh commands in the networking configuration of the container. \\
 
-\begin{itemize}
-
-\item \href{%
-https://groups.google.com/forum/#!topic/docker-user/TgCGntvTAjs
-}{%
-Enabling IPv6 requires me to search and fiddle with the systemd unit files for daemon startup options. Why? Docker should add a config for such networking things, e.g. /etc/dockerd.conf or similar. Didn't it strike anyone as weird that the docker daemon needs to be restarted, and then supplied with some explicitly specified startup option just to have IPv6? A line in a config and killall -SIGHUP should do it as it works for other daemons, why not for docker?
-}
-
-\end{itemize}
+%\begin{itemize}
+%
+%\item \href{%
+%https://groups.google.com/forum/#!topic/docker-user/TgCGntvTAjs
+%}{%
+%Enabling IPv6 requires me to search and fiddle with the systemd unit files for daemon startup options. Why? Docker should add a config for such networking things, e.g. /etc/dockerd.conf or similar. Didn't it strike anyone as weird that the docker daemon needs to be restarted, and then supplied with some explicitly specified startup option just to have IPv6? A line in a config and killall -SIGHUP should do it as it works for other daemons, why not for docker?
+%}
+%
+%\end{itemize}
 
 \section{Connectivity}
 \begin{itemize}
-
-\item \href{%
-https://developer.ibm.com/bluemix/2015/11/18/docker-workaround-lack-of-network-connectivity-between-client-and-container/
-}{%
-SSH provides more functionality than docker exec does directly: with SSH you can do file transfers (scp, sftp) and create a variety of network tunnels/proxies (TCP host\& port forwarding and SOCKS proxies); SSH can also do tun/tap tunnels but containers do not usually have the kernel capabilities needed to configure tun/tap tunnels.}
-
-\item \href{%
-https://medium.com/@gchudnov/copying-data-between-docker-containers-26890935da3f#.1qil6fc2j
-}{%
-Docker 1.7.0 should have an extended `docker cp` command to support copying data to containers. Until that, you can use one of the alternative solutions.
-}
-\end{itemize}
+Docker containers are lacking capabilities to connect to each other. It is possible to let a docker container use an other docker container, but the functionality is very limited. For example, it does not seem possible to link the containers in a circular way.\\
+Though the key drivers are not directly effected, interoperability is decreased. An application can still build and run everywhere, but only as stand-alone application.\\
+This is something that the stakeholders would really like to have. In the architecture there is a layer pattern that clearly defines the functionality a layer should have. However, these layers do block the ability to communicate with an other docker container. Making the layers more accessible might improve the interoperability container capabilities. This will probably require modifications of the layers, redefining their functions. Doing so means modifications throughout the entire system, because all other patterns (broker, client-server, Plugin, publish-subscribe) need these layer definitions in order to function.
+%
+%\item \href{%
+%https://developer.ibm.com/bluemix/2015/11/18/docker-workaround-lack-of-network-connectivity-between-client-and-container/
+%}{%
+%SSH provides more functionality than docker exec does directly: with SSH you can do file transfers (scp, sftp) and create a variety of network tunnels/proxies (TCP host\& port forwarding and SOCKS proxies); SSH can also do tun/tap tunnels but containers do not usually have the kernel capabilities needed to configure tun/tap tunnels.}
+%
+%\item \href{%
+%https://medium.com/@gchudnov/copying-data-between-docker-containers-26890935da3f#.1qil6fc2j
+%}{Docker 1.7.0 should have an extended `docker cp` command to support copying data to containers. Until that, you can use one of the alternative solutions.}
+%\end{itemize}
 
 
 \section{security}
+The security that is provided by the docker hub is not open source. Nautilus is the tool that is used to scan the images and this uses proprietary code.\\ 
+Though it might secure the docker hub, docker registries that are not hosted by docker lack this security. This can negatively influence the security of docker greatly.\\
+If docker were to use open-source security solutions, the overall security of docker would increase because then security would be easily available to the registries that are hosted on-premise.\\
+Docker recently stated however that \q{But as of right now there are no plans to open source the scanning techniques}.
+
+
 %https://blog.docker.com/2015/12/docker-webinar-qa-intro-to-docker-security/
 
 %Security is something that we at Docker are extremely excited about. The ability to enable enterprises to not only build, ship and run their applications. But to do it in a way that gives them security and control over their environment. The resources below provide more information that you might find helpful. As always, you can reach out to us with any questions that you have.
@@ -70,28 +58,28 @@ Docker 1.7.0 should have an extended `docker cp` command to support copying data
 
 %https://blog.docker.com/2015/12/docker-webinar-qa-intro-to-docker-security/
 
-But as of right now there are no plans to open source the scanning techniques
 
 %http://www.dwheeler.com/secure-programs/Secure-Programs-HOWTO/open-source-security.html
-
-Bruce Schneier argues that smart engineers should “demand open source code for anything related to security” [Schneier 1999],
-“Not only because more people can look at it, but, more importantly, because the model forces people to write more clear code, and to adhere to standards. This in turn facilitates security review” [Rijmen 2000].
-http://thenewstack.io/the-new-stack-analysts-show-9-dockers-inherent-lack-of-security-the-black-hat-view/
-
-Vincent Rijmen, a developer of the winning Advanced Encryption Standard (AES) encryption algorithm, believes that the open source nature of Linux provides a superior vehicle to making security vulnerabilities easier to spot and fix, “Not only because more people can look at it, but, more importantly, because the model forces people to write more clear code, and to adhere to standards. This in turn facilitates security review” [Rijmen 2000].
-
-https://blog.docker.com/2015/12/docker-webinar-qa-intro-to-docker-security/
-Project Nautilus that is used to scan the images in the Docker hub is not open source.
+%
+%Bruce Schneier argues that smart engineers should “demand open source code for anything related to security” [Schneier 1999],
+%“Not only because more people can look at it, but, more importantly, because the model forces people to write more clear code, and to adhere to standards. This in turn facilitates security review” [Rijmen 2000].
+%http://thenewstack.io/the-new-stack-analysts-show-9-dockers-inherent-lack-of-security-the-black-hat-view/
+%
+%Vincent Rijmen, a developer of the winning Advanced Encryption Standard (AES) encryption algorithm, believes that the open source nature of Linux provides a superior vehicle to making security vulnerabilities easier to spot and fix, “Not only because more people can look at it, but, more importantly, because the model forces people to write more clear code, and to adhere to standards. This in turn facilitates security review” [Rijmen 2000].
+%
+%https://blog.docker.com/2015/12/docker-webinar-qa-intro-to-docker-security/
+%Project Nautilus that is used to scan the images in the Docker hub is not open source.
 
 \section{Windows support}
 %https://docs.docker.com/engine/installation/windows/
-Because the Docker daemon uses Linux-specific kernel features, you can’t run Docker natively in Windows. \\
-
-%https://azure.microsoft.com/en-us/blog/microsoft-unveils-new-container-technologies-for-the-next-generation-cloud/
-Windows develops their own proprietary version of docker called Hyper-V Containers.
-%http://www.infoworld.com/article/2973492/application-virtualization/windows-server-containers-arrive-with-docker-support.html
-Microsoft's Mark Russinovich recently explained that Hyper-V Containers are meant to provide an additional level of isolation, but can be managed with the Docker client tool set.
-
-
-%Instead, you must use docker-machine to create and attach to a Docker VM on your machine. This VM hosts Docker for you on your Windows system.
-
+Because the Docker daemon uses Linux-specific kernel features, you are unable to run Docker native in Windows. \\
+Docker could try and create a layer that can communicate with windows as well. Doing so might be a lot of work though, but if they really want Docker application to be able to ``run everywhere'', they need to provide this functionality.
+%
+%%https://azure.microsoft.com/en-us/blog/microsoft-unveils-new-container-technologies-for-the-next-generation-cloud/
+%Windows develops their own proprietary version of docker called Hyper-V Containers.
+%%http://www.infoworld.com/article/2973492/application-virtualization/windows-server-containers-arrive-with-docker-support.html
+%Microsoft's Mark Russinovich recently explained that Hyper-V Containers are meant to provide an additional level of isolation, but can be managed with the Docker client tool set.
+%
+%
+%%Instead, you must use docker-machine to create and attach to a Docker VM on your machine. This VM hosts Docker for you on your Windows system.
+%
